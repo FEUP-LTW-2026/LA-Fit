@@ -1,0 +1,351 @@
+:root {
+    --preto: #111111;
+    --cinzento-escuro: #222222;
+    --cinzento: #5f5f5f;
+    --cinzento-claro: #f4f4f4;
+    --branco: #ffffff;
+    --amarelo: #f1c40f;
+    --amarelo-escuro: #d4ac0d;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: var(--preto);
+    background-color: var(--branco);
+    line-height: 1.5;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+ul {
+    list-style-position: inside;
+}
+
+.conteudo {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.barra-superior {
+    background-color: var(--preto);
+    color: var(--branco);
+    font-size: 14px;
+    padding: 10px 0;
+}
+
+.cabecalho {
+    background-color: var(--branco);
+    border-bottom: 1px solid #dddddd;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.logo-img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+}
+
+.logo-nome {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.menu {
+    font-weight: bold;
+}
+
+.menu a:hover {
+    color: var(--amarelo-escuro);
+}
+
+.botao {
+    display: inline-block;
+    padding: 14px 24px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.cliente {
+    background-color: var(--branco);
+    color: var(--preto);
+    border: 1px solid var(--preto);
+}
+
+.cliente:hover {
+    background-color: var(--preto);
+    color: var(--branco);
+}
+
+.amarelo {
+    background-color: var(--amarelo);
+    color: var(--preto);
+}
+
+.amarelo:hover {
+    background-color: var(--amarelo-escuro);
+}
+
+.claro {
+    background-color: var(--branco);
+    color: var(--preto);
+    border: 2px solid var(--branco);
+}
+
+.principal {
+    background: linear-gradient(135deg, #111111, #2e2e2e);
+    color: var(--branco);
+    padding: 80px 0;
+}
+
+.etiqueta {
+    display: inline-block;
+    background-color: var(--amarelo);
+    color: var(--preto);
+    padding: 8px 14px;
+    font-weight: bold;
+    margin-bottom: 24px;
+}
+
+.principal-texto h1 {
+    font-size: 64px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.descrição {
+    font-size: 20px;
+    color: #e4e4e4;
+    max-width: 580px;
+    margin-bottom: 30px;
+}
+
+.numero {
+    background-color: rgba(255, 255, 255, 0.08);
+    padding: 20px;
+    border-radius: 10px;
+    min-width: 140px;
+}
+
+.numero h2 {
+    color: var(--amarelo);
+    font-size: 34px;
+    margin-bottom: 8px;
+}
+
+.imagem {
+    height: 500px;
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(241, 196, 15, 0.3), rgba(0, 0, 0, 0.5)),
+        linear-gradient(135deg, #3d3d3d, #1b1b1b);
+    border: 2px solid rgba(255, 255, 255, 0.08);
+}
+
+.cartão {
+    width: 260px;
+    background-color: var(--branco);
+    color: var(--preto);
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.cartão-topo {
+    color: var(--cinzento);
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.cartão h3 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.secção {
+    padding: 90px 0;
+}
+
+.secção-clara {
+    background-color: var(--cinzento-claro);
+}
+
+.secção-escura {
+    background-color: var(--preto);
+    color: var(--branco);
+}
+
+.titulo {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 50px auto;
+}
+
+.titulo h2 {
+    font-size: 42px;
+    margin-bottom: 14px;
+}
+
+.titulo p {
+    color: var(--cinzento);
+}
+
+.titulo-claro p {
+    color: #d0d0d0;
+}
+
+.subtitulo {
+    color: var(--amarelo-escuro);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+.subtitulo-claro {
+    color: var(--amarelo);
+}
+
+.vantagem {
+    background-color: var(--branco);
+    padding: 30px;
+    border-radius: 12px;
+}
+
+.icone {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--amarelo);
+    margin-bottom: 20px;
+}
+
+.vantagem h3 {
+    margin-bottom: 10px;
+}
+
+.vantagem p {
+    color: var(--cinzento);
+}
+
+.plano {
+    background-color: #1f1f1f;
+    border: 1px solid #333333;
+    border-radius: 12px;
+    padding: 30px;
+}
+
+.destaque {
+    border: 2px solid var(--amarelo);
+    background-color: #181818;
+}
+
+.faixa {
+    display: inline-block;
+    background-color: var(--amarelo);
+    color: var(--preto);
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.nome {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #d6d6d6;
+    margin-bottom: 8px;
+}
+
+.plano h3 {
+    font-size: 42px;
+    color: var(--amarelo);
+}
+
+.periodo {
+    margin-bottom: 20px;
+    color: #d6d6d6;
+}
+
+.largo {
+    width: 100%;
+    text-align: center;
+}
+
+.espaço {
+    min-height: 320px;
+    border-radius: 14px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}
+
+.espaço-cardio {
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
+        linear-gradient(135deg, #8d8d8d, #4c4c4c);
+}
+
+.espaço-aulas {
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
+        linear-gradient(135deg, #5b5b5b, #1f1f1f);
+}
+
+.espaço-musculação {
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
+        linear-gradient(135deg, #7a6f50, #2d2619);
+}
+
+.espaço-balneários {
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
+        linear-gradient(135deg, #6d7d8c, #28313a);
+}
+
+.texto-espaço {
+    padding: 24px;
+    color: var(--branco);
+}
+
+.texto-espaço h3 {
+    margin-bottom: 10px;
+}
+
+.chamada-final {
+    background: linear-gradient(135deg, #1a1a1a, #000000);
+    color: var(--branco);
+    text-align: center;
+}
+
+.chamada h2 {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.chamada p {
+    margin-bottom: 30px;
+    color: #d6d6d6;
+}
+
+.rodape {
+    background-color: #0a0a0a;
+    color: var(--branco);
+    padding: 50px 0;
+}
+
+.rodape h3 {
+    margin-bottom: 14px;
+}
+
+.rodape p {
+    color: #c5c5c5;
+    margin-bottom: 8px;
+}
