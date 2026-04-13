@@ -8,6 +8,10 @@
     --amarelo-escuro: #d4ac0d;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 * {
     margin: 0;
     padding: 0;
