@@ -87,6 +87,10 @@
     font-weight: bold;
 }
 
+.texto-planos-login {
+    margin-top: 16px;
+}
+
 .claro-voltar {
     background-color: var(--branco);
     color: var(--preto);
