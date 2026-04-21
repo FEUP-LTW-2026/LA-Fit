@@ -151,8 +151,10 @@ ul {
 .imagem {
     height: 500px;
     border-radius: 20px;
-    background: linear-gradient(180deg, rgba(241, 196, 15, 0.3), rgba(0, 0, 0, 0.5)),
-        linear-gradient(135deg, #3d3d3d, #1b1b1b);
+    background: linear-gradient(180deg, rgba(241, 196, 15, 0.2), rgba(0, 0, 0, 0.55)),
+        url("../images/principal.jpg");
+    background-size: cover;
+    background-position: center;
     border: 2px solid rgba(255, 255, 255, 0.08);
 }
 
