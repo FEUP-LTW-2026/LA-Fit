@@ -295,23 +295,23 @@ ul {
 }
 
 .espaço-cardio {
-    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
-        linear-gradient(135deg, #8d8d8d, #4c4c4c);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
+        url("../images/cardio.jpg");
 }
 
 .espaço-aulas {
-    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
-        linear-gradient(135deg, #5b5b5b, #1f1f1f);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
+        url("../images/aulas.jpg");
 }
 
 .espaço-musculação {
-    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
-        linear-gradient(135deg, #7a6f50, #2d2619);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
+        url("../images/musculaçao.jpg");
 }
 
 .espaço-balneários {
-    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
-        linear-gradient(135deg, #6d7d8c, #28313a);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
+        url("../images/balneario.jpg");
 }
 
 .texto-espaço {
