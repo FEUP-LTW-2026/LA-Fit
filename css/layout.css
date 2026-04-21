@@ -1,0 +1,146 @@
+.conteudo {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.barra-superior {
+    background-color: var(--preto);
+    color: var(--branco);
+    font-size: 14px;
+    padding: 10px 0;
+}
+
+.topo {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.cabecalho {
+    background-color: var(--branco);
+    border-bottom: 1px solid var(--borda-suave);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.linha-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    gap: 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+}
+
+.logo-nome {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.menu {
+    display: flex;
+    gap: 28px;
+    font-weight: bold;
+}
+
+.menu a:hover {
+    color: var(--amarelo-escuro);
+}
+
+.ações-topo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.secção {
+    padding: 90px 0;
+}
+
+.secção-clara {
+    background-color: var(--cinzento-claro);
+}
+
+.secção-escura {
+    background-color: var(--preto);
+    color: var(--branco);
+}
+
+.grelha-vantagens,
+.grelha-planos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.rodape {
+    background-color: #0a0a0a;
+    color: var(--branco);
+    padding: 50px 0;
+}
+
+.rodape-caixa {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.rodape h3 {
+    margin-bottom: 14px;
+}
+
+.rodape p {
+    color: #c5c5c5;
+    margin-bottom: 8px;
+}
+
+@media (max-width: 1000px) {
+    .linha-cabecalho,
+    .topo {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .grelha-vantagens,
+    .grelha-planos,
+    .grelha-espacos,
+    .rodape-caixa {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .menu {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .ações-topo {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 700px) {
+    .titulo h2,
+    .chamada h2 {
+        font-size: 32px;
+    }
+
+    .grelha-vantagens,
+    .grelha-planos,
+    .grelha-espacos,
+    .rodape-caixa {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,159 @@
+.principal {
+    background: linear-gradient(135deg, #111111, #2e2e2e);
+    color: var(--branco);
+    padding: 80px 0;
+}
+
+.principal-caixa {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.principal-texto,
+.principal-imagem {
+    width: 50%;
+}
+
+.principal-texto h1 {
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+
+.descrição {
+    font-size: 20px;
+    color: #e4e4e4;
+    max-width: 580px;
+    margin-bottom: 30px;
+}
+
+.ações {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.numeros {
+    display: flex;
+    gap: 20px;
+}
+
+.principal-imagem {
+    position: relative;
+}
+
+.imagem {
+    height: 500px;
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(241, 196, 15, 0.2), rgba(0, 0, 0, 0.55)),
+        url("../images/principal.jpg");
+    background-size: cover;
+    background-position: center;
+    border: 2px solid rgba(255, 255, 255, 0.08);
+}
+
+.cartão {
+    position: absolute;
+    right: -20px;
+    bottom: 30px;
+}
+
+.grelha-espacos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.plano ul {
+    margin-bottom: 24px;
+    line-height: 2;
+}
+
+.espaço {
+    display: flex;
+    align-items: end;
+    min-height: 320px;
+    border-radius: 14px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}
+
+.espaço-cardio {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
+        url("../images/cardio.jpg");
+}
+
+.espaço-aulas {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
+        url("../images/aulas.jpg");
+}
+
+.espaço-musculação {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
+        url("../images/musculaçao.jpg");
+}
+
+.espaço-balneários {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
+        url("../images/balneario.jpg");
+}
+
+.texto-espaço {
+    padding: 24px;
+    color: var(--branco);
+}
+
+.texto-espaço h3 {
+    margin-bottom: 10px;
+}
+
+.chamada {
+    max-width: 720px;
+}
+
+.chamada-final {
+    background: linear-gradient(135deg, #1a1a1a, #000000);
+    color: var(--branco);
+    text-align: center;
+}
+
+.chamada h2 {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.chamada p {
+    margin-bottom: 30px;
+    color: #d6d6d6;
+}
+
+@media (max-width: 1000px) {
+    .principal-caixa {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .principal-texto,
+    .principal-imagem {
+        width: 100%;
+    }
+}
+
+@media (max-width: 700px) {
+    .principal-texto h1 {
+        font-size: 42px;
+    }
+
+    .ações,
+    .numeros {
+        flex-direction: column;
+    }
+
+    .cartão {
+        position: static;
+        width: 100%;
+        margin-top: 20px;
+    }
+}

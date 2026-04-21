@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscrição - LAFit</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/inscricao.css">
 </head>
@@ -19,13 +18,13 @@
     </div>
 
     <header class="cabecalho">
-        <div class="conteudo linha-cabecalho">
-            <div class="logo">
-                <img src="images/logo.png" alt="Logo da LAFit" class="logo-img">
-                <p class="logo-nome">LAFit</p>
-            </div>
+            <div class="conteudo linha-cabecalho">
+                <div class="logo">
+                    <img src="images/logo.png" alt="Logo da LAFit" class="logo-img">
+                    <p class="logo-nome">LAFit</p>
+                </div>
 
-            <div class="topo-insc">
+            <div class="ações-topo">
                 <a href="index.html" class="botao claro-voltar">Voltar</a>
             </div>
         </div>
@@ -38,9 +37,9 @@
                     <p class="subtitulo">Inscrição</p>
                     <h1>Faz a tua inscrição</h1>
 
-                    <form action="#" method="post" class="formulario">
-                        <div class="grupo">
-                            <h2>Dados Pessoais</h2>
+                    <form action="#" method="post">
+                        <fieldset class="grupo">
+                            <legend>Dados Pessoais</legend>
                             <div class="campos">
                                 <div class="campo">
                                     <label for="primeiro-nome">Primeiro Nome </label>
@@ -57,10 +56,10 @@
                                     <input type="text" id="data-nascimento" name="data-nascimento">
                                 </div>
                             </div>
-                        </div>
+                        </fieldset>
 
-                        <div class="grupo">
-                            <h2>Contacto</h2>
+                        <fieldset class="grupo">
+                            <legend>Contacto</legend>
                             <div class="campos">
                                 <div class="campo">
                                     <label for="email">Email </label>
@@ -72,10 +71,10 @@
                                     <input type="tel" id="telefone" name="telefone">
                                 </div>
                             </div>
-                        </div>
+                        </fieldset>
 
-                        <div class="grupo">
-                            <h2>Morada</h2>
+                        <fieldset class="grupo">
+                            <legend>Morada</legend>
                             <div class="campos">
                                 <div class="campo campo-largo">
                                     <label for="rua">Rua e Número </label>
@@ -92,10 +91,10 @@
                                     <input type="text" id="codigo-postal" name="codigo-postal" placeholder="4480-123">
                                 </div>
                             </div>
-                        </div>
+                        </fieldset>
 
-                        <div class="grupo">
-                            <h2>Plano e Localização</h2>
+                        <fieldset class="grupo">
+                            <legend>Plano e Localização</legend>
                             <div class="campos">
                                 <div class="campo">
                                     <label for="plano">Plano </label>
@@ -116,7 +115,7 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
+                        </fieldset>
 
                         <label class="termos">
                             <input type="checkbox" name="termos">

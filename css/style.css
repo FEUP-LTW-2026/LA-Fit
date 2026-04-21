@@ -1,3 +1,5 @@
-@import url("main-style.css");
-@import url("positioning.css");
-@import url("responsive-design.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css");
+@import url("base.css");
+@import url("components.css");
+@import url("layout.css");
+@import url("home.css");
