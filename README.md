@@ -3,9 +3,9 @@
 ## Features
 
 **All users:**
-- [x] Register a new account.
+- [ ] Register a new account.
 - [ ] Log in and out.
-- [x] Edit their profile, including name, username, password, and profile photo.
+- [ ] Edit their profile, including name, username, password, and profile photo.
 
 **Members:**
 - [ ] Browse the schedule of available fitness classes, filtering by type, trainer, day, or time.
@@ -31,8 +31,17 @@
 
 ## Running
 
+The database is not implemented yet, so the database command below is kept only as a reference for a future version of the project.
+
     sqlite3 database/database.db < database/database.sql
+
+To view the current project locally, run:
+
     php -S localhost:9000
+
+Then open this link in the browser:
+
+    http://localhost:9000
 
 ## Credentials
 
@@ -40,5 +49,17 @@
 - member/1234
 - trainer/1234
 
+## Project Structure
+
+```text
+ltw-project-ltw05g05/
+├── css/                      # Stylesheets for the website
+├── images/                   # Images used in the pages
+├── index.html                # Main page
+├── login.html                # Client login page
+├── inscricao.html            # Registration page
+├── README.md                 # Project overview and running instructions
+└── .gitignore                # Git ignore rules
+```
 
 
