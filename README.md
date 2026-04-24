@@ -1,5 +1,11 @@
 # ltw05g05
 
+## Group Members
+
+- Guilherme Martins da Silva - 202404270
+- Tomás de Araújo Ribeiro Silva - 202404344
+- Pedro Miguel Malhão Meireles - 202306104
+
 ## Features
 
 **All users:**
@@ -61,5 +67,3 @@ ltw-project-ltw05g05/
 ├── README.md                 # Project overview and running instructions
 └── .gitignore                # Git ignore rules
 ```
-
-
