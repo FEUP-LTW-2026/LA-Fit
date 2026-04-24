@@ -86,7 +86,7 @@
 
 .espaço-musculação {
     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
-        url("..|images|musculaçao.jpg");
+        url("../images/musculaçao.jpg");
 }
  
 .espaço-balneários {
