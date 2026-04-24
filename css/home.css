@@ -92,7 +92,7 @@
 
 .espaço-musculação {
     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
-        url("../images/musculação.jpg");
+        url("../images/musculaçao.jpg");
 }
 
 .espaço-balneários {
@@ -139,10 +139,6 @@
     .principal-imagem {
         width: 100%;
     }
-
-    .grelha-espacos {
-        grid-template-columns: repeat(2, 1fr);
-    }
 }
 
 @media (max-width: 700px) {
@@ -159,9 +155,5 @@
         position: static;
         width: 100%;
         margin-top: 20px;
-    }
-
-    .grelha-espacos {
-        grid-template-columns: 1fr;
     }
 }
