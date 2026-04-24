@@ -59,12 +59,6 @@
     bottom: 30px;
 }
 
-.grelha-espacos {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-}
-
 .plano ul {
     margin-bottom: 24px;
     line-height: 2;
@@ -92,9 +86,9 @@
 
 .espaço-musculação {
     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
-        url("../images/musculaçao.jpg");
+        url("..|images|musculaçao.jpg");
 }
-
+ 
 .espaço-balneários {
     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
         url("../images/balneario.jpg");

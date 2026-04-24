@@ -79,6 +79,12 @@
     color: var(--branco);
 }
 
+.grelha-espacos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
 .grelha-vantagens,
 .grelha-planos {
     display: grid;
