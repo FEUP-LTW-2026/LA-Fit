@@ -37,7 +37,7 @@
 
 ## Running
 
-The database is not implemented yet, so the database command below is kept only as a reference for a future version of the project.
+Create the SQLite database from the schema and seed data:
 
     sqlite3 database/database.db < database/database.sql
 
@@ -60,6 +60,7 @@ Then open this link in the browser:
 ```text
 ltw-project-ltw05g05/
 ├── css/                      # Stylesheets for the website
+├── database/                 # SQLite schema and seed data
 ├── images/                   # Images used in the pages
 ├── index.html                # Main page
 ├── login.html                # Client login page
