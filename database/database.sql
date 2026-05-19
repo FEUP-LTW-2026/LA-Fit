@@ -1,15 +1,17 @@
 PRAGMA foreign_keys = OFF;
-DROP TABLE IF EXISTS utilizadores;
-DROP TABLE IF EXISTS membros;
-DROP TABLE IF EXISTS treinadores;
-DROP TABLE IF EXISTS administradores;
-DROP TABLE IF EXISTS aulas;
+
+DROP TABLE IF EXISTS avaliacoes;
+DROP TABLE IF EXISTS equipamentos;
 DROP TABLE IF EXISTS inscricoes_aulas;
+DROP TABLE IF EXISTS aulas;
+DROP TABLE IF EXISTS administradores;
+DROP TABLE IF EXISTS treinadores;
+DROP TABLE IF EXISTS membros;
+DROP TABLE IF EXISTS utilizadores;
 DROP TABLE IF EXISTS planos;
 DROP TABLE IF EXISTS ginasios;
+
 PRAGMA foreign_keys = ON;
-
-
 
 CREATE TABLE utilizadores (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -25,12 +27,37 @@ CREATE TABLE utilizadores (
         CHECK (estado IN ('ativo', 'inativo'))
 );
 
+CREATE TABLE ginasios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL UNIQUE,
+    morada TEXT NOT NULL,
+    cidade TEXT NOT NULL,
+    codigo_postal TEXT NOT NULL,
+    telefone TEXT
+);
+
+CREATE TABLE planos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL UNIQUE,
+    preco_mensal REAL NOT NULL CHECK (preco_mensal >= 0),
+    descricao TEXT NOT NULL,
+    beneficios TEXT NOT NULL
+);
+
 CREATE TABLE membros (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     utilizador_id INTEGER NOT NULL UNIQUE
         REFERENCES utilizadores(id) ON UPDATE CASCADE ON DELETE CASCADE,
     data_nascimento TEXT,
-    telefone TEXT
+    telefone TEXT,
+    morada TEXT,
+    cidade TEXT,
+    codigo_postal TEXT,
+    plano_id INTEGER
+        REFERENCES planos(id) ON UPDATE CASCADE ON DELETE SET NULL,
+    ginasio_id INTEGER
+        REFERENCES ginasios(id) ON UPDATE CASCADE ON DELETE SET NULL,
+    inscrito_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE treinadores (
@@ -55,6 +82,8 @@ CREATE TABLE aulas (
     descricao TEXT,
     treinador_id INTEGER NOT NULL
         REFERENCES treinadores(id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    ginasio_id INTEGER NOT NULL
+        REFERENCES ginasios(id) ON UPDATE CASCADE ON DELETE RESTRICT,
     dia_semana TEXT NOT NULL
         CHECK (dia_semana IN ('segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo')),
     inicio TEXT NOT NULL,
@@ -78,24 +107,27 @@ CREATE TABLE inscricoes_aulas (
     UNIQUE (membro_id, aula_id)
 );
 
-CREATE TABLE ginasios (
+CREATE TABLE equipamentos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL UNIQUE,
-    morada TEXT NOT NULL,
-    cidade TEXT NOT NULL,
-    codigo_postal TEXT NOT NULL,
-    telefone TEXT
+    nome TEXT NOT NULL,
+    zona TEXT NOT NULL,
+    estado TEXT NOT NULL DEFAULT 'disponivel'
+        CHECK (estado IN ('disponivel', 'ocupado', 'manutencao')),
+    quantidade INTEGER NOT NULL DEFAULT 1 CHECK (quantidade > 0),
+    atualizado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE planos (
+CREATE TABLE avaliacoes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL UNIQUE,
-    preco_mensal REAL NOT NULL CHECK (preco_mensal >= 0),
-    descricao TEXT
+    membro_id INTEGER NOT NULL
+        REFERENCES membros(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    aula_id INTEGER NOT NULL
+        REFERENCES aulas(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    classificacao INTEGER NOT NULL CHECK (classificacao BETWEEN 1 AND 5),
+    comentario TEXT,
+    criada_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (membro_id, aula_id)
 );
-
-
-
 
 INSERT INTO ginasios (nome, morada, cidade, codigo_postal, telefone) VALUES
     ('LA', 'Largo Carlos Araújo', 'Vila do Conde', '4480-123', '911978544'),
@@ -103,10 +135,10 @@ INSERT INTO ginasios (nome, morada, cidade, codigo_postal, telefone) VALUES
     ('Póvoa de Varzim', 'Rua da Junqueira 41', 'Póvoa de Varzim', '4490-519', '911978546'),
     ('Ramalde', 'Rua de Ramalde 100', 'Porto', '4250-344', '911978547');
 
-INSERT INTO planos (nome, preco_mensal, descricao) VALUES
-    ('Básico', 19.99, 'Acesso a um ginásio, zona de cardio e zona de musculação.'),
-    ('Ilimitado', 29.99, 'Acesso a todos os ginásios e aulas de grupo.'),
-    ('Premium', 39.99, 'Plano completo com treino personalizado e avaliação física.');
+INSERT INTO planos (nome, preco_mensal, descricao, beneficios) VALUES
+    ('Básico', 19.99, 'Acesso a um ginásio, zona de cardio e zona de musculação.', 'Acesso a 1 ginásio|Acesso 24/7|Zona cardio e musculação|Wifi grátis'),
+    ('Ilimitado', 29.99, 'Acesso a todos os ginásios e aulas de grupo.', 'Acesso a todos os ginásios|Aulas de grupo incluídas|Equipamento premium|App exclusiva'),
+    ('Premium', 39.99, 'Plano completo com treino personalizado e avaliação física.', 'Tudo do plano ilimitado|Treino personalizado|Avaliação física|Zona VIP');
 
 INSERT INTO utilizadores (nome_utilizador, email, palavra_passe, nome, apelido, papel, estado) VALUES
     ('admin', 'admin@lafit.test', 'p4s5w0rd', 'Admin', 'LAFit', 'administrador', 'ativo'),
@@ -116,15 +148,27 @@ INSERT INTO utilizadores (nome_utilizador, email, palavra_passe, nome, apelido, 
 INSERT INTO administradores (utilizador_id) VALUES
     (1);
 
-INSERT INTO membros (utilizador_id) VALUES
-    (2);
+INSERT INTO membros (utilizador_id, data_nascimento, telefone, morada, cidade, codigo_postal, plano_id, ginasio_id) VALUES
+    (2, '2004-05-12', '912000111', 'Rua da Escola 10', 'Vila do Conde', '4480-000', 2, 1);
 
 INSERT INTO treinadores (utilizador_id, biografia, especializacoes, certificacoes) VALUES
     (3, 'Treinador da LAFit.', 'Cycling, Pilates, Hyrox, Kickbox, Karaté', 'Certificação interna LAFit');
 
-INSERT INTO aulas (nome, tipo, descricao, treinador_id, dia_semana, inicio, fim, lotacao, sala, estado) VALUES
-    ('Cycling', 'cycling', 'Aula de bicicleta indoor com foco em resistência cardiovascular.', 1, 'segunda', '18:30', '19:30', 30, 'Estúdio', 'agendada'),
-    ('Pilates', 'pilates', 'Aula de controlo postural, mobilidade e fortalecimento do core.', 1, 'terca', '18:30', '19:30', 30, 'Estúdio', 'agendada'),
-    ('Hyrox', 'hyrox', 'Treino funcional de alta intensidade com corrida e exercícios de força.', 1, 'quarta', '18:30', '19:30', 30, 'Estúdio', 'agendada'),
-    ('Kickbox', 'kickbox', 'Aula de combate com técnica, coordenação e condicionamento físico.', 1, 'quinta', '18:30', '19:30', 30, 'Estúdio', 'agendada'),
-    ('Karaté', 'karate', 'Aula de artes marciais focada em técnica, disciplina e defesa pessoal.', 1, 'sexta', '18:30', '19:30', 30, 'Estúdio', 'agendada');
+INSERT INTO aulas (nome, tipo, descricao, treinador_id, ginasio_id, dia_semana, inicio, fim, lotacao, sala, estado) VALUES
+    ('Cycling', 'cycling', 'Aula de bicicleta indoor com foco em resistência cardiovascular.', 1, 1, 'segunda', '18:30', '19:30', 30, 'Estúdio', 'agendada'),
+    ('Pilates', 'pilates', 'Aula de controlo postural, mobilidade e fortalecimento do core.', 1, 1, 'terca', '18:30', '19:30', 25, 'Estúdio', 'agendada'),
+    ('Hyrox', 'hyrox', 'Treino funcional de alta intensidade com corrida e exercícios de força.', 1, 2, 'quarta', '18:30', '19:30', 20, 'Sala Funcional', 'agendada'),
+    ('Kickbox', 'kickbox', 'Aula de combate com técnica, coordenação e condicionamento físico.', 1, 3, 'quinta', '18:30', '19:30', 22, 'Estúdio', 'agendada'),
+    ('Karaté', 'karate', 'Aula de artes marciais focada em técnica, disciplina e defesa pessoal.', 1, 4, 'sexta', '18:30', '19:30', 18, 'Sala 2', 'agendada');
+
+INSERT INTO inscricoes_aulas (membro_id, aula_id, estado) VALUES
+    (1, 1, 'inscrito');
+
+INSERT INTO equipamentos (nome, zona, estado, quantidade) VALUES
+    ('Passadeira', 'Cardio', 'disponivel', 12),
+    ('Bicicleta estática', 'Cardio', 'disponivel', 10),
+    ('Banco de supino', 'Musculação', 'ocupado', 4),
+    ('Máquina de remo', 'Funcional', 'manutencao', 2);
+
+INSERT INTO avaliacoes (membro_id, aula_id, classificacao, comentario) VALUES
+    (1, 1, 5, 'Aula intensa e bem acompanhada.');
