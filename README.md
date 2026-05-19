@@ -49,6 +49,14 @@ Then open this link in the browser:
 
     http://localhost:9000
 
+Main PHP pages:
+
+- `index.php` - homepage with plans and featured classes from the database.
+- `aulas.php` - group class schedule and enrollments.
+- `login.php` - client login.
+- `inscricao.php` - member registration.
+- `perfil.php` - logged-in user area.
+
 ## Credentials
 
 - admin/p4s5w0rd
@@ -62,9 +70,12 @@ ltw-project-ltw05g05/
 ├── css/                      # Stylesheets for the website
 ├── database/                 # SQLite schema and seed data
 ├── images/                   # Images used in the pages
-├── index.html                # Main page
-├── login.html                # Client login page
-├── inscricao.html            # Registration page
+├── templates/                # Reusable PHP templates
+├── index.php                 # Main page
+├── aulas.php                 # Class schedule page
+├── login.php                 # Client login page
+├── inscricao.php             # Registration page
+├── perfil.php                # Client profile page
 ├── README.md                 # Project overview and running instructions
 └── .gitignore                # Git ignore rules
 ```
