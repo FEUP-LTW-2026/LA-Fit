@@ -1,3 +1,5 @@
 .DS_Store
 database/*.db
 database/*.db-*
+images/profiles/*
+!images/profiles/.gitkeep

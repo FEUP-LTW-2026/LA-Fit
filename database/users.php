@@ -27,6 +27,78 @@ function getUserByUsername(PDO $db, string $username): ?array
     return $user ?: null;
 }
 
+function getUserById(PDO $db, int $userId): ?array
+{
+    $stmt = $db->prepare(
+        'SELECT *
+         FROM utilizadores
+         WHERE id = ?'
+    );
+    $stmt->execute([$userId]);
+    $user = $stmt->fetch();
+
+    return $user ?: null;
+}
+
+function usernameExistsForOtherUser(PDO $db, string $username, int $userId): bool
+{
+    $stmt = $db->prepare(
+        'SELECT 1
+         FROM utilizadores
+         WHERE nome_utilizador = ?
+           AND id != ?'
+    );
+    $stmt->execute([$username, $userId]);
+
+    return (bool)$stmt->fetchColumn();
+}
+
+function emailExistsForOtherUser(PDO $db, string $email, int $userId): bool
+{
+    $stmt = $db->prepare(
+        'SELECT 1
+         FROM utilizadores
+         WHERE email = ?
+           AND id != ?'
+    );
+    $stmt->execute([$email, $userId]);
+
+    return (bool)$stmt->fetchColumn();
+}
+
+function updateUserProfile(PDO $db, int $userId, array $data): bool
+{
+    $stmt = $db->prepare(
+        'UPDATE utilizadores
+         SET nome_utilizador = ?,
+             email = ?,
+             nome = ?,
+             apelido = ?,
+             fotografia = ?
+         WHERE id = ?'
+    );
+
+    return $stmt->execute([
+        $data['username'],
+        $data['email'],
+        $data['first_name'],
+        $data['last_name'],
+        $data['photo'],
+        $userId,
+    ]);
+}
+
+function updateUserPassword(PDO $db, int $userId, string $password): bool
+{
+    $stmt = $db->prepare(
+        'UPDATE utilizadores
+         SET palavra_passe = ?
+         WHERE id = ?'
+    );
+
+    return $stmt->execute([$password, $userId]);
+}
+
 function getMemberByUsername(PDO $db, string $username): ?array
 {
     $stmt = $db->prepare(
