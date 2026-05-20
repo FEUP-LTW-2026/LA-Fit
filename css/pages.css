@@ -130,6 +130,93 @@
     color: var(--preto);
 }
 
+.perfil-topo {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+.perfil-topo h2 {
+    margin-bottom: 6px;
+}
+
+.perfil-topo p {
+    color: var(--cinzento);
+}
+
+.foto-perfil {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--amarelo);
+    flex: 0 0 auto;
+}
+
+.foto-perfil-vazia {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--preto);
+    color: var(--amarelo);
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.painel-editar-perfil {
+    margin-bottom: 24px;
+}
+
+.painel-editar-perfil .grupo {
+    border: 0;
+    min-width: 0;
+    padding: 0;
+    margin-bottom: 24px;
+}
+
+.painel-editar-perfil .grupo legend {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 14px;
+    padding: 0;
+}
+
+.painel-editar-perfil .campos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.painel-editar-perfil .campo {
+    margin-bottom: 18px;
+}
+
+.painel-editar-perfil .campo label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.painel-editar-perfil .campo input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+}
+
+.painel-editar-perfil .campo-largo {
+    grid-column: 1 / -1;
+}
+
+.ajuda-campo {
+    color: var(--cinzento);
+    font-size: 14px;
+    margin-top: 8px;
+}
+
 .cabecalho-painel {
     display: flex;
     justify-content: space-between;
@@ -224,6 +311,15 @@
     }
 
     .detalhes {
+        grid-template-columns: 1fr;
+    }
+
+    .perfil-topo {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .painel-editar-perfil .campos {
         grid-template-columns: 1fr;
     }
 
