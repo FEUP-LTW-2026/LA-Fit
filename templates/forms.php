@@ -26,7 +26,7 @@ function output_login_page(?string $error = null): void
                         <p class="mensagem erro"><?= h($error) ?></p>
                     <?php } ?>
 
-                    <form action="action_login.php" method="post">
+                    <form action="actions/action_login.php" method="post">
                         <div class="campo-login">
                             <label for="login">Username ou email</label>
                             <input type="text" id="login" name="login" required>
@@ -64,7 +64,7 @@ function output_registration_page(array $plans, array $gyms, ?string $error = nu
                         <p class="mensagem erro"><?= h($error) ?></p>
                     <?php } ?>
 
-                    <form action="action_register.php" method="post">
+                    <form action="actions/action_register.php" method="post">
                         <fieldset class="grupo">
                             <legend>Dados pessoais</legend>
                             <div class="campos">

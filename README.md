@@ -9,9 +9,9 @@
 ## Features
 
 **All users:**
-- [ ] Register a new account.
-- [ ] Log in and out.
-- [ ] Edit their profile, including name, username, password, and profile photo.
+- [X] Register a new account.
+- [X] Log in and out.
+- [X] Edit their profile, including name, username, password, and profile photo.
 
 **Members:**
 - [ ] Browse the schedule of available fitness classes, filtering by type, trainer, day, or time.
@@ -67,8 +67,10 @@ Main PHP pages:
 
 ```text
 ltw-project-ltw05g05/
+├── actions/                  # Form handlers and session actions
 ├── css/                      # Stylesheets for the website
 ├── database/                 # SQLite schema and seed data
+├── html/                     # Old static HTML mockups kept for reference
 ├── images/                   # Images used in the pages
 ├── templates/                # Reusable PHP templates
 ├── index.php                 # Main page

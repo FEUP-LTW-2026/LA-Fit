@@ -62,7 +62,7 @@ function output_header(string $title = 'LAFit', string $activePage = 'home', arr
             <div class="ações-topo">
                 <?php if ($loggedIn) { ?>
                     <a href="perfil.php" class="botao cliente">Olá, <?= h($_SESSION['username']) ?></a>
-                    <a href="action_logout.php" class="botao amarelo">Sair</a>
+                    <a href="actions/action_logout.php" class="botao amarelo">Sair</a>
                 <?php } else { ?>
                     <a href="login.php" class="botao cliente">Área Cliente</a>
                     <a href="inscricao.php" class="botao amarelo">Aderir agora</a>
