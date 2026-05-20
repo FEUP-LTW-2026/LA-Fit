@@ -1,6 +1,20 @@
 <?php
 function output_profile_page(array $user, ?array $member, array $enrollments): void
 {
+    $weekDays = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
+    $enrollmentsByDay = [];
+
+    foreach ($weekDays as $day) {
+        $enrollmentsByDay[$day] = [];
+    }
+
+    foreach ($enrollments as $enrollment) {
+        $day = $enrollment['dia_semana'];
+        if (!isset($enrollmentsByDay[$day])) {
+            $enrollmentsByDay[$day] = [];
+        }
+        $enrollmentsByDay[$day][] = $enrollment;
+    }
 ?>
     <main class="pagina-perfil">
         <section class="secção">
@@ -44,26 +58,39 @@ function output_profile_page(array $user, ?array $member, array $enrollments): v
                 <section class="painel painel-aulas">
                     <div class="cabecalho-painel">
                         <h2>As tuas aulas</h2>
-                        <a href="aulas.php" class="botao cliente">Ver horário</a>
+                        <a href="aulas.php" class="botao cliente">Ver aulas</a>
                     </div>
 
                     <?php if (count($enrollments) === 0) { ?>
                         <p>Ainda não estás inscrito em nenhuma aula.</p>
                     <?php } else { ?>
-                        <div class="lista-inscricoes">
-                            <?php foreach ($enrollments as $enrollment) { ?>
-                                <article class="inscricao">
-                                    <div>
-                                        <p class="aula-dia"><?= h(formatClassDay($enrollment['dia_semana'])) ?> · <?= h($enrollment['inicio']) ?></p>
-                                        <h3><?= h($enrollment['nome']) ?></h3>
-                                        <p><?= h($enrollment['ginasio_nome']) ?> · <?= h($enrollment['treinador_nome']) ?></p>
-                                    </div>
+                        <div class="horario-inscricoes">
+                            <?php foreach ($weekDays as $day) { ?>
+                                <section class="dia-horario">
+                                    <h3><?= h(formatClassDay($day)) ?></h3>
 
-                                    <form action="action_cancel_enrollment.php" method="post">
-                                        <input type="hidden" name="class_id" value="<?= (int)$enrollment['id'] ?>">
-                                        <button type="submit" class="botao claro-voltar">Cancelar</button>
-                                    </form>
-                                </article>
+                                    <?php if (count($enrollmentsByDay[$day]) === 0) { ?>
+                                        <p class="sem-aulas-dia">Sem aulas</p>
+                                    <?php } else { ?>
+                                        <div class="aulas-dia-lista">
+                                            <?php foreach ($enrollmentsByDay[$day] as $enrollment) { ?>
+                                                <article class="inscricao">
+                                                    <div>
+                                                        <p class="aula-dia"><?= h($enrollment['inicio']) ?> - <?= h($enrollment['fim']) ?></p>
+                                                        <h4><?= h($enrollment['nome']) ?></h4>
+                                                        <p><?= h($enrollment['ginasio_nome']) ?> · <?= h($enrollment['sala']) ?></p>
+                                                        <p><?= h($enrollment['treinador_nome']) ?></p>
+                                                    </div>
+
+                                                    <form action="action_cancel_enrollment.php" method="post">
+                                                        <input type="hidden" name="class_id" value="<?= (int)$enrollment['id'] ?>">
+                                                        <button type="submit" class="botao claro-voltar">Cancelar</button>
+                                                    </form>
+                                                </article>
+                                            <?php } ?>
+                                        </div>
+                                    <?php } ?>
+                                </section>
                             <?php } ?>
                         </div>
                     <?php } ?>

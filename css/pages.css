@@ -138,27 +138,71 @@
     margin-bottom: 18px;
 }
 
-.lista-inscricoes {
+.horario-inscricoes {
     display: grid;
-    gap: 16px;
+    grid-template-columns: repeat(7, minmax(150px, 1fr));
+    gap: 14px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+}
+
+.dia-horario {
+    background-color: var(--cinzento-claro);
+    border: 1px solid var(--borda-suave);
+    border-radius: 10px;
+    min-width: 150px;
+    padding: 14px;
+}
+
+.dia-horario h3 {
+    font-size: 15px;
+    margin-bottom: 12px;
+    text-transform: capitalize;
+}
+
+.aulas-dia-lista {
+    display: grid;
+    gap: 12px;
+}
+
+.sem-aulas-dia {
+    color: var(--cinzento);
+    font-size: 14px;
 }
 
 .inscricao {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-    gap: 20px;
+    align-items: stretch;
+    gap: 14px;
+    background-color: var(--branco);
     border: 1px solid var(--borda-suave);
-    border-radius: 10px;
-    padding: 18px;
+    border-radius: 8px;
+    min-height: 210px;
+    padding: 14px;
 }
 
-.inscricao h3 {
+.inscricao h4 {
+    font-size: 18px;
     margin-bottom: 6px;
 }
 
-.inscricao p:last-child {
+.inscricao p {
+    font-size: 14px;
+}
+
+.inscricao p:not(.aula-dia) {
     color: var(--cinzento);
+    margin-bottom: 4px;
+}
+
+.inscricao form {
+    margin-top: auto;
+}
+
+.inscricao .botao {
+    width: 100%;
 }
 
 @media (max-width: 1000px) {
@@ -186,6 +230,13 @@
     .cabecalho-painel,
     .inscricao {
         align-items: flex-start;
-        flex-direction: column;
+    }
+
+    .horario-inscricoes {
+        grid-template-columns: repeat(7, 180px);
+    }
+
+    .inscricao {
+        align-items: stretch;
     }
 }
