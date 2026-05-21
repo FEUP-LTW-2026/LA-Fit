@@ -159,10 +159,9 @@ INSERT INTO aulas (nome, tipo, descricao, treinador_id, ginasio_id, dia_semana, 
     ('Pilates', 'pilates', 'Aula de controlo postural, mobilidade e fortalecimento do core.', 1, 1, 'terca', '18:30', '19:30', 25, 'Estúdio', 'agendada'),
     ('Hyrox', 'hyrox', 'Treino funcional de alta intensidade com corrida e exercícios de força.', 1, 2, 'quarta', '18:30', '19:30', 20, 'Sala Funcional', 'agendada'),
     ('Kickbox', 'kickbox', 'Aula de combate com técnica, coordenação e condicionamento físico.', 1, 3, 'quinta', '18:30', '19:30', 22, 'Estúdio', 'agendada'),
-    ('Karaté', 'karate', 'Aula de artes marciais focada em técnica, disciplina e defesa pessoal.', 1, 4, 'sexta', '18:30', '19:30', 18, 'Sala 2', 'agendada');
+    ('Karaté', 'karate', 'Aula de artes marciais focada em técnica, disciplina e defesa pessoal.', 1, 4, 'sexta', '18:30', '19:30', 18, 'Sala 2', 'agendada'),
+    ('Funcional', 'funcional', 'Treino funcional com exercícios de força, equilíbrio e coordenação para todos os níveis.', 1, 1, 'sabado', '10:00', '11:00', 20, 'Sala Funcional', 'agendada');
 
-INSERT INTO inscricoes_aulas (membro_id, aula_id, estado) VALUES
-    (1, 1, 'inscrito');
 
 INSERT INTO equipamentos (nome, zona, estado, quantidade) VALUES
     ('Passadeira', 'Cardio', 'disponivel', 12),
