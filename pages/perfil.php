@@ -44,6 +44,6 @@ $messages = [
     },
 ];
 
-output_header('Perfil - LAFit', 'perfil');
-output_profile_page($user, $member, $enrollments, $messages);
-output_footer();
+drawHeader('Perfil - LAFit', 'perfil');
+drawProfilePage($user, $member, $enrollments, $messages);
+drawFooter();

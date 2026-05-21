@@ -1,5 +1,5 @@
 <?php
-function output_profile_page(array $user, ?array $member, array $enrollments, array $messages = []): void
+function drawProfilePage(array $user, ?array $member, array $enrollments, array $messages = []): void
 {
     $weekDays = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
     $enrollmentsByDay = [];

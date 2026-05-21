@@ -1,8 +1,9 @@
 <?php
-function output_home(array $plans, array $gyms, array $classes): void
+function drawHome(array $plans, array $gyms, array $classes): void
 {
 ?>
     <main>
+        <?php if (!isset($_SESSION['username'])) { ?>
         <section class="principal">
             <div class="conteudo principal-caixa">
                 <div class="principal-texto">
@@ -44,6 +45,7 @@ function output_home(array $plans, array $gyms, array $classes): void
                 </div>
             </div>
         </section>
+        <?php } ?>
 
         <section class="secção secção-clara" id="vantagens">
             <div class="conteudo">
@@ -106,6 +108,7 @@ function output_home(array $plans, array $gyms, array $classes): void
             </div>
         </section>
 
+        <?php if (!isset($_SESSION['username'])) { ?>
         <section class="secção secção-escura" id="planos">
             <div class="conteudo">
                 <div class="titulo titulo-claro">
@@ -115,10 +118,11 @@ function output_home(array $plans, array $gyms, array $classes): void
                 </div>
 
                 <div class="grelha-planos">
-                    <?php foreach ($plans as $plan) output_plan_card($plan); ?>
+                    <?php foreach ($plans as $plan) drawPlanCard($plan); ?>
                 </div>
             </div>
         </section>
+        <?php } ?>
 
         <section class="secção secção-clara" id="espacos">
             <div class="conteudo">
@@ -160,6 +164,7 @@ function output_home(array $plans, array $gyms, array $classes): void
             </div>
         </section>
 
+        <?php if (!isset($_SESSION['username'])) { ?>
         <section class="secção chamada-final">
             <div class="conteudo chamada">
                 <p class="subtitulo subtitulo-claro">Começa hoje</p>
@@ -170,11 +175,12 @@ function output_home(array $plans, array $gyms, array $classes): void
                 <a href="inscricao.php" class="botao amarelo">Quero aderir</a>
             </div>
         </section>
+        <?php } ?>
     </main>
 <?php
 }
 
-function output_plan_card(array $plan): void
+function drawPlanCard(array $plan): void
 {
     $benefits = explode('|', $plan['beneficios']);
     $isPopular = $plan['nome'] === 'Ilimitado';

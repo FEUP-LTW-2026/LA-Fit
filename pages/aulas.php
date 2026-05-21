@@ -16,6 +16,6 @@ if (isset($_SESSION['username']) && ($_SESSION['role'] ?? '') === 'membro') {
     $enrolledClassIds = getEnrolledClassIdsForUsername($db, $_SESSION['username']);
 }
 
-output_header('Aulas - LAFit', 'aulas');
-output_classes_page($classes, $enrolledClassIds);
-output_footer();
+drawHeader('Aulas - LAFit', 'aulas');
+drawClassesPage($classes, $enrolledClassIds);
+drawFooter();

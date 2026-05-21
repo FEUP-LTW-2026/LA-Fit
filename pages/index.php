@@ -14,6 +14,6 @@ $plans = getAllPlans($db);
 $gyms = getAllGyms($db);
 $classes = getAllClasses($db);
 
-output_header('LAFit', 'home');
-output_home($plans, $gyms, $classes);
-output_footer();
+drawHeader('LAFit', 'home');
+drawHome($plans, $gyms, $classes);
+drawFooter();

@@ -10,6 +10,6 @@ if (isset($_GET['erro'])) {
     $error = 'Username/email ou palavra-passe inválidos.';
 }
 
-output_header('Área Cliente - LAFit', 'login', ['../css/login.css']);
-output_login_page($error);
-output_footer();
+drawHeader('Área Cliente - LAFit', 'login', ['../css/login.css']);
+drawLoginPage($error);
+drawFooter();

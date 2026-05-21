@@ -1,5 +1,5 @@
 <?php
-function output_classes_page(array $classes, array $enrolledClassIds): void
+function drawClassesPage(array $classes, array $enrolledClassIds): void
 {
     $isLoggedIn = isset($_SESSION['username']);
     $isMember = ($_SESSION['role'] ?? '') === 'membro';
@@ -21,7 +21,7 @@ function output_classes_page(array $classes, array $enrolledClassIds): void
                 <?php } ?>
 
                 <div class="grelha-aulas">
-                    <?php foreach ($classes as $class) output_class_card($class, $enrolledClassIds, $isLoggedIn, $isMember); ?>
+                    <?php foreach ($classes as $class) drawClassCard($class, $enrolledClassIds, $isLoggedIn, $isMember); ?>
                 </div>
             </div>
         </section>
@@ -29,7 +29,7 @@ function output_classes_page(array $classes, array $enrolledClassIds): void
 <?php
 }
 
-function output_class_card(array $class, array $enrolledClassIds, bool $isLoggedIn, bool $isMember): void
+function drawClassCard(array $class, array $enrolledClassIds, bool $isLoggedIn, bool $isMember): void
 {
     $classId = (int)$class['id'];
     $available = (int)$class['lotacao'] - (int)$class['inscritos'];

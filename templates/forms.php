@@ -1,5 +1,5 @@
 <?php
-function output_login_page(?string $error = null): void
+function drawLoginPage(?string $error = null): void
 {
 ?>
     <main class="pagina-cliente">
@@ -50,7 +50,7 @@ function output_login_page(?string $error = null): void
 <?php
 }
 
-function output_registration_page(array $plans, array $gyms, ?string $error = null, ?int $selectedPlan = null): void
+function drawRegistrationPage(array $plans, array $gyms, ?string $error = null, ?int $selectedPlan = null): void
 {
 ?>
     <main class="pagina-insc">

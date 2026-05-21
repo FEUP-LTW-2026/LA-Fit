@@ -19,7 +19,7 @@ function formatClassDay(string $day): string
     return $days[$day] ?? $day;
 }
 
-function output_header(string $title = 'LAFit', string $activePage = 'home', array $extraCss = []): void
+function drawHeader(string $title = 'LAFit', string $activePage = 'home', array $extraCss = []): void
 {
     $loggedIn = isset($_SESSION['username']);
 ?>
@@ -54,7 +54,9 @@ function output_header(string $title = 'LAFit', string $activePage = 'home', arr
             <nav class="menu">
                 <a href="index.php" class="<?= $activePage === 'home' ? 'ativo' : '' ?>">Início</a>
                 <a href="aulas.php" class="<?= $activePage === 'aulas' ? 'ativo' : '' ?>">Aulas</a>
-                <a href="index.php#planos">Planos</a>
+                <?php if (!$loggedIn) { ?>
+                    <a href="index.php#planos">Planos</a>
+                <?php } ?>
                 <a href="index.php#espacos">Espaços</a>
                 <a href="#contactos">Contactos</a>
             </nav>
@@ -73,7 +75,7 @@ function output_header(string $title = 'LAFit', string $activePage = 'home', arr
 <?php
 }
 
-function output_footer(): void
+function drawFooter(): void
 {
 ?>
     <footer class="rodape" id="contactos">
