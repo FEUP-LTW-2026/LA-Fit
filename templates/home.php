@@ -98,34 +98,6 @@ function drawHome(array $plans, array $gyms, array $classes): void
             </div>
         </section>
 
-        <section class="secção" id="aulas-destaque">
-            <div class="conteudo">
-                <div class="titulo">
-                    <p class="subtitulo">Aulas</p>
-                    <h2>Algumas aulas desta semana</h2>
-                    <p>Horários simples para começares já a planear o próximo treino.</p>
-                </div>
-
-                <div class="grelha-aulas">
-                    <?php foreach (array_slice($classes, 0, 3) as $class) { ?>
-                        <article class="aula">
-                            <p class="aula-dia"><?= h(formatClassDay($class['dia_semana'])) ?> · <?= h($class['inicio']) ?></p>
-                            <h3><?= h($class['nome']) ?></h3>
-                            <p><?= h($class['descricao']) ?></p>
-                            <div class="meta-aula">
-                                <span><?= h($class['ginasio_nome']) ?></span>
-                                <span><?= (int)$class['inscritos'] ?>/<?= (int)$class['lotacao'] ?> inscritos</span>
-                            </div>
-                        </article>
-                    <?php } ?>
-                </div>
-
-                <div class="centro">
-                    <a href="aulas.php" class="botao cliente">Ver todas as aulas</a>
-                </div>
-            </div>
-        </section>
-
         <?php if (!isset($_SESSION['username'])) { ?>
         <section class="secção secção-escura" id="planos">
             <div class="conteudo">
@@ -178,6 +150,34 @@ function drawHome(array $plans, array $gyms, array $classes): void
                             <p>Conforto e apoio antes e depois de cada treino.</p>
                         </div>
                     </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="secção" id="aulas-destaque">
+            <div class="conteudo">
+                <div class="titulo">
+                    <p class="subtitulo">Aulas</p>
+                    <h2>Algumas aulas desta semana</h2>
+                    <p>Horários simples para começares já a planear o próximo treino.</p>
+                </div>
+
+                <div class="grelha-aulas">
+                    <?php foreach (array_slice($classes, 0, 3) as $class) { ?>
+                        <article class="aula">
+                            <p class="aula-dia"><?= h(formatClassDay($class['dia_semana'])) ?> · <?= h($class['inicio']) ?></p>
+                            <h3><?= h($class['nome']) ?></h3>
+                            <p><?= h($class['descricao']) ?></p>
+                            <div class="meta-aula">
+                                <span><?= h($class['ginasio_nome']) ?></span>
+                                <span><?= (int)$class['inscritos'] ?>/<?= (int)$class['lotacao'] ?> inscritos</span>
+                            </div>
+                        </article>
+                    <?php } ?>
+                </div>
+
+                <div class="centro">
+                    <a href="aulas.php" class="botao cliente">Ver todas as aulas</a>
                 </div>
             </div>
         </section>
