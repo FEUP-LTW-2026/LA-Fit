@@ -6,12 +6,12 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
-require_once __DIR__ . '/database/connection.php';
-require_once __DIR__ . '/database/users.php';
-require_once __DIR__ . '/database/enrollments.php';
+require_once __DIR__ . '/../database/connection.php';
+require_once __DIR__ . '/../database/users.php';
+require_once __DIR__ . '/../database/enrollments.php';
 
-require_once __DIR__ . '/templates/common.php';
-require_once __DIR__ . '/templates/profile.php';
+require_once __DIR__ . '/../templates/common.php';
+require_once __DIR__ . '/../templates/profile.php';
 
 $db = getDatabaseConnection();
 $user = getUserByUsername($db, $_SESSION['username']);

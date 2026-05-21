@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: ../login.php');
+    header('Location: ../pages/login.php');
     exit;
 }
 
@@ -11,7 +11,7 @@ require_once __DIR__ . '/../database/users.php';
 
 function redirectProfile(string $status, string $code): void
 {
-    header('Location: ../perfil.php?' . $status . '=' . $code);
+    header('Location: ../pages/perfil.php?' . $status . '=' . $code);
     exit;
 }
 
@@ -57,7 +57,7 @@ $currentUser = getUserById($db, $userId);
 
 if (!$currentUser) {
     session_destroy();
-    header('Location: ../login.php');
+    header('Location: ../pages/login.php');
     exit;
 }
 

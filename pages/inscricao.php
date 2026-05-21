@@ -1,12 +1,12 @@
 <?php
 session_start();
 
-require_once __DIR__ . '/database/connection.php';
-require_once __DIR__ . '/database/plans.php';
-require_once __DIR__ . '/database/gyms.php';
+require_once __DIR__ . '/../database/connection.php';
+require_once __DIR__ . '/../database/plans.php';
+require_once __DIR__ . '/../database/gyms.php';
 
-require_once __DIR__ . '/templates/common.php';
-require_once __DIR__ . '/templates/forms.php';
+require_once __DIR__ . '/../templates/common.php';
+require_once __DIR__ . '/../templates/forms.php';
 
 $db = getDatabaseConnection();
 $plans = getAllPlans($db);
@@ -25,6 +25,6 @@ if (isset($_GET['erro'])) {
     $error = $messages[$_GET['erro']] ?? 'Não foi possível concluir a inscrição.';
 }
 
-output_header('Inscrição - LAFit', 'inscricao', ['css/inscricao.css']);
+output_header('Inscrição - LAFit', 'inscricao', ['../css/inscricao.css']);
 output_registration_page($plans, $gyms, $error, $selectedPlan);
 output_footer();

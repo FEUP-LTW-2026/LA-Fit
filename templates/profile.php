@@ -38,7 +38,7 @@ function output_profile_page(array $user, ?array $member, array $enrollments, ar
                     <article class="painel">
                         <div class="perfil-topo">
                             <?php if (!empty($user['fotografia'])) { ?>
-                                <img src="<?= h($user['fotografia']) ?>" alt="Fotografia de <?= h($user['nome']) ?>" class="foto-perfil">
+                                <img src="../<?= h($user['fotografia']) ?>" alt="Fotografia de <?= h($user['nome']) ?>" class="foto-perfil">
                             <?php } else { ?>
                                 <div class="foto-perfil foto-perfil-vazia"><?= h($initials) ?></div>
                             <?php } ?>
@@ -76,7 +76,7 @@ function output_profile_page(array $user, ?array $member, array $enrollments, ar
 
                 <section class="painel painel-editar-perfil">
                     <h2>Editar perfil</h2>
-                    <form action="actions/action_update_profile.php" method="post" enctype="multipart/form-data">
+                    <form action="../actions/action_update_profile.php" method="post" enctype="multipart/form-data">
                         <fieldset class="grupo">
                             <legend>Dados pessoais</legend>
                             <div class="campos">
@@ -162,7 +162,7 @@ function output_profile_page(array $user, ?array $member, array $enrollments, ar
                                                         <p><?= h($enrollment['treinador_nome']) ?></p>
                                                     </div>
 
-                                                    <form action="actions/action_cancel_enrollment.php" method="post">
+                                                    <form action="../actions/action_cancel_enrollment.php" method="post">
                                                         <input type="hidden" name="class_id" value="<?= (int)$enrollment['id'] ?>">
                                                         <button type="submit" class="botao claro-voltar">Cancelar</button>
                                                     </form>

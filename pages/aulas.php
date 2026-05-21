@@ -1,12 +1,12 @@
 <?php
 session_start();
 
-require_once __DIR__ . '/database/connection.php';
-require_once __DIR__ . '/database/classes.php';
-require_once __DIR__ . '/database/enrollments.php';
+require_once __DIR__ . '/../database/connection.php';
+require_once __DIR__ . '/../database/classes.php';
+require_once __DIR__ . '/../database/enrollments.php';
 
-require_once __DIR__ . '/templates/common.php';
-require_once __DIR__ . '/templates/classes.php';
+require_once __DIR__ . '/../templates/common.php';
+require_once __DIR__ . '/../templates/classes.php';
 
 $db = getDatabaseConnection();
 $classes = getAllClasses($db);

@@ -8,7 +8,7 @@ $login = trim($_POST['login'] ?? '');
 $password = $_POST['password'] ?? '';
 
 if ($login === '' || $password === '') {
-    header('Location: ../login.php?erro=1');
+    header('Location: ../pages/login.php?erro=1');
     exit;
 }
 
@@ -16,7 +16,7 @@ $db = getDatabaseConnection();
 $user = getUserByLoginAndPassword($db, $login, $password);
 
 if (!$user) {
-    header('Location: ../login.php?erro=1');
+    header('Location: ../pages/login.php?erro=1');
     exit;
 }
 
@@ -25,5 +25,5 @@ $_SESSION['username'] = $user['nome_utilizador'];
 $_SESSION['role'] = $user['papel'];
 $_SESSION['name'] = $user['nome'];
 
-header('Location: ../perfil.php');
+header('Location: ../pages/perfil.php');
 exit;

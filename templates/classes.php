@@ -56,7 +56,7 @@ function output_class_card(array $class, array $enrolledClassIds, bool $isLogged
         <?php } elseif ($available <= 0) { ?>
             <p class="estado-aula">Aula cheia.</p>
         <?php } else { ?>
-            <form action="actions/action_enroll_class.php" method="post">
+            <form action="../actions/action_enroll_class.php" method="post">
                 <input type="hidden" name="class_id" value="<?= $classId ?>">
                 <button type="submit" class="botao amarelo largo">Inscrever-me</button>
             </form>

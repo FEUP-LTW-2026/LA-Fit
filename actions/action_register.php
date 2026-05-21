@@ -8,18 +8,18 @@ $requiredFields = ['first_name', 'last_name', 'username', 'password', 'email', '
 
 foreach ($requiredFields as $field) {
     if (trim($_POST[$field] ?? '') === '') {
-        header('Location: ../inscricao.php?erro=campos');
+        header('Location: ../pages/inscricao.php?erro=campos');
         exit;
     }
 }
 
 if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-    header('Location: ../inscricao.php?erro=email');
+    header('Location: ../pages/inscricao.php?erro=email');
     exit;
 }
 
 if (!isset($_POST['terms'])) {
-    header('Location: ../inscricao.php?erro=termos');
+    header('Location: ../pages/inscricao.php?erro=termos');
     exit;
 }
 
@@ -41,7 +41,7 @@ try {
         'gym_id' => (int)$_POST['gym_id'],
     ]);
 } catch (Exception $exception) {
-    header('Location: ../inscricao.php?erro=existe');
+    header('Location: ../pages/inscricao.php?erro=existe');
     exit;
 }
 
@@ -51,5 +51,5 @@ $_SESSION['username'] = $user['nome_utilizador'];
 $_SESSION['role'] = $user['papel'];
 $_SESSION['name'] = $user['nome'];
 
-header('Location: ../perfil.php');
+header('Location: ../pages/perfil.php');
 exit;

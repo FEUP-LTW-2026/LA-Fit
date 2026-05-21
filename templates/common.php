@@ -30,7 +30,7 @@ function output_header(string $title = 'LAFit', string $activePage = 'home', arr
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= h($title) ?></title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <?php foreach ($extraCss as $css) { ?>
         <link rel="stylesheet" href="<?= h($css) ?>">
     <?php } ?>
@@ -47,7 +47,7 @@ function output_header(string $title = 'LAFit', string $activePage = 'home', arr
     <header class="cabecalho">
         <div class="conteudo linha-cabecalho">
             <a href="index.php" class="logo">
-                <img src="images/logo.png" alt="Logo da LAFit" class="logo-img">
+                <img src="../images/logo.png" alt="Logo da LAFit" class="logo-img">
                 <span class="logo-nome">LAFit</span>
             </a>
 
@@ -62,7 +62,7 @@ function output_header(string $title = 'LAFit', string $activePage = 'home', arr
             <div class="ações-topo">
                 <?php if ($loggedIn) { ?>
                     <a href="perfil.php" class="botao cliente">Olá, <?= h($_SESSION['username']) ?></a>
-                    <a href="actions/action_logout.php" class="botao amarelo">Sair</a>
+                    <a href="../actions/action_logout.php" class="botao amarelo">Sair</a>
                 <?php } else { ?>
                     <a href="login.php" class="botao cliente">Área Cliente</a>
                     <a href="inscricao.php" class="botao amarelo">Aderir agora</a>
