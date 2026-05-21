@@ -53,6 +53,7 @@ function drawHeader(string $title = 'LAFit', string $activePage = 'home', array 
 
             <nav class="menu">
                 <a href="index.php" class="<?= $activePage === 'home' ? 'ativo' : '' ?>">Início</a>
+                <a href="index.php#vantagens">Vantagens</a>
                 <a href="aulas.php" class="<?= $activePage === 'aulas' ? 'ativo' : '' ?>">Aulas</a>
                 <?php if (!$loggedIn) { ?>
                     <a href="index.php#planos">Planos</a>

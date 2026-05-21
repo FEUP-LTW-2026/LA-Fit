@@ -76,6 +76,24 @@ function drawHome(array $plans, array $gyms, array $classes): void
                         <h3>Aulas de grupo</h3>
                         <p>Participa em várias modalidades ao longo da semana.</p>
                     </article>
+
+                    <article class="vantagem">
+                        <div class="icone"><i class="fa-solid fa-wifi"></i></div>
+                        <h3>Wifi grátis</h3>
+                        <p>Fica ligado enquanto treinas ou acompanhas os teus planos.</p>
+                    </article>
+
+                    <article class="vantagem">
+                        <div class="icone"><i class="fa-solid fa-shower"></i></div>
+                        <h3>Balneários modernos</h3>
+                        <p>Usa os balneários, chuveiros e cacifos com comodidade.</p>
+                    </article>
+
+                    <article class="vantagem">
+                        <div class="icone"><i class="fa-solid fa-lock-open"></i></div>
+                        <h3>Sem permanência</h3>
+                        <p>Escolhe o teu plano com liberdade e sem complicações.</p>
+                    </article>
                 </div>
             </div>
         </section>
