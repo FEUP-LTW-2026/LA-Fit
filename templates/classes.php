@@ -1,5 +1,5 @@
 <?php
-function drawClassesPage(array $classes, array $enrolledClassIds): void
+function drawClassesPage(array $classes, array $enrolledClassIds, array $filters = [], array $filterOptions = []): void
 {
     $isLoggedIn = isset($_SESSION['username']);
     $isMember = ($_SESSION['role'] ?? '') === 'membro';
@@ -20,12 +20,86 @@ function drawClassesPage(array $classes, array $enrolledClassIds): void
                     <p class="mensagem erro">Não foi possível fazer essa inscrição.</p>
                 <?php } ?>
 
-                <div class="grelha-aulas">
-                    <?php foreach ($classes as $class) drawClassCard($class, $enrolledClassIds, $isLoggedIn, $isMember); ?>
-                </div>
+                <?php drawClassFilters($filters, $filterOptions); ?>
+
+                <?php if (count($classes) === 0) { ?>
+                    <div class="class-empty-state">
+                        <h2>Nao encontramos aulas com esses filtros.</h2>
+                        <p>Experimenta ajustar o tipo, treinador, dia ou hora para veres mais opcoes.</p>
+                        <a href="aulas.php" class="botao cliente">Limpar filtros</a>
+                    </div>
+                <?php } else { ?>
+                    <div class="grelha-aulas">
+                        <?php foreach ($classes as $class) drawClassCard($class, $enrolledClassIds, $isLoggedIn, $isMember); ?>
+                    </div>
+                <?php } ?>
             </div>
         </section>
     </main>
+<?php
+}
+
+function drawClassFilters(array $filters, array $filterOptions): void
+{
+    $days = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
+    $types = $filterOptions['types'] ?? [];
+    $trainers = $filterOptions['trainers'] ?? [];
+    $times = $filterOptions['times'] ?? [];
+?>
+    <form class="class-filters" action="aulas.php" method="get">
+        <div class="filter-field">
+            <label for="type">Tipo</label>
+            <select id="type" name="type">
+                <option value="">Todos</option>
+                <?php foreach ($types as $type) { ?>
+                    <option value="<?= h($type['tipo']) ?>" <?= ($filters['type'] ?? '') === $type['tipo'] ? 'selected' : '' ?>>
+                        <?= h($type['nome']) ?>
+                    </option>
+                <?php } ?>
+            </select>
+        </div>
+
+        <div class="filter-field">
+            <label for="trainer">Treinador</label>
+            <select id="trainer" name="trainer">
+                <option value="">Todos</option>
+                <?php foreach ($trainers as $trainer) { ?>
+                    <option value="<?= (int)$trainer['id'] ?>" <?= (string)($filters['trainer'] ?? '') === (string)$trainer['id'] ? 'selected' : '' ?>>
+                        <?= h($trainer['nome']) ?>
+                    </option>
+                <?php } ?>
+            </select>
+        </div>
+
+        <div class="filter-field">
+            <label for="day">Dia</label>
+            <select id="day" name="day">
+                <option value="">Todos</option>
+                <?php foreach ($days as $day) { ?>
+                    <option value="<?= h($day) ?>" <?= ($filters['day'] ?? '') === $day ? 'selected' : '' ?>>
+                        <?= h(formatClassDay($day)) ?>
+                    </option>
+                <?php } ?>
+            </select>
+        </div>
+
+        <div class="filter-field">
+            <label for="time">Hora</label>
+            <select id="time" name="time">
+                <option value="">Todas</option>
+                <?php foreach ($times as $time) { ?>
+                    <option value="<?= h($time) ?>" <?= ($filters['time'] ?? '') === $time ? 'selected' : '' ?>>
+                        <?= h($time) ?>
+                    </option>
+                <?php } ?>
+            </select>
+        </div>
+
+        <div class="filter-actions">
+            <button type="submit" class="botao amarelo">Filtrar</button>
+            <a href="aulas.php" class="botao cliente">Limpar</a>
+        </div>
+    </form>
 <?php
 }
 
