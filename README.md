@@ -69,15 +69,11 @@ Main PHP pages:
 ltw-project-ltw05g05/
 ├── actions/                  # Form handlers and session actions
 ├── css/                      # Stylesheets for the website
-├── database/                 # SQLite schema and seed data
-├── html/                     # Old static HTML mockups kept for reference
+├── database/                 # SQLite schema, data and PHP DB helpers
 ├── images/                   # Images used in the pages
+├── pages/                    # Public PHP pages
 ├── templates/                # Reusable PHP templates
-├── index.php                 # Main page
-├── aulas.php                 # Class schedule page
-├── login.php                 # Client login page
-├── inscricao.php             # Registration page
-├── perfil.php                # Client profile page
 ├── README.md                 # Project overview and running instructions
 └── .gitignore                # Git ignore rules
 ```
+
