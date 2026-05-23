@@ -18,7 +18,7 @@
 - [ ] Enroll in and cancel enrollment from upcoming classes, subject to capacity limits.
 - [ ] View trainer profiles, including their specializations and the classes they teach.
 - [ ] Check the current availability of equipment in the main training area.
-- [ ] Leave ratings and reviews for classes they have attended.
+- [X] Leave ratings and reviews for classes they have attended.
 
 **Trainers:**
 - [ ] Manage their public profile, including bio, specializations, and certifications.
@@ -76,4 +76,3 @@ ltw-project-ltw05g05/
 ├── README.md                 # Project overview and running instructions
 └── .gitignore                # Git ignore rules
 ```
-

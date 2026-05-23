@@ -284,12 +284,48 @@
     margin-bottom: 4px;
 }
 
+.inscricao .estado-presenca {
+    color: #6c5600;
+    font-weight: bold;
+}
+
 .inscricao form {
     margin-top: auto;
 }
 
 .inscricao .botao {
     width: 100%;
+}
+
+.form-avaliacao {
+    display: grid;
+    gap: 8px;
+    margin-top: 0;
+}
+
+.form-avaliacao label {
+    color: var(--cinzento-escuro);
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.form-avaliacao select,
+.form-avaliacao textarea {
+    width: 100%;
+    border: 1px solid #d0d0d0;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px;
+}
+
+.form-avaliacao textarea {
+    min-height: 78px;
+    resize: vertical;
+}
+
+.form-avaliacao + form {
+    margin-top: 0;
 }
 
 @media (max-width: 1000px) {

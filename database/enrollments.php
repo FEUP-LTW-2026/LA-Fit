@@ -17,6 +17,7 @@ function getEnrollmentsForUsername(PDO $db, string $username): array
 {
     $stmt = $db->prepare(
         'SELECT inscricoes_aulas.id AS inscricao_id,
+                inscricoes_aulas.estado AS inscricao_estado,
                 aulas.*,
                 ginasios.nome AS ginasio_nome,
                 utilizadores.nome || " " || utilizadores.apelido AS treinador_nome
@@ -28,7 +29,7 @@ function getEnrollmentsForUsername(PDO $db, string $username): array
          JOIN treinadores ON treinadores.id = aulas.treinador_id
          JOIN utilizadores ON utilizadores.id = treinadores.utilizador_id
          WHERE membro_user.nome_utilizador = ?
-           AND inscricoes_aulas.estado = "inscrito"
+           AND inscricoes_aulas.estado IN ("inscrito", "presente")
          ORDER BY
             CASE aulas.dia_semana
                 WHEN "segunda" THEN 1

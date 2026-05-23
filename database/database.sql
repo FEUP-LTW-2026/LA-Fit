@@ -162,6 +162,8 @@ INSERT INTO aulas (nome, tipo, descricao, treinador_id, ginasio_id, dia_semana, 
     ('Karaté', 'karate', 'Aula de artes marciais focada em técnica, disciplina e defesa pessoal.', 1, 4, 'sexta', '18:30', '19:30', 18, 'Sala 2', 'agendada'),
     ('Funcional', 'funcional', 'Treino funcional com exercícios de força, equilíbrio e coordenação para todos os níveis.', 1, 1, 'sabado', '10:00', '11:00', 20, 'Sala Funcional', 'agendada');
 
+INSERT INTO inscricoes_aulas (membro_id, aula_id, estado) VALUES
+    (1, 1, 'presente');
 
 INSERT INTO equipamentos (nome, zona, estado, quantidade) VALUES
     ('Passadeira', 'Cardio', 'disponivel', 12),
