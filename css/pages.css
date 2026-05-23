@@ -27,13 +27,15 @@
 }
 
 .pagina-aulas,
-.pagina-perfil {
+.pagina-perfil,
+.pagina-avaliacao {
     background-color: var(--cinzento-claro);
     min-height: 70vh;
 }
 
 .pagina-aulas .titulo h1,
-.pagina-perfil .titulo h1 {
+.pagina-perfil .titulo h1,
+.pagina-avaliacao .titulo h1 {
     font-size: 48px;
     margin-bottom: 14px;
 }
@@ -94,6 +96,18 @@
 .estado-aula.inscrito {
     background-color: #fff4c2;
     color: #6c5600;
+}
+
+.convite-avaliacao {
+    border-top: 1px solid var(--borda-suave);
+    margin: 22px 0;
+    padding-top: 18px;
+}
+
+.convite-avaliacao h3 {
+    color: var(--preto);
+    font-size: 18px;
+    margin-bottom: 12px;
 }
 
 .perfil-grid {
@@ -297,35 +311,40 @@
     width: 100%;
 }
 
-.form-avaliacao {
+.painel-avaliacao {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.painel-avaliacao > p {
+    color: var(--cinzento);
+    margin-bottom: 20px;
+}
+
+.form-avaliacao-pagina {
     display: grid;
-    gap: 8px;
-    margin-top: 0;
+    gap: 22px;
 }
 
-.form-avaliacao label {
-    color: var(--cinzento-escuro);
-    font-size: 13px;
+.form-avaliacao-pagina .campo label {
+    display: block;
     font-weight: bold;
+    margin-bottom: 8px;
 }
 
-.form-avaliacao select,
-.form-avaliacao textarea {
+.form-avaliacao-pagina .campo select,
+.form-avaliacao-pagina .campo textarea {
     width: 100%;
-    border: 1px solid #d0d0d0;
+    border: 1px solid #cccccc;
     border-radius: 8px;
     font-family: Arial, sans-serif;
-    font-size: 14px;
-    padding: 10px;
+    font-size: 16px;
+    padding: 14px;
 }
 
-.form-avaliacao textarea {
-    min-height: 78px;
+.form-avaliacao-pagina .campo textarea {
+    min-height: 150px;
     resize: vertical;
-}
-
-.form-avaliacao + form {
-    margin-top: 0;
 }
 
 @media (max-width: 1000px) {
@@ -342,7 +361,8 @@
     }
 
     .pagina-aulas .titulo h1,
-    .pagina-perfil .titulo h1 {
+    .pagina-perfil .titulo h1,
+    .pagina-avaliacao .titulo h1 {
         font-size: 36px;
     }
 

@@ -1,5 +1,5 @@
 <?php
-function drawProfilePage(array $user, ?array $member, array $enrollments, array $reviews = [], array $messages = []): void
+function drawProfilePage(array $user, ?array $member, array $enrollments, array $messages = []): void
 {
     $weekDays = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
     $enrollmentsByDay = [];
@@ -154,7 +154,6 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                                     <?php } else { ?>
                                         <div class="aulas-dia-lista">
                                             <?php foreach ($enrollmentsByDay[$day] as $enrollment) { ?>
-                                                <?php $review = $reviews[(int)$enrollment['id']] ?? null; ?>
                                                 <article class="inscricao">
                                                     <div>
                                                         <p class="aula-dia"><?= h($enrollment['inicio']) ?> - <?= h($enrollment['fim']) ?></p>
@@ -165,25 +164,6 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                                                             <p class="estado-presenca">Aula frequentada</p>
                                                         <?php } ?>
                                                     </div>
-
-                                                    <form action="../actions/action_review_class.php" method="post" class="form-avaliacao">
-                                                        <input type="hidden" name="class_id" value="<?= (int)$enrollment['id'] ?>">
-
-                                                        <label for="rating-<?= (int)$enrollment['id'] ?>">Avaliação</label>
-                                                        <select id="rating-<?= (int)$enrollment['id'] ?>" name="rating" required>
-                                                            <option value="">Escolher</option>
-                                                            <?php for ($rating = 5; $rating >= 1; $rating--) { ?>
-                                                                <option value="<?= $rating ?>" <?= $review && (int)$review['classificacao'] === $rating ? 'selected' : '' ?>>
-                                                                    <?= $rating ?> estrela<?= $rating === 1 ? '' : 's' ?>
-                                                                </option>
-                                                            <?php } ?>
-                                                        </select>
-
-                                                        <label for="comment-<?= (int)$enrollment['id'] ?>">Comentário</label>
-                                                        <textarea id="comment-<?= (int)$enrollment['id'] ?>" name="comment" rows="3" placeholder="Como correu a aula?"><?= h($review['comentario'] ?? '') ?></textarea>
-
-                                                        <button type="submit" class="botao amarelo">Guardar avaliação</button>
-                                                    </form>
 
                                                     <?php if (($enrollment['inscricao_estado'] ?? '') === 'inscrito') { ?>
                                                         <form action="../actions/action_cancel_enrollment.php" method="post">

@@ -123,7 +123,7 @@ CREATE TABLE avaliacoes (
         REFERENCES membros(id) ON UPDATE CASCADE ON DELETE CASCADE,
     aula_id INTEGER NOT NULL
         REFERENCES aulas(id) ON UPDATE CASCADE ON DELETE CASCADE,
-    classificacao INTEGER NOT NULL CHECK (classificacao BETWEEN 1 AND 5),
+    classificacao INTEGER NOT NULL CHECK (classificacao BETWEEN 1 AND 10),
     comentario TEXT,
     criada_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (membro_id, aula_id)
@@ -172,4 +172,4 @@ INSERT INTO equipamentos (nome, zona, estado, quantidade) VALUES
     ('Máquina de remo', 'Funcional', 'manutencao', 2);
 
 INSERT INTO avaliacoes (membro_id, aula_id, classificacao, comentario) VALUES
-    (1, 1, 5, 'Aula intensa e bem acompanhada.');
+    (1, 1, 9, 'Aula intensa e bem acompanhada.');

@@ -14,8 +14,8 @@ $classId = (int)($_POST['class_id'] ?? 0);
 $rating = (int)($_POST['rating'] ?? 0);
 $comment = trim($_POST['comment'] ?? '');
 
-if ($classId <= 0 || $rating < 1 || $rating > 5) {
-    header('Location: ../pages/perfil.php?erro=avaliacao');
+if ($classId <= 0 || $rating < 1 || $rating > 10) {
+    header('Location: ../pages/avaliacao.php?erro=1');
     exit;
 }
 
@@ -23,9 +23,9 @@ $db = getDatabaseConnection();
 $memberId = getMemberIdForUsername($db, $_SESSION['username']);
 
 if (!$memberId || !saveClassReview($db, $memberId, $classId, $rating, $comment)) {
-    header('Location: ../pages/perfil.php?erro=avaliacao');
+    header('Location: ../pages/avaliacao.php?erro=1');
     exit;
 }
 
-header('Location: ../pages/perfil.php?sucesso=avaliacao');
+header('Location: ../pages/avaliacao.php?sucesso=1&class_id=' . $classId);
 exit;

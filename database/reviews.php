@@ -1,19 +1,37 @@
 <?php
-function getReviewsForMember(PDO $db, int $memberId): array
+function getReviewableClassesForMember(PDO $db, int $memberId): array
 {
     $stmt = $db->prepare(
-        'SELECT *
-         FROM avaliacoes
-         WHERE membro_id = ?'
+        'SELECT aulas.*,
+                ginasios.nome AS ginasio_nome,
+                utilizadores.nome || " " || utilizadores.apelido AS treinador_nome,
+                avaliacoes.classificacao,
+                avaliacoes.comentario
+         FROM inscricoes_aulas
+         JOIN aulas ON aulas.id = inscricoes_aulas.aula_id
+         JOIN ginasios ON ginasios.id = aulas.ginasio_id
+         JOIN treinadores ON treinadores.id = aulas.treinador_id
+         JOIN utilizadores ON utilizadores.id = treinadores.utilizador_id
+         LEFT JOIN avaliacoes
+            ON avaliacoes.aula_id = aulas.id
+           AND avaliacoes.membro_id = inscricoes_aulas.membro_id
+         WHERE inscricoes_aulas.membro_id = ?
+           AND inscricoes_aulas.estado = "presente"
+         ORDER BY
+            CASE aulas.dia_semana
+                WHEN "segunda" THEN 1
+                WHEN "terca" THEN 2
+                WHEN "quarta" THEN 3
+                WHEN "quinta" THEN 4
+                WHEN "sexta" THEN 5
+                WHEN "sabado" THEN 6
+                ELSE 7
+            END,
+            aulas.inicio'
     );
     $stmt->execute([$memberId]);
 
-    $reviews = [];
-    foreach ($stmt->fetchAll() as $review) {
-        $reviews[(int)$review['aula_id']] = $review;
-    }
-
-    return $reviews;
+    return $stmt->fetchAll();
 }
 
 function memberCanReviewClass(PDO $db, int $memberId, int $classId): bool
@@ -23,7 +41,7 @@ function memberCanReviewClass(PDO $db, int $memberId, int $classId): bool
          FROM inscricoes_aulas
          WHERE membro_id = ?
            AND aula_id = ?
-           AND estado IN ("inscrito", "presente")
+           AND estado = "presente"
          LIMIT 1'
     );
     $stmt->execute([$memberId, $classId]);
@@ -33,7 +51,7 @@ function memberCanReviewClass(PDO $db, int $memberId, int $classId): bool
 
 function saveClassReview(PDO $db, int $memberId, int $classId, int $rating, string $comment): bool
 {
-    if ($rating < 1 || $rating > 5 || !memberCanReviewClass($db, $memberId, $classId)) {
+    if ($rating < 1 || $rating > 10 || !memberCanReviewClass($db, $memberId, $classId)) {
         return false;
     }
 

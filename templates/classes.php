@@ -47,6 +47,11 @@ function drawClassCard(array $class, array $enrolledClassIds, bool $isLoggedIn, 
             <span><i class="fa-solid fa-users"></i> <?= $available ?> vagas</span>
         </div>
 
+        <div class="convite-avaliacao">
+            <h3>Já foi a uma destas? Deixe a sua opinião</h3>
+            <a href="avaliacao.php?class_id=<?= $classId ?>" class="botao amarelo largo">Dar opinião</a>
+        </div>
+
         <?php if (!$isLoggedIn) { ?>
             <a href="login.php" class="botao cliente largo">Entrar para inscrever</a>
         <?php } elseif (!$isMember) { ?>
