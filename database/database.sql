@@ -123,7 +123,7 @@ CREATE TABLE avaliacoes (
         REFERENCES membros(id) ON UPDATE CASCADE ON DELETE CASCADE,
     aula_id INTEGER NOT NULL
         REFERENCES aulas(id) ON UPDATE CASCADE ON DELETE CASCADE,
-    classificacao INTEGER NOT NULL CHECK (classificacao BETWEEN 1 AND 5),
+    classificacao INTEGER NOT NULL CHECK (classificacao BETWEEN 1 AND 10),
     comentario TEXT,
     criada_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (membro_id, aula_id)
@@ -162,6 +162,8 @@ INSERT INTO aulas (nome, tipo, descricao, treinador_id, ginasio_id, dia_semana, 
     ('Karaté', 'karate', 'Aula de artes marciais focada em técnica, disciplina e defesa pessoal.', 1, 4, 'sexta', '18:30', '19:30', 18, 'Sala 2', 'agendada'),
     ('Funcional', 'funcional', 'Treino funcional com exercícios de força, equilíbrio e coordenação para todos os níveis.', 1, 1, 'sabado', '10:00', '11:00', 20, 'Sala Funcional', 'agendada');
 
+INSERT INTO inscricoes_aulas (membro_id, aula_id, estado) VALUES
+    (1, 1, 'presente');
 
 INSERT INTO equipamentos (nome, zona, estado, quantidade) VALUES
     ('Passadeira', 'Cardio', 'disponivel', 12),
@@ -170,4 +172,4 @@ INSERT INTO equipamentos (nome, zona, estado, quantidade) VALUES
     ('Máquina de remo', 'Funcional', 'manutencao', 2);
 
 INSERT INTO avaliacoes (membro_id, aula_id, classificacao, comentario) VALUES
-    (1, 1, 5, 'Aula intensa e bem acompanhada.');
+    (1, 1, 9, 'Aula intensa e bem acompanhada.');

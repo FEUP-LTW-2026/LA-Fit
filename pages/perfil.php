@@ -30,7 +30,9 @@ if ($member) {
 }
 
 $messages = [
-    'success' => isset($_GET['sucesso']) ? 'Perfil atualizado com sucesso.' : null,
+    'success' => match ($_GET['sucesso'] ?? '') {
+        default => isset($_GET['sucesso']) ? 'Perfil atualizado com sucesso.' : null,
+    },
     'error' => match ($_GET['erro'] ?? '') {
         'campos' => 'Preenche todos os campos obrigatórios.',
         'email' => 'Indica um email válido.',

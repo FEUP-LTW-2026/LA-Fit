@@ -160,12 +160,17 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                                                         <h4><?= h($enrollment['nome']) ?></h4>
                                                         <p><?= h($enrollment['ginasio_nome']) ?> · <?= h($enrollment['sala']) ?></p>
                                                         <p><?= h($enrollment['treinador_nome']) ?></p>
+                                                        <?php if (($enrollment['inscricao_estado'] ?? '') === 'presente') { ?>
+                                                            <p class="estado-presenca">Aula frequentada</p>
+                                                        <?php } ?>
                                                     </div>
 
-                                                    <form action="../actions/action_cancel_enrollment.php" method="post">
-                                                        <input type="hidden" name="class_id" value="<?= (int)$enrollment['id'] ?>">
-                                                        <button type="submit" class="botao claro-voltar">Cancelar</button>
-                                                    </form>
+                                                    <?php if (($enrollment['inscricao_estado'] ?? '') === 'inscrito') { ?>
+                                                        <form action="../actions/action_cancel_enrollment.php" method="post">
+                                                            <input type="hidden" name="class_id" value="<?= (int)$enrollment['id'] ?>">
+                                                            <button type="submit" class="botao claro-voltar">Cancelar</button>
+                                                        </form>
+                                                    <?php } ?>
                                                 </article>
                                             <?php } ?>
                                         </div>
