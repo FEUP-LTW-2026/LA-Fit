@@ -22,7 +22,7 @@
 
 **Trainers:**
 - [X] Manage their public profile, including bio, specializations, and certifications.
-- [ ] View the roster of members enrolled in their classes.
+- [X] View the roster of members enrolled in their classes.
 - [ ] Track and manage their assigned class schedule.
 
 **Admins:**

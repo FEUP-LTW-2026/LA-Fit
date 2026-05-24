@@ -116,7 +116,7 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
                                     <div class="meta-aula">
                                         <span><i class="fa-solid fa-location-dot"></i> <?= h($class['ginasio_nome']) ?></span>
                                         <span><i class="fa-solid fa-door-open"></i> <?= h($class['sala']) ?></span>
-                                        <span><i class="fa-solid fa-users"></i> <?= (int)$class['inscritos'] ?>/<?= (int)$class['lotacao'] ?> inscritos</span>
+                                        <span><i class="fa-solid fa-users"></i> <a href="class_roster.php?aula=<?= (int)$class['id'] ?>" class="link-amarelo"><?= (int)$class['inscritos'] ?>/<?= (int)$class['lotacao'] ?> inscritos</a></span>
                                     </div>
                                 </article>
                             <?php } ?>
