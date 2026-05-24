@@ -1,6 +1,34 @@
 <?php
 function getAllClasses(PDO $db): array
 {
+    return getFilteredClasses($db, []);
+}
+
+function getFilteredClasses(PDO $db, array $filters): array
+{
+    $where = ['aulas.estado = "agendada"'];
+    $params = [];
+
+    if (!empty($filters['type'])) {
+        $where[] = 'aulas.tipo = ?';
+        $params[] = $filters['type'];
+    }
+
+    if (!empty($filters['trainer'])) {
+        $where[] = 'treinadores.id = ?';
+        $params[] = (int)$filters['trainer'];
+    }
+
+    if (!empty($filters['day'])) {
+        $where[] = 'aulas.dia_semana = ?';
+        $params[] = $filters['day'];
+    }
+
+    if (!empty($filters['time'])) {
+        $where[] = 'aulas.inicio = ?';
+        $params[] = $filters['time'];
+    }
+
     $stmt = $db->prepare(
         'SELECT aulas.*,
                 ginasios.nome AS ginasio_nome,
@@ -11,7 +39,7 @@ function getAllClasses(PDO $db): array
          JOIN utilizadores ON utilizadores.id = treinadores.utilizador_id
          JOIN ginasios ON ginasios.id = aulas.ginasio_id
          LEFT JOIN inscricoes_aulas ON inscricoes_aulas.aula_id = aulas.id
-         WHERE aulas.estado = "agendada"
+         WHERE ' . implode(' AND ', $where) . '
          GROUP BY aulas.id
          ORDER BY
             CASE aulas.dia_semana
@@ -25,9 +53,61 @@ function getAllClasses(PDO $db): array
             END,
             aulas.inicio'
     );
+    $stmt->execute($params);
+
+    return $stmt->fetchAll();
+}
+
+function getClassFilterOptions(PDO $db): array
+{
+    return [
+        'types' => fetchClassTypes($db),
+        'trainers' => fetchClassTrainers($db),
+        'times' => fetchClassTimes($db),
+    ];
+}
+
+function fetchClassTypes(PDO $db): array
+{
+    $stmt = $db->prepare(
+        'SELECT tipo, MIN(nome) AS nome
+         FROM aulas
+         WHERE estado = "agendada"
+         GROUP BY tipo
+         ORDER BY nome'
+    );
     $stmt->execute();
 
     return $stmt->fetchAll();
+}
+
+function fetchClassTrainers(PDO $db): array
+{
+    $stmt = $db->prepare(
+        'SELECT DISTINCT treinadores.id,
+                utilizadores.nome || " " || utilizadores.apelido AS nome
+         FROM aulas
+         JOIN treinadores ON treinadores.id = aulas.treinador_id
+         JOIN utilizadores ON utilizadores.id = treinadores.utilizador_id
+         WHERE aulas.estado = "agendada"
+         ORDER BY nome'
+    );
+    $stmt->execute();
+
+    return $stmt->fetchAll();
+}
+
+function fetchClassTimes(PDO $db): array
+{
+    $stmt = $db->prepare(
+        'SELECT DISTINCT inicio
+         FROM aulas
+         WHERE estado = "agendada"
+         ORDER BY inicio'
+    );
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_COLUMN);
 }
 
 function getFeaturedClasses(PDO $db, int $limit = 3): array

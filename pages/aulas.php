@@ -9,7 +9,16 @@ require_once __DIR__ . '/../templates/common.php';
 require_once __DIR__ . '/../templates/classes.php';
 
 $db = getDatabaseConnection();
-$classes = getAllClasses($db);
+$allowedDays = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
+$filters = [
+    'type' => trim($_GET['type'] ?? ''),
+    'trainer' => filter_input(INPUT_GET, 'trainer', FILTER_VALIDATE_INT) ?: '',
+    'day' => in_array($_GET['day'] ?? '', $allowedDays, true) ? $_GET['day'] : '',
+    'time' => trim($_GET['time'] ?? ''),
+];
+
+$classes = getFilteredClasses($db, $filters);
+$filterOptions = getClassFilterOptions($db);
 $enrolledClassIds = [];
 
 if (isset($_SESSION['username']) && ($_SESSION['role'] ?? '') === 'membro') {
@@ -17,5 +26,5 @@ if (isset($_SESSION['username']) && ($_SESSION['role'] ?? '') === 'membro') {
 }
 
 drawHeader('Aulas - LAFit', 'aulas');
-drawClassesPage($classes, $enrolledClassIds);
+drawClassesPage($classes, $enrolledClassIds, $filters, $filterOptions);
 drawFooter();
