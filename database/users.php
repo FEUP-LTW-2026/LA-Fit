@@ -119,6 +119,23 @@ function getMemberByUsername(PDO $db, string $username): ?array
     return $member ?: null;
 }
 
+function getTrainerById(PDO $db, int $trainerId): ?array
+{
+    $stmt = $db->prepare(
+        'SELECT treinadores.*,
+                utilizadores.nome,
+                utilizadores.apelido,
+                utilizadores.fotografia
+         FROM treinadores
+         JOIN utilizadores ON utilizadores.id = treinadores.utilizador_id
+         WHERE treinadores.id = ?'
+    );
+    $stmt->execute([$trainerId]);
+    $trainer = $stmt->fetch();
+
+    return $trainer ?: null;
+}
+
 function getTrainerByUsername(PDO $db, string $username): ?array
 {
     $stmt = $db->prepare(

@@ -39,7 +39,7 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
                             <dd><?= h($user['email']) ?></dd>
                             <dt>Especializações</dt>
                             <dd><?= h($trainer['especializacoes'] ?? '-') ?></dd>
-                            <dt>Certificações</dt>
+                            <dt>Certificados</dt>
                             <dd><?= h($trainer['certificacoes'] ?? '-') ?></dd>
                         </dl>
                     </article>
@@ -83,7 +83,7 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
                                     <input type="text" id="specializations" name="specializations" value="<?= h($trainer['especializacoes'] ?? '') ?>">
                                 </div>
                                 <div class="campo campo-largo">
-                                    <label for="certifications">Certificações</label>
+                                    <label for="certifications">Certificados</label>
                                     <input type="text" id="certifications" name="certifications" value="<?= h($trainer['certificacoes'] ?? '') ?>">
                                 </div>
                             </div>
