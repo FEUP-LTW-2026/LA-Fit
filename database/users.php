@@ -119,6 +119,40 @@ function getMemberByUsername(PDO $db, string $username): ?array
     return $member ?: null;
 }
 
+function getTrainerByUsername(PDO $db, string $username): ?array
+{
+    $stmt = $db->prepare(
+        'SELECT treinadores.*,
+                utilizadores.nome,
+                utilizadores.apelido,
+                utilizadores.email,
+                utilizadores.nome_utilizador,
+                utilizadores.fotografia
+         FROM treinadores
+         JOIN utilizadores ON utilizadores.id = treinadores.utilizador_id
+         WHERE utilizadores.nome_utilizador = ?'
+    );
+    $stmt->execute([$username]);
+    $trainer = $stmt->fetch();
+
+    return $trainer ?: null;
+}
+
+function updateTrainerProfile(PDO $db, int $userId, int $trainerId, array $data): void
+{
+    $db->prepare(
+        'UPDATE utilizadores
+         SET nome = ?, apelido = ?, email = ?, fotografia = ?
+         WHERE id = ?'
+    )->execute([$data['first_name'], $data['last_name'], $data['email'], $data['photo'], $userId]);
+
+    $db->prepare(
+        'UPDATE treinadores
+         SET biografia = ?, especializacoes = ?, certificacoes = ?
+         WHERE id = ?'
+    )->execute([$data['bio'], $data['specializations'], $data['certifications'], $trainerId]);
+}
+
 function createMemberUser(PDO $db, array $data): int
 {
     $db->beginTransaction();

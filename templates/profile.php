@@ -19,7 +19,7 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
     $initials = strtoupper(substr($user['nome'], 0, 1) . substr($user['apelido'], 0, 1));
 ?>
     <main class="pagina-perfil">
-        <section class="secção">
+        <section class="seccao">
             <div class="conteudo">
                 <div class="titulo">
                     <p class="subtitulo">Área Cliente</p>

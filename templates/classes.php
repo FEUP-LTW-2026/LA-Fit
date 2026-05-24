@@ -5,7 +5,7 @@ function drawClassesPage(array $classes, array $enrolledClassIds, array $filters
     $isMember = ($_SESSION['role'] ?? '') === 'membro';
 ?>
     <main class="pagina-aulas">
-        <section class="secção">
+        <section class="seccao">
             <div class="conteudo">
                 <div class="titulo">
                     <p class="subtitulo">Horário</p>
