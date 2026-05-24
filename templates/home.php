@@ -47,7 +47,7 @@ function drawHome(array $plans, array $gyms, array $classes): void
         </section>
         <?php } ?>
 
-        <section class="secção secção-clara" id="vantagens">
+        <section class="seccao seccao-clara" id="vantagens">
             <div class="conteudo">
                 <div class="titulo">
                     <p class="subtitulo">Vantagens</p>
@@ -99,7 +99,7 @@ function drawHome(array $plans, array $gyms, array $classes): void
         </section>
 
         <?php if (!isset($_SESSION['username'])) { ?>
-        <section class="secção secção-escura" id="planos">
+        <section class="seccao seccao-escura" id="planos">
             <div class="conteudo">
                 <div class="titulo titulo-claro">
                     <p class="subtitulo">Planos</p>
@@ -114,7 +114,7 @@ function drawHome(array $plans, array $gyms, array $classes): void
         </section>
         <?php } ?>
 
-        <section class="secção secção-clara" id="espacos">
+        <section class="seccao seccao-clara" id="espacos">
             <div class="conteudo">
                 <div class="titulo">
                     <p class="subtitulo">Espaços</p>
@@ -154,7 +154,7 @@ function drawHome(array $plans, array $gyms, array $classes): void
             </div>
         </section>
 
-        <section class="secção" id="aulas-destaque">
+        <section class="seccao" id="aulas-destaque">
             <div class="conteudo">
                 <div class="titulo">
                     <p class="subtitulo">Aulas</p>
@@ -183,7 +183,7 @@ function drawHome(array $plans, array $gyms, array $classes): void
         </section>
 
         <?php if (!isset($_SESSION['username'])) { ?>
-        <section class="secção chamada-final">
+        <section class="seccao chamada-final">
             <div class="conteudo chamada">
                 <p class="subtitulo subtitulo-claro">Começa hoje</p>
                 <h2>Pronto para transformar a tua rotina?</h2>

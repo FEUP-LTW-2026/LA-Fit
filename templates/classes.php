@@ -5,7 +5,7 @@ function drawClassesPage(array $classes, array $enrolledClassIds, array $filters
     $isMember = ($_SESSION['role'] ?? '') === 'membro';
 ?>
     <main class="pagina-aulas">
-        <section class="secção">
+        <section class="seccao">
             <div class="conteudo">
                 <div class="titulo">
                     <p class="subtitulo">Horário</p>
@@ -116,7 +116,7 @@ function drawClassCard(array $class, array $enrolledClassIds, bool $isLoggedIn, 
 
         <div class="meta-aula">
             <span><i class="fa-solid fa-location-dot"></i> <?= h($class['ginasio_nome']) ?></span>
-            <span><i class="fa-solid fa-user"></i> <?= h($class['treinador_nome']) ?></span>
+            <span><i class="fa-solid fa-user"></i> <a href="profile_view.php?id=<?= (int)$class['treinador_id'] ?>" class="link-amarelo"><?= h($class['treinador_nome']) ?></a></span>
             <span><i class="fa-solid fa-door-open"></i> <?= h($class['sala']) ?></span>
             <span><i class="fa-solid fa-users"></i> <?= $available ?> vagas</span>
         </div>

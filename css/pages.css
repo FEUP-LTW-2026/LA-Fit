@@ -179,6 +179,18 @@
     margin-bottom: 24px;
 }
 
+.perfil-grid-lateral {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.perfil-grid-lateral .painel-principal {
+    grid-row: span 2;
+}
+
 .painel {
     background-color: var(--branco);
     border: 1px solid var(--borda-suave);

@@ -3,7 +3,7 @@ function drawLoginPage(?string $error = null): void
 {
 ?>
     <main class="pagina-cliente">
-        <section class="secção area-login">
+        <section class="seccao area-login">
             <div class="conteudo caixa-login">
                 <div class="texto-login">
                     <p class="subtitulo">Área Cliente</p>
@@ -54,7 +54,7 @@ function drawRegistrationPage(array $plans, array $gyms, ?string $error = null, 
 {
 ?>
     <main class="pagina-insc">
-        <section class="secção area-insc">
+        <section class="seccao area-insc">
             <div class="conteudo caixa-insc">
                 <div class="caixa">
                     <p class="subtitulo">Inscrição</p>

@@ -59,6 +59,38 @@ function getEnrolledClassIdsForUsername(PDO $db, string $username): array
     return $ids;
 }
 
+function getEnrolledMembersForClass(PDO $db, int $classId, int $trainerId): ?array
+{
+    $stmt = $db->prepare(
+        'SELECT 1 FROM aulas
+         JOIN treinadores ON treinadores.id = aulas.treinador_id
+         WHERE aulas.id = ? AND treinadores.id = ?'
+    );
+    $stmt->execute([$classId, $trainerId]);
+
+    if (!$stmt->fetch()) {
+        return null;
+    }
+
+    $stmt = $db->prepare(
+        'SELECT utilizadores.nome,
+                utilizadores.apelido,
+                utilizadores.nome_utilizador,
+                planos.nome AS plano_nome,
+                inscricoes_aulas.inscrito_em
+         FROM inscricoes_aulas
+         JOIN membros ON membros.id = inscricoes_aulas.membro_id
+         JOIN utilizadores ON utilizadores.id = membros.utilizador_id
+         LEFT JOIN planos ON planos.id = membros.plano_id
+         WHERE inscricoes_aulas.aula_id = ?
+           AND inscricoes_aulas.estado IN ("inscrito", "presente")
+         ORDER BY utilizadores.nome, utilizadores.apelido'
+    );
+    $stmt->execute([$classId]);
+
+    return $stmt->fetchAll();
+}
+
 function classHasAvailablePlace(PDO $db, int $classId): bool
 {
     $stmt = $db->prepare(

@@ -15,7 +15,7 @@ function drawReviewPage(array $classes, ?int $selectedClassId = null): void
     }
 ?>
     <main class="pagina-avaliacao">
-        <section class="secção">
+        <section class="seccao">
             <div class="conteudo">
                 <div class="titulo">
                     <p class="subtitulo">Opinião</p>
