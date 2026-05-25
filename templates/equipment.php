@@ -1,5 +1,5 @@
 <?php
-function drawEquipmentPage(array $equipmentByZone, array $summary): void
+function drawEquipmentPage(array $equipmentByZone, array $summary, array $filters = [], array $filterOptions = []): void
 {
 ?>
     <main class="pagina-equipamentos">
@@ -17,10 +17,13 @@ function drawEquipmentPage(array $equipmentByZone, array $summary): void
                     <?php drawEquipmentSummaryItem('manutencao', 'Manutenção', $summary['manutencao'] ?? 0, 'fa-screwdriver-wrench'); ?>
                 </div>
 
+                <?php drawEquipmentFilters($filters, $filterOptions); ?>
+
                 <?php if (count($equipmentByZone) === 0) { ?>
                     <div class="class-empty-state">
-                        <h2>Ainda não há equipamentos registados.</h2>
-                        <p>Assim que a sala principal for atualizada, a disponibilidade aparece aqui.</p>
+                        <h2>Nenhum equipamento encontrado com esses filtros.</h2>
+                        <p>Experimenta ajustar a zona ou o estado para veres mais opções.</p>
+                        <a href="equipamentos.php" class="botao cliente">Limpar filtros</a>
                     </div>
                 <?php } else { ?>
                     <div class="zonas-equipamentos">
@@ -41,6 +44,44 @@ function drawEquipmentPage(array $equipmentByZone, array $summary): void
             </div>
         </section>
     </main>
+<?php
+}
+
+function drawEquipmentFilters(array $filters, array $filterOptions, string $action = 'equipamentos.php'): void
+{
+    $zones = $filterOptions['zones'] ?? [];
+    $states = ['disponivel' => 'Disponível', 'ocupado' => 'Em uso', 'manutencao' => 'Manutenção'];
+?>
+    <form class="class-filters" action="<?= h($action) ?>" method="get">
+        <div class="filter-field">
+            <label for="eq-zona">Zona</label>
+            <select id="eq-zona" name="zona">
+                <option value="">Todas</option>
+                <?php foreach ($zones as $zone) { ?>
+                    <option value="<?= h($zone) ?>" <?= ($filters['zona'] ?? '') === $zone ? 'selected' : '' ?>>
+                        <?= h($zone) ?>
+                    </option>
+                <?php } ?>
+            </select>
+        </div>
+
+        <div class="filter-field">
+            <label for="eq-estado">Estado</label>
+            <select id="eq-estado" name="estado">
+                <option value="">Todos</option>
+                <?php foreach ($states as $key => $label) { ?>
+                    <option value="<?= h($key) ?>" <?= ($filters['estado'] ?? '') === $key ? 'selected' : '' ?>>
+                        <?= h($label) ?>
+                    </option>
+                <?php } ?>
+            </select>
+        </div>
+
+        <div class="filter-actions">
+            <button type="submit" class="botao amarelo">Filtrar</button>
+            <a href="<?= h($action) ?>" class="botao cliente">Limpar</a>
+        </div>
+    </form>
 <?php
 }
 

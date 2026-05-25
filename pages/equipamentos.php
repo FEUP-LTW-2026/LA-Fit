@@ -13,9 +13,17 @@ require_once __DIR__ . '/../templates/common.php';
 require_once __DIR__ . '/../templates/equipment.php';
 
 $db = getDatabaseConnection();
-$equipmentByZone = getEquipmentByZone($db);
+
+$allowedStates = ['disponivel', 'ocupado', 'manutencao'];
+$filters = [
+    'zona'   => trim($_GET['zona'] ?? ''),
+    'estado' => in_array($_GET['estado'] ?? '', $allowedStates, true) ? $_GET['estado'] : '',
+];
+
+$equipmentByZone = getFilteredEquipmentByZone($db, $filters);
 $summary = getEquipmentAvailabilitySummary($db);
+$filterOptions = getEquipmentFilterOptions($db);
 
 drawHeader('Equipamentos - LAFit', 'equipamentos');
-drawEquipmentPage($equipmentByZone, $summary);
+drawEquipmentPage($equipmentByZone, $summary, $filters, $filterOptions);
 drawFooter();

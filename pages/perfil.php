@@ -28,11 +28,19 @@ $member = getMemberByUsername($db, $_SESSION['username']);
 $enrollments = [];
 $equipmentByZone = [];
 $equipmentSummary = [];
+$equipmentFilters = [];
+$equipmentFilterOptions = [];
 
 if ($member) {
+    $allowedStates = ['disponivel', 'ocupado', 'manutencao'];
+    $equipmentFilters = [
+        'zona'   => trim($_GET['zona'] ?? ''),
+        'estado' => in_array($_GET['estado'] ?? '', $allowedStates, true) ? $_GET['estado'] : '',
+    ];
     $enrollments = getEnrollmentsForUsername($db, $_SESSION['username']);
-    $equipmentByZone = getEquipmentByZone($db);
+    $equipmentByZone = getFilteredEquipmentByZone($db, $equipmentFilters);
     $equipmentSummary = getEquipmentAvailabilitySummary($db);
+    $equipmentFilterOptions = getEquipmentFilterOptions($db);
 }
 
 $messages = [
@@ -53,5 +61,5 @@ $messages = [
 ];
 
 drawHeader('Perfil - LAFit', 'perfil');
-drawProfilePage($user, $member, $enrollments, $equipmentByZone, $equipmentSummary, $messages);
+drawProfilePage($user, $member, $enrollments, $equipmentByZone, $equipmentSummary, $equipmentFilters, $equipmentFilterOptions, $messages);
 drawFooter();

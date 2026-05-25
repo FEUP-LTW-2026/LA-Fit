@@ -1,5 +1,5 @@
 <?php
-function drawProfilePage(array $user, ?array $member, array $enrollments, array $equipmentByZone, array $summary, array $messages = []): void
+function drawProfilePage(array $user, ?array $member, array $enrollments, array $equipmentByZone, array $summary, array $equipmentFilters = [], array $equipmentFilterOptions = [], array $messages = []): void
 {
     $weekDays = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
     $enrollmentsByDay = [];
@@ -194,8 +194,10 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                         <?php drawEquipmentSummaryItem('manutencao', 'Manutenção', $summary['manutencao'] ?? 0, 'fa-screwdriver-wrench'); ?>
                     </div>
 
+                    <?php drawEquipmentFilters($equipmentFilters, $equipmentFilterOptions, 'perfil.php'); ?>
+
                     <?php if (count($equipmentByZone) === 0) { ?>
-                        <p>Ainda não há equipamentos registados.</p>
+                        <p>Nenhum equipamento encontrado com esses filtros.</p>
                     <?php } else { ?>
                         <div class="zonas-equipamentos">
                             <?php foreach ($equipmentByZone as $zone => $items) { ?>

@@ -23,6 +23,53 @@ function getEquipmentByZone(PDO $db): array
     return $zones;
 }
 
+function getFilteredEquipmentByZone(PDO $db, array $filters): array
+{
+    $conditions = [];
+    $params = [];
+
+    if (!empty($filters['zona'])) {
+        $conditions[] = 'zona = :zona';
+        $params[':zona'] = $filters['zona'];
+    }
+
+    if (!empty($filters['estado'])) {
+        $conditions[] = 'estado = :estado';
+        $params[':estado'] = $filters['estado'];
+    }
+
+    $where = $conditions ? 'WHERE ' . implode(' AND ', $conditions) : '';
+
+    $stmt = $db->prepare(
+        "SELECT id, nome, zona, estado, quantidade, atualizado_em
+         FROM equipamentos
+         $where
+         ORDER BY zona, nome"
+    );
+    $stmt->execute($params);
+
+    $zones = [];
+
+    foreach ($stmt->fetchAll() as $equipment) {
+        $zone = $equipment['zona'];
+
+        if (!isset($zones[$zone])) {
+            $zones[$zone] = [];
+        }
+
+        $zones[$zone][] = $equipment;
+    }
+
+    return $zones;
+}
+
+function getEquipmentFilterOptions(PDO $db): array
+{
+    $stmt = $db->prepare('SELECT DISTINCT zona FROM equipamentos ORDER BY zona');
+    $stmt->execute();
+    return ['zones' => $stmt->fetchAll(PDO::FETCH_COLUMN)];
+}
+
 function getEquipmentAvailabilitySummary(PDO $db): array
 {
     $stmt = $db->prepare(
