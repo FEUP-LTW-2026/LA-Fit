@@ -3,6 +3,7 @@ function drawClassesPage(array $classes, array $enrolledClassIds, array $filters
 {
     $isLoggedIn = isset($_SESSION['username']);
     $isMember = ($_SESSION['role'] ?? '') === 'membro';
+    $returnTo = 'aulas.php' . (!empty($_SERVER['QUERY_STRING']) ? '?' . $_SERVER['QUERY_STRING'] : '');
 ?>
     <main class="pagina-aulas">
         <section class="seccao">
@@ -30,7 +31,7 @@ function drawClassesPage(array $classes, array $enrolledClassIds, array $filters
                     </div>
                 <?php } else { ?>
                     <div class="grelha-aulas">
-                        <?php foreach ($classes as $class) drawClassCard($class, $enrolledClassIds, $isLoggedIn, $isMember); ?>
+                        <?php foreach ($classes as $class) drawClassCard($class, $enrolledClassIds, $isLoggedIn, $isMember, $returnTo); ?>
                     </div>
                 <?php } ?>
             </div>
@@ -103,7 +104,7 @@ function drawClassFilters(array $filters, array $filterOptions): void
 <?php
 }
 
-function drawClassCard(array $class, array $enrolledClassIds, bool $isLoggedIn, bool $isMember): void
+function drawClassCard(array $class, array $enrolledClassIds, bool $isLoggedIn, bool $isMember, string $returnTo): void
 {
     $classId = (int)$class['id'];
     $available = (int)$class['lotacao'] - (int)$class['inscritos'];
@@ -132,11 +133,17 @@ function drawClassCard(array $class, array $enrolledClassIds, bool $isLoggedIn, 
             <p class="estado-aula">Só membros podem inscrever-se em aulas.</p>
         <?php } elseif ($alreadyEnrolled) { ?>
             <p class="estado-aula inscrito">Já estás inscrito nesta aula.</p>
+            <form action="../actions/action_cancel_enrollment.php" method="post">
+                <input type="hidden" name="class_id" value="<?= $classId ?>">
+                <input type="hidden" name="return_to" value="<?= h($returnTo) ?>">
+                <button type="submit" class="botao cliente largo">Cancelar inscrição</button>
+            </form>
         <?php } elseif ($available <= 0) { ?>
             <p class="estado-aula">Aula cheia.</p>
         <?php } else { ?>
             <form action="../actions/action_enroll_class.php" method="post">
                 <input type="hidden" name="class_id" value="<?= $classId ?>">
+                <input type="hidden" name="return_to" value="<?= h($returnTo) ?>">
                 <button type="submit" class="botao amarelo largo">Inscrever-me</button>
             </form>
         <?php } ?>

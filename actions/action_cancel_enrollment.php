@@ -10,9 +10,10 @@ require_once __DIR__ . '/../database/connection.php';
 require_once __DIR__ . '/../database/enrollments.php';
 
 $classId = (int)($_POST['class_id'] ?? 0);
+$returnTo = getEnrollmentReturnUrl($_POST['return_to'] ?? 'perfil.php');
 
 if ($classId <= 0) {
-    header('Location: ../pages/perfil.php');
+    header('Location: ' . addEnrollmentResult($returnTo, 'erro'));
     exit;
 }
 
@@ -23,5 +24,21 @@ if ($memberId) {
     cancelEnrollment($db, $memberId, $classId);
 }
 
-header('Location: ../pages/perfil.php');
+header('Location: ' . addEnrollmentResult($returnTo, 'sucesso'));
 exit;
+
+function getEnrollmentReturnUrl(string $returnTo): string
+{
+    if (preg_match('/^(aulas|perfil)\.php(\?[A-Za-z0-9_=&%.-]*)?$/', $returnTo)) {
+        return '../pages/' . $returnTo;
+    }
+
+    return '../pages/perfil.php';
+}
+
+function addEnrollmentResult(string $url, string $result): string
+{
+    $separator = str_contains($url, '?') ? '&' : '?';
+
+    return $url . $separator . $result . '=1';
+}

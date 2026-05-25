@@ -168,6 +168,7 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                                                     <?php if (($enrollment['inscricao_estado'] ?? '') === 'inscrito') { ?>
                                                         <form action="../actions/action_cancel_enrollment.php" method="post">
                                                             <input type="hidden" name="class_id" value="<?= (int)$enrollment['id'] ?>">
+                                                            <input type="hidden" name="return_to" value="perfil.php">
                                                             <button type="submit" class="botao claro-voltar">Cancelar</button>
                                                         </form>
                                                     <?php } ?>
