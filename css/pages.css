@@ -296,7 +296,8 @@
     color: #8a1f1f;
 }
 
-.perfil-grid {
+.perfil-grid,
+.perfil-grid-lateral {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
@@ -304,11 +305,7 @@
 }
 
 .perfil-grid-lateral {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto auto;
-    gap: 24px;
-    margin-bottom: 24px;
 }
 
 .perfil-grid-lateral .painel-principal {
@@ -417,7 +414,6 @@
     border: 1px solid #cccccc;
     border-radius: 8px;
     font-size: 16px;
-    font-family: Arial, sans-serif;
 }
 
 .painel-editar-perfil .campo-largo {
@@ -536,7 +532,6 @@
     width: 100%;
     border: 1px solid #cccccc;
     border-radius: 8px;
-    font-family: Arial, sans-serif;
     font-size: 16px;
     padding: 14px;
 }
@@ -616,16 +611,11 @@
         text-align: center;
     }
 
-    .cabecalho-painel,
-    .inscricao {
+    .cabecalho-painel {
         align-items: flex-start;
     }
 
     .horario-inscricoes {
         grid-template-columns: repeat(7, 180px);
-    }
-
-    .inscricao {
-        align-items: stretch;
     }
 }

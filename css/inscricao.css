@@ -65,8 +65,7 @@
     border: 1px solid #cccccc;
     border-radius: 8px;
     font-size: 16px;
-    font-family: Arial, sans-serif;
-} 
+}
 
 .campo-largo {
     grid-column: 1 / -1;
@@ -83,13 +82,6 @@
 .termos input {
     width: auto;
     margin-top: 4px;
-}
-
-@media (max-width: 1000px) {
-    .caixa-insc {
-        display: flex;
-        justify-content: center;
-    }
 }
 
 @media (max-width: 700px) {

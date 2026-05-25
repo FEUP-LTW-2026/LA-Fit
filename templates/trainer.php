@@ -2,6 +2,15 @@
 function drawTrainerPage(array $user, array $trainer, array $classes, array $messages = []): void
 {
     $initials = strtoupper(substr($user['nome'], 0, 1) . substr($user['apelido'], 0, 1));
+
+    $weekDays = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
+    $classesByDay = array_fill_keys($weekDays, []);
+    foreach ($classes as $class) {
+        $day = $class['dia_semana'];
+        if (isset($classesByDay[$day])) {
+            $classesByDay[$day][] = $class;
+        }
+    }
 ?>
     <main class="pagina-perfil">
         <section class="seccao">
@@ -103,22 +112,40 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
                 </section>
 
                 <section class="painel painel-aulas">
-                    <h2>As tuas aulas</h2>
+                    <div class="cabecalho-painel">
+                        <h2>As tuas aulas</h2>
+                    </div>
+
                     <?php if (count($classes) === 0) { ?>
                         <p>Ainda não tens aulas atribuídas.</p>
                     <?php } else { ?>
-                        <div class="grelha-aulas">
-                            <?php foreach ($classes as $class) { ?>
-                                <article class="aula">
-                                    <p class="aula-dia"><?= h(formatClassDay($class['dia_semana'])) ?> · <?= h($class['inicio']) ?> - <?= h($class['fim']) ?></p>
-                                    <h3><?= h($class['nome']) ?></h3>
-                                    <p><?= h($class['descricao']) ?></p>
-                                    <div class="meta-aula">
-                                        <span><i class="fa-solid fa-location-dot"></i> <?= h($class['ginasio_nome']) ?></span>
-                                        <span><i class="fa-solid fa-door-open"></i> <?= h($class['sala']) ?></span>
-                                        <span><i class="fa-solid fa-users"></i> <a href="class_roster.php?aula=<?= (int)$class['id'] ?>" class="link-amarelo"><?= (int)$class['inscritos'] ?>/<?= (int)$class['lotacao'] ?> inscritos</a></span>
-                                    </div>
-                                </article>
+                        <div class="horario-inscricoes">
+                            <?php foreach ($weekDays as $day) { ?>
+                                <section class="dia-horario">
+                                    <h3><?= h(formatClassDay($day)) ?></h3>
+
+                                    <?php if (count($classesByDay[$day]) === 0) { ?>
+                                        <p class="sem-aulas-dia">Sem aulas</p>
+                                    <?php } else { ?>
+                                        <div class="aulas-dia-lista">
+                                            <?php foreach ($classesByDay[$day] as $class) { ?>
+                                                <article class="inscricao">
+                                                    <div>
+                                                        <p class="aula-dia"><?= h($class['inicio']) ?> - <?= h($class['fim']) ?></p>
+                                                        <h4><?= h($class['nome']) ?></h4>
+                                                        <p><?= h($class['ginasio_nome']) ?> · <?= h($class['sala']) ?></p>
+                                                        <p>
+                                                            <a href="class_roster.php?aula=<?= (int)$class['id'] ?>" class="link-amarelo">
+                                                                <i class="fa-solid fa-users"></i>
+                                                                <?= (int)$class['inscritos'] ?>/<?= (int)$class['lotacao'] ?> inscritos
+                                                            </a>
+                                                        </p>
+                                                    </div>
+                                                </article>
+                                            <?php } ?>
+                                        </div>
+                                    <?php } ?>
+                                </section>
                             <?php } ?>
                         </div>
                     <?php } ?>
