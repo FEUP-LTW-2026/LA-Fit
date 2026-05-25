@@ -28,14 +28,16 @@
 
 .pagina-aulas,
 .pagina-perfil,
-.pagina-avaliacao {
+.pagina-avaliacao,
+.pagina-equipamentos {
     background-color: var(--cinzento-claro);
     min-height: 70vh;
 }
 
 .pagina-aulas .titulo h1,
 .pagina-perfil .titulo h1,
-.pagina-avaliacao .titulo h1 {
+.pagina-avaliacao .titulo h1,
+.pagina-equipamentos .titulo h1 {
     font-size: 48px;
     margin-bottom: 14px;
 }
@@ -172,6 +174,128 @@
     margin-bottom: 12px;
 }
 
+.resumo-equipamentos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.resumo-equipamento {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background-color: var(--branco);
+    border: 1px solid var(--borda-suave);
+    border-radius: 8px;
+    padding: 22px;
+    box-shadow: var(--sombra-card);
+}
+
+.resumo-equipamento i {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    font-size: 20px;
+}
+
+.resumo-equipamento p {
+    color: var(--cinzento);
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.resumo-equipamento strong {
+    font-size: 30px;
+}
+
+.zonas-equipamentos {
+    display: grid;
+    gap: 24px;
+}
+
+.zona-equipamentos {
+    background-color: var(--branco);
+    border: 1px solid var(--borda-suave);
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: var(--sombra-card);
+}
+
+.cabecalho-zona {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.cabecalho-zona span {
+    color: var(--cinzento);
+    font-weight: bold;
+}
+
+.lista-equipamentos {
+    display: grid;
+    gap: 12px;
+}
+
+.equipamento {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: center;
+    border: 1px solid var(--borda-suave);
+    border-radius: 8px;
+    padding: 18px;
+}
+
+.equipamento h3 {
+    margin-bottom: 6px;
+}
+
+.equipamento p {
+    color: var(--cinzento);
+}
+
+.estado-equipamento {
+    min-width: 150px;
+    text-align: right;
+}
+
+.estado-equipamento span {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 7px 12px;
+    font-weight: bold;
+}
+
+.estado-equipamento small {
+    display: block;
+    color: var(--cinzento);
+    margin-top: 8px;
+}
+
+.estado-disponivel i,
+.estado-disponivel span {
+    background-color: #e8f7ea;
+    color: #1f6d2d;
+}
+
+.estado-ocupado i,
+.estado-ocupado span {
+    background-color: #fff4c2;
+    color: #6c5600;
+}
+
+.estado-manutencao i,
+.estado-manutencao span {
+    background-color: #ffe5e5;
+    color: #8a1f1f;
+}
+
 .perfil-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -252,7 +376,8 @@
     font-weight: bold;
 }
 
-.painel-editar-perfil {
+.painel-editar-perfil,
+.painel-aulas {
     margin-bottom: 24px;
 }
 
@@ -423,7 +548,8 @@
 
 @media (max-width: 1000px) {
     .grelha-aulas,
-    .perfil-grid {
+    .perfil-grid,
+    .resumo-equipamentos {
         grid-template-columns: 1fr 1fr;
     }
 
@@ -444,7 +570,8 @@
 
     .pagina-aulas .titulo h1,
     .pagina-perfil .titulo h1,
-    .pagina-avaliacao .titulo h1 {
+    .pagina-avaliacao .titulo h1,
+    .pagina-equipamentos .titulo h1 {
         font-size: 36px;
     }
 
@@ -463,6 +590,21 @@
 
     .class-filters {
         grid-template-columns: 1fr;
+    }
+
+    .resumo-equipamentos {
+        grid-template-columns: 1fr;
+    }
+
+    .cabecalho-zona,
+    .equipamento {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .estado-equipamento {
+        min-width: 0;
+        text-align: left;
     }
 
     .filter-actions {

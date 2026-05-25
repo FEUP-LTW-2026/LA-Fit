@@ -109,7 +109,28 @@ function classHasAvailablePlace(PDO $db, int $classId): bool
 
 function enrollMemberInClass(PDO $db, int $memberId, int $classId): bool
 {
-    if (!classHasAvailablePlace($db, $classId)) {
+    $db->beginTransaction();
+
+    $stmt = $db->prepare(
+        'SELECT aulas.lotacao,
+                COALESCE(SUM(CASE WHEN inscricoes_aulas.estado = "inscrito" THEN 1 ELSE 0 END), 0) AS inscritos,
+                MAX(CASE WHEN inscricoes_aulas.membro_id = ? THEN inscricoes_aulas.estado ELSE NULL END) AS estado_membro
+         FROM aulas
+         LEFT JOIN inscricoes_aulas ON inscricoes_aulas.aula_id = aulas.id
+         WHERE aulas.id = ?
+           AND aulas.estado = "agendada"
+         GROUP BY aulas.id'
+    );
+    $stmt->execute([$memberId, $classId]);
+    $class = $stmt->fetch();
+
+    if (!$class) {
+        $db->rollBack();
+        return false;
+    }
+
+    if (($class['estado_membro'] ?? null) !== 'inscrito' && (int)$class['inscritos'] >= (int)$class['lotacao']) {
+        $db->rollBack();
         return false;
     }
 
@@ -122,7 +143,12 @@ function enrollMemberInClass(PDO $db, int $memberId, int $classId): bool
             cancelado_em = NULL'
     );
 
-    return $stmt->execute([$memberId, $classId]);
+    if (!$stmt->execute([$memberId, $classId])) {
+        $db->rollBack();
+        return false;
+    }
+
+    return $db->commit();
 }
 
 function cancelEnrollment(PDO $db, int $memberId, int $classId): bool
@@ -132,7 +158,14 @@ function cancelEnrollment(PDO $db, int $memberId, int $classId): bool
          SET estado = "cancelado",
              cancelado_em = CURRENT_TIMESTAMP
          WHERE membro_id = ?
-           AND aula_id = ?'
+           AND aula_id = ?
+           AND estado = "inscrito"
+           AND EXISTS (
+                SELECT 1
+                FROM aulas
+                WHERE aulas.id = inscricoes_aulas.aula_id
+                  AND aulas.estado = "agendada"
+           )'
     );
 
     return $stmt->execute([$memberId, $classId]);

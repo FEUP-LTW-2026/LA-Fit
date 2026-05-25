@@ -169,7 +169,24 @@ INSERT INTO equipamentos (nome, zona, estado, quantidade) VALUES
     ('Passadeira', 'Cardio', 'disponivel', 12),
     ('Bicicleta estática', 'Cardio', 'disponivel', 10),
     ('Banco de supino', 'Musculação', 'ocupado', 4),
-    ('Máquina de remo', 'Funcional', 'manutencao', 2);
+    ('Máquina de remo', 'Funcional', 'manutencao', 2),
+    ('Polia', 'Musculação', 'disponivel', 4),
+    ('Remada convergente', 'Musculação', 'disponivel', 1),
+    ('Máquina de súpino vertical', 'Musculação', 'disponivel', 1),
+    ('Prensa de pernas', 'Musculação', 'disponivel', 2),
+    ('Puxada frontal', 'Musculação', 'disponivel', 2),
+    ('Barra guiada', 'Musculação', 'disponivel', 1),
+    ('Remada barra T', 'Musculação', 'disponivel', 1),
+    ('Remada frontal', 'Musculação', 'disponivel', 2),
+    ('Plataforma de Peso Livre', 'Funcional', 'disponivel', 4),
+    ('Barra de agachamento', 'Musculação', 'disponivel', 1),
+    ('Barra de agachamento', 'Musculação', 'ocupado', 1),
+    ('Agachamento guiado', 'Musculação', 'disponivel', 1),
+    ('Máquina de elevação lateral', 'Musculação', 'disponivel', 1),
+    ('Barra de elevações', 'Musculação', 'disponivel', 2),
+    ('Banco de abdominais', 'Funcional', 'disponivel', 1),
+    ('Banco de abdominais', 'Funcional', 'ocupado', 2),
+    ('Banco de fortalecimento do core', 'Funcional', 'disponivel', 2);
 
 INSERT INTO avaliacoes (membro_id, aula_id, classificacao, comentario) VALUES
     (1, 1, 9, 'Aula intensa e bem acompanhada.');
