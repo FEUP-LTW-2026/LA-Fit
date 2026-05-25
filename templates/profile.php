@@ -1,5 +1,5 @@
 <?php
-function drawProfilePage(array $user, ?array $member, array $enrollments, array $messages = []): void
+function drawProfilePage(array $user, ?array $member, array $enrollments, array $equipmentByZone, array $summary, array $messages = []): void
 {
     $weekDays = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
     $enrollmentsByDay = [];
@@ -181,6 +181,38 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                         </div>
                     <?php } ?>
                 </section>
+
+                <?php if ($member) { ?>
+                <section class="painel painel-equipamentos">
+                    <div class="cabecalho-painel">
+                        <h2>Equipamentos</h2>
+                    </div>
+
+                    <div class="resumo-equipamentos">
+                        <?php drawEquipmentSummaryItem('disponivel', 'Disponíveis', $summary['disponivel'] ?? 0, 'fa-circle-check'); ?>
+                        <?php drawEquipmentSummaryItem('ocupado', 'Em uso', $summary['ocupado'] ?? 0, 'fa-clock'); ?>
+                        <?php drawEquipmentSummaryItem('manutencao', 'Manutenção', $summary['manutencao'] ?? 0, 'fa-screwdriver-wrench'); ?>
+                    </div>
+
+                    <?php if (count($equipmentByZone) === 0) { ?>
+                        <p>Ainda não há equipamentos registados.</p>
+                    <?php } else { ?>
+                        <div class="zonas-equipamentos">
+                            <?php foreach ($equipmentByZone as $zone => $items) { ?>
+                                <section class="zona-equipamentos">
+                                    <div class="cabecalho-zona">
+                                        <h2><?= h($zone) ?></h2>
+                                        <span><?= count($items) ?> <?= count($items) === 1 ? 'equipamento' : 'equipamentos' ?></span>
+                                    </div>
+                                    <div class="lista-equipamentos">
+                                        <?php foreach ($items as $equipment) drawEquipmentItem($equipment); ?>
+                                    </div>
+                                </section>
+                            <?php } ?>
+                        </div>
+                    <?php } ?>
+                </section>
+                <?php } ?>
             </div>
         </section>
     </main>

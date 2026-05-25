@@ -9,9 +9,11 @@ if (!isset($_SESSION['username'])) {
 require_once __DIR__ . '/../database/connection.php';
 require_once __DIR__ . '/../database/users.php';
 require_once __DIR__ . '/../database/enrollments.php';
+require_once __DIR__ . '/../database/equipment.php';
 
 require_once __DIR__ . '/../templates/common.php';
 require_once __DIR__ . '/../templates/profile.php';
+require_once __DIR__ . '/../templates/equipment.php';
 
 $db = getDatabaseConnection();
 $user = getUserByUsername($db, $_SESSION['username']);
@@ -24,9 +26,13 @@ if (!$user) {
 
 $member = getMemberByUsername($db, $_SESSION['username']);
 $enrollments = [];
+$equipmentByZone = [];
+$equipmentSummary = [];
 
 if ($member) {
     $enrollments = getEnrollmentsForUsername($db, $_SESSION['username']);
+    $equipmentByZone = getEquipmentByZone($db);
+    $equipmentSummary = getEquipmentAvailabilitySummary($db);
 }
 
 $messages = [
@@ -47,5 +53,5 @@ $messages = [
 ];
 
 drawHeader('Perfil - LAFit', 'perfil');
-drawProfilePage($user, $member, $enrollments, $messages);
+drawProfilePage($user, $member, $enrollments, $equipmentByZone, $equipmentSummary, $messages);
 drawFooter();

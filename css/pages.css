@@ -376,7 +376,8 @@
     font-weight: bold;
 }
 
-.painel-editar-perfil {
+.painel-editar-perfil,
+.painel-aulas {
     margin-bottom: 24px;
 }
 
