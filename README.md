@@ -17,7 +17,7 @@
 - [X] Browse the schedule of available fitness classes, filtering by type, trainer, day, or time.
 - [X] Enroll in and cancel enrollment from upcoming classes, subject to capacity limits.
 - [X] View trainer profiles, including their specializations and the classes they teach.
-- [ ] Check the current availability of equipment in the main training area.
+- [X] Check the current availability of equipment in the main training area.
 - [X] Leave ratings and reviews for classes they have attended.
 
 **Trainers:**
