@@ -39,6 +39,10 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     redirectAdminCreate('erro', 'email');
 }
 
+if ($role === 'membro' && ($_POST['plan_id'] ?? '') === '') {
+    redirectAdminCreate('erro', 'plano');
+}
+
 $db = getDatabaseConnection();
 
 try {

@@ -33,7 +33,7 @@ function drawAdminPage(array $users, array $plans, array $gyms, ?array $editingU
                     <form action="<?= h($formAction) ?>" method="post">
                         <?php if ($isEditing) { ?>
                             <input type="hidden" name="user_id" value="<?= (int)$editingUser['id'] ?>">
-                            <input type="hidden" name="role" value="<?= h($selectedRole) ?>">
+                            <input type="hidden" id="role" name="role" value="<?= h($selectedRole) ?>">
                         <?php } ?>
 
                         <fieldset class="grupo">
@@ -84,12 +84,12 @@ function drawAdminPage(array $users, array $plans, array $gyms, ?array $editingU
                             </div>
                         </fieldset>
 
-                        <fieldset class="grupo">
+                        <fieldset class="grupo" id="fieldset-membro">
                             <legend>Dados de membro</legend>
                             <div class="campos">
                                 <div class="campo">
                                     <label for="plan_id">Plano</label>
-                                    <select id="plan_id" name="plan_id">
+                                    <select id="plan_id" name="plan_id" required>
                                         <option value="">Sem plano</option>
                                         <?php foreach ($plans as $plan) { ?>
                                             <option value="<?= (int)$plan['id'] ?>" <?= (int)($editingUser['plano_id'] ?? 0) === (int)$plan['id'] ? 'selected' : '' ?>>
@@ -112,7 +112,7 @@ function drawAdminPage(array $users, array $plans, array $gyms, ?array $editingU
                             </div>
                         </fieldset>
 
-                        <fieldset class="grupo">
+                        <fieldset class="grupo" id="fieldset-treinador">
                             <legend>Dados de treinador</legend>
                             <div class="campos">
                                 <div class="campo campo-largo">
@@ -132,6 +132,28 @@ function drawAdminPage(array $users, array $plans, array $gyms, ?array $editingU
 
                         <button type="submit" class="botao amarelo"><?= $isEditing ? 'Guardar alterações' : 'Criar conta' ?></button>
                     </form>
+
+                    <script>
+                    (function () {
+                        var roleEl = document.getElementById('role');
+                        var membroFieldset = document.getElementById('fieldset-membro');
+                        var treinadorFieldset = document.getElementById('fieldset-treinador');
+
+                        function update() {
+                            var role = roleEl.value;
+                            var isMembro = role === 'membro';
+                            membroFieldset.style.display = isMembro ? '' : 'none';
+                            treinadorFieldset.style.display = isMembro ? 'none' : '';
+                            var planSelect = document.getElementById('plan_id');
+                            if (planSelect) planSelect.required = isMembro;
+                        }
+
+                        update();
+                        if (roleEl.tagName === 'SELECT') {
+                            roleEl.addEventListener('change', update);
+                        }
+                    })();
+                    </script>
                 </section>
 
                 <section class="painel painel-admin-lista">

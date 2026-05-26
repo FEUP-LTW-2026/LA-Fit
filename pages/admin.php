@@ -44,6 +44,7 @@ $messages = [
         'estado' => 'Escolhe um estado válido.',
         'existe' => 'Já existe uma conta com esse username ou email.',
         'notfound' => 'Conta não encontrada.',
+        'plano' => 'Um membro tem de ter um plano associado.',
         default => null,
     },
 ];
