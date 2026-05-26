@@ -8,10 +8,46 @@
 }
 
 .mensagem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
     padding: 14px 18px;
     border-radius: 8px;
     margin-bottom: 22px;
     font-weight: bold;
+}
+
+.mensagem-fechar {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    padding: 0 4px;
+    color: inherit;
+    opacity: 0.6;
+    flex-shrink: 0;
+}
+
+.mensagem-fechar:hover {
+    opacity: 1;
+}
+
+/* Hover animation classes applied via JavaScript */
+.hover-lift {
+    transform: translateY(-5px);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.13);
+}
+
+.hover-highlight {
+    border-color: var(--amarelo);
+    background-color: #fffdf0;
+    transform: translateX(4px);
+}
+
+.hover-zoom {
+    background-size: 108% !important;
 }
 
 .mensagem.erro {
@@ -118,6 +154,7 @@
     border-radius: 12px;
     padding: 26px;
     box-shadow: var(--sombra-card);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .aula h2,
@@ -192,6 +229,7 @@
     border-radius: 8px;
     padding: 22px;
     box-shadow: var(--sombra-card);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .resumo-equipamento i {
@@ -252,6 +290,7 @@
     border: 1px solid var(--borda-suave);
     border-radius: 8px;
     padding: 18px;
+    transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
 }
 
 .equipamento h3 {
@@ -320,6 +359,7 @@
     border-radius: 12px;
     padding: 28px;
     box-shadow: var(--sombra-card);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .painel h2 {

@@ -34,6 +34,7 @@ function drawHeader(string $title = 'LAFit', string $activePage = 'home', array 
     <?php foreach ($extraCss as $css) { ?>
         <link rel="stylesheet" href="<?= h($css) ?>">
     <?php } ?>
+    <script src="../javascript/script.js" defer></script>
 </head>
 
 <body>

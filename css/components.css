@@ -134,6 +134,7 @@
     background-color: var(--branco);
     padding: 30px;
     border-radius: 12px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .vantagem h3 {
@@ -153,6 +154,11 @@
     border-radius: 50%;
     background-color: var(--amarelo);
     margin-bottom: 20px;
+    transition: transform 0.25s ease;
+}
+
+.hover-lift .icone {
+    transform: scale(1.15) rotate(6deg);
 }
 
 .icone i {
@@ -165,6 +171,7 @@
     border: 1px solid #333333;
     border-radius: 12px;
     padding: 30px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .destaque {

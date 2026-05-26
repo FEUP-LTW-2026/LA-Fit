@@ -133,27 +133,6 @@ function drawAdminPage(array $users, array $plans, array $gyms, ?array $editingU
                         <button type="submit" class="botao amarelo"><?= $isEditing ? 'Guardar alterações' : 'Criar conta' ?></button>
                     </form>
 
-                    <script>
-                    (function () {
-                        var roleEl = document.getElementById('role');
-                        var membroFieldset = document.getElementById('fieldset-membro');
-                        var treinadorFieldset = document.getElementById('fieldset-treinador');
-
-                        function update() {
-                            var role = roleEl.value;
-                            var isMembro = role === 'membro';
-                            membroFieldset.style.display = isMembro ? '' : 'none';
-                            treinadorFieldset.style.display = isMembro ? 'none' : '';
-                            var planSelect = document.getElementById('plan_id');
-                            if (planSelect) planSelect.required = isMembro;
-                        }
-
-                        update();
-                        if (roleEl.tagName === 'SELECT') {
-                            roleEl.addEventListener('change', update);
-                        }
-                    })();
-                    </script>
                 </section>
 
                 <section class="painel painel-admin-lista">
@@ -193,7 +172,7 @@ function drawAdminPage(array $users, array $plans, array $gyms, ?array $editingU
                                             <td>
                                                 <div class="admin-acoes">
                                                     <a href="admin.php?edit=<?= (int)$user['id'] ?>" class="botao claro-voltar">Editar</a>
-                                                    <form action="../actions/action_admin_toggle_user.php" method="post">
+                                                    <form action="../actions/action_admin_toggle_user.php" method="post" data-confirm="<?= $user['estado'] === 'ativo' ? 'Tens a certeza que queres desativar esta conta?' : 'Tens a certeza que queres ativar esta conta?' ?>">
                                                         <input type="hidden" name="user_id" value="<?= (int)$user['id'] ?>">
                                                         <input type="hidden" name="status" value="<?= $user['estado'] === 'ativo' ? 'inativo' : 'ativo' ?>">
                                                         <button type="submit" class="botao cliente">
