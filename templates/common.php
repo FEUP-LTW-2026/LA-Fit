@@ -59,9 +59,6 @@ function drawHeader(string $title = 'LAFit', string $activePage = 'home', array 
                 <?php } ?>
                 <a href="index.php#espacos">Espaços</a>
                 <a href="index.php#aulas-destaque" class="<?= $activePage === 'aulas' ? 'ativo' : '' ?>">Aulas</a>
-                <?php if (($_SESSION['role'] ?? '') === 'administrador') { ?>
-                    <a href="admin.php" class="<?= $activePage === 'admin' ? 'ativo' : '' ?>">Admin</a>
-                <?php } ?>
                 <a href="#contactos">Contactos</a>
             </nav>
 
