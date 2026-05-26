@@ -35,7 +35,7 @@
 **Extra:**
 - [X] Define tiered membership plans with different access levels, and allow members to subscribe to or upgrade their plan.
 - [ ] Admin Analytics Dashboard: Admins can view gym-wide metrics such as most popular classes, equipment usage, and member retention.
-- [ ] Disputes and Feedback: Members can report issues (e.g., equipment malfunction, class cancellations) and admins can manage and respond to these reports.
+- [X] Members can report issues (e.g., equipment malfunction, class cancellations) and admins can manage and respond to these reports.
 - [ ] Member Progress Tracking: Members can log workouts, set fitness goals, and track progress over time with charts or statistics.
 - [ ] Nutrition Plans: Trainers can create and assign nutrition plans to their members, with meal and calorie tracking.
 
@@ -56,10 +56,17 @@ Then open this link in the browser:
 Main PHP pages:
 
 - `index.php` - homepage with plans and featured classes from the database.
-- `aulas.php` - group class schedule and enrollments.
 - `login.php` - client login.
 - `inscricao.php` - member registration.
-- `perfil.php` - logged-in user area.
+- `perfil.php` - logged-in member area (profile, classes, equipment, reports).
+- `aulas.php` - group class schedule and enrollments.
+- `equipamentos.php` - equipment availability by zone.
+- `report.php` - submit and track issue reports.
+- `avaliacao.php` - rate and review attended classes.
+- `trainer.php` - trainer area (profile, class schedule, rosters).
+- `admin.php` - admin area (accounts, classes, reports).
+- `profile_view.php` - public trainer profile.
+- `class_roster.php` - enrolled members for a class (trainer/admin).
 
 ## Credentials
 
@@ -75,6 +82,7 @@ ltw-project-ltw05g05/
 ├── css/                      # Stylesheets for the website
 ├── database/                 # SQLite schema, data and PHP DB helpers
 ├── images/                   # Images used in the pages
+├── javascript/               # Client-side scripts
 ├── pages/                    # Public PHP pages
 ├── templates/                # Reusable PHP templates
 ├── README.md                 # Project overview and running instructions

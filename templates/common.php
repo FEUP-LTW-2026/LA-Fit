@@ -71,10 +71,14 @@ function drawHeader(string $title = 'LAFit', string $activePage = 'home', array 
                         'administrador' => 'admin.php',
                         default => 'perfil.php',
                     };
-                    $onProfilePage = in_array($activePage, ['perfil', 'trainer', 'admin'], true);
+                    $onProfilePage = in_array($activePage, ['perfil', 'trainer', 'admin', 'report'], true);
                     ?>
                     <?php if (!$onProfilePage) { ?>
                         <a href="<?= $profilePage ?>" class="botao cliente">Olá, <?= h($_SESSION['username']) ?></a>
+                    <?php } elseif ($activePage === 'perfil') { ?>
+                        <a href="report.php" class="botao cliente">Reportar problema</a>
+                    <?php } elseif ($activePage === 'report') { ?>
+                        <a href="perfil.php" class="botao cliente">Área do cliente</a>
                     <?php } ?>
                     <a href="../actions/action_logout.php" class="botao amarelo">Sair</a>
                 <?php } else { ?>

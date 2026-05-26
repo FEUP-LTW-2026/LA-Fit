@@ -1,5 +1,6 @@
 PRAGMA foreign_keys = OFF;
 
+DROP TABLE IF EXISTS relatorios;
 DROP TABLE IF EXISTS avaliacoes;
 DROP TABLE IF EXISTS equipamentos;
 DROP TABLE IF EXISTS inscricoes_aulas;
@@ -115,6 +116,18 @@ CREATE TABLE equipamentos (
         CHECK (estado IN ('disponivel', 'ocupado', 'manutencao')),
     quantidade INTEGER NOT NULL DEFAULT 1 CHECK (quantidade > 0),
     atualizado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE relatorios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    utilizador_id INTEGER NOT NULL REFERENCES utilizadores(id),
+    tipo TEXT NOT NULL CHECK(tipo IN ('equipamento', 'aula', 'outro')),
+    assunto TEXT NOT NULL,
+    descricao TEXT NOT NULL,
+    estado TEXT NOT NULL DEFAULT 'pendente' CHECK(estado IN ('pendente', 'em_analise', 'resolvido')),
+    resposta_admin TEXT,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE avaliacoes (
