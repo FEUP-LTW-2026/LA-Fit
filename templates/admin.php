@@ -2,6 +2,7 @@
 function drawAdminPage(array $users, array $plans, array $gyms, array $classes, array $trainers, ?array $editingUser, ?array $editingClass, array $messages = []): void
 {
     $isEditing = $editingUser !== null;
+    $isEditingClass = $editingClass !== null;
     $formAction = $isEditing ? '../actions/action_admin_update_user.php' : '../actions/action_admin_create_user.php';
     $selectedRole = $editingUser['papel'] ?? 'membro';
     $selectedStatus = $editingUser['estado'] ?? 'ativo';
@@ -22,6 +23,7 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                     <p class="mensagem erro"><?= h($messages['error']) ?></p>
                 <?php } ?>
 
+                <?php if (!$isEditingClass) { ?>
                 <section class="painel painel-editar-perfil painel-form">
                     <div class="cabecalho-painel">
                         <h2><?= $isEditing ? 'Editar conta' : 'Criar conta' ?></h2>
@@ -134,9 +136,11 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                     </form>
 
                 </section>
+                <?php } ?>
 
-                <?php drawAdminClassCatalog($classes, $trainers, $gyms, $editingClass); ?>
+                <?php if (!$isEditing) { drawAdminClassCatalog($classes, $trainers, $gyms, $editingClass); } ?>
 
+                <?php if (!$isEditing && !$isEditingClass) { ?>
                 <section class="painel painel-lista">
                     <h2>Membros e treinadores</h2>
 
@@ -190,6 +194,7 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                         </div>
                     <?php } ?>
                 </section>
+                <?php } ?>
             </div>
         </section>
     </main>
@@ -296,6 +301,7 @@ function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?ar
         </form>
     </section>
 
+    <?php if (!$isEditing) { ?>
     <section class="painel painel-lista">
         <h2>Aulas</h2>
 
@@ -345,5 +351,6 @@ function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?ar
             </div>
         <?php } ?>
     </section>
+    <?php } ?>
 <?php
 }
