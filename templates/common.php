@@ -63,7 +63,7 @@ function drawHeader(string $title = 'LAFit', string $activePage = 'home', array 
                 <a href="#contactos">Contactos</a>
             </nav>
 
-            <div class="ações-topo">
+            <div class="acoes-topo">
                 <?php if ($loggedIn) { ?>
                     <?php
                     $profilePage = match ($_SESSION['role'] ?? '') {

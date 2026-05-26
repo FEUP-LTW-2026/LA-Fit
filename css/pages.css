@@ -34,7 +34,6 @@
     opacity: 1;
 }
 
-/* Hover animation classes applied via JavaScript */
 .hover-lift {
     transform: translateY(-5px);
     box-shadow: 0 24px 48px rgba(0, 0, 0, 0.13);
@@ -555,30 +554,30 @@
     margin: 0 auto;
 }
 
-.painel-admin-form,
-.painel-admin-lista {
+.painel-form,
+.painel-lista {
     margin-bottom: 24px;
 }
 
-.tabela-admin-wrap {
+.tabela-wrap {
     overflow-x: auto;
 }
 
-.tabela-admin {
+.tabela {
     width: 100%;
     border-collapse: collapse;
     min-width: 960px;
 }
 
-.tabela-admin th,
-.tabela-admin td {
+.tabela th,
+.tabela td {
     border-bottom: 1px solid var(--borda-suave);
     padding: 14px 12px;
     text-align: left;
     vertical-align: middle;
 }
 
-.tabela-admin th {
+.tabela th {
     color: var(--cinzento);
     font-size: 14px;
     text-transform: uppercase;
@@ -601,13 +600,13 @@
     color: #8a1f1f;
 }
 
-.admin-acoes {
+.acoes-linha {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
 }
 
-.admin-acoes .botao {
+.acoes-linha .botao {
     border-radius: 6px;
     cursor: pointer;
     padding: 10px 14px;

@@ -9,12 +9,12 @@ function drawHome(array $plans, array $gyms, array $classes): void
                 <div class="principal-texto">
                     <p class="etiqueta">Promoção limitada</p>
                     <h1>Treina sem limites</h1>
-                    <p class="descrição">
+                    <p class="descricao">
                         Ginásios modernos, aulas para todos os níveis e acesso flexível para
                         acompanhares o teu ritmo.
                     </p>
 
-                    <div class="ações">
+                    <div class="acoes">
                         <a href="inscricao.php" class="botao amarelo">Aderir por 19,99€/mês</a>
                         <a href="aulas.php" class="botao claro">Ver aulas</a>
                     </div>
@@ -37,8 +37,8 @@ function drawHome(array $plans, array $gyms, array $classes): void
 
                 <div class="principal-imagem">
                     <div class="imagem"></div>
-                    <div class="cartão">
-                        <p class="cartão-topo">Plano mais procurado</p>
+                    <div class="cartao">
+                        <p class="cartao-topo">Plano mais procurado</p>
                         <h3>Ilimitado</h3>
                         <p>Todos os ginásios, aulas de grupo e acesso total por 29,99€/mês.</p>
                     </div>
@@ -123,29 +123,29 @@ function drawHome(array $plans, array $gyms, array $classes): void
                 </div>
 
                 <div class="grelha-espacos">
-                    <article class="espaço espaço-cardio">
-                        <div class="texto-espaço">
+                    <article class="espaco espaco-cardio">
+                        <div class="texto-espaco">
                             <h3>Zona de cardio</h3>
                             <p>Passadeiras, bicicletas e treino de resistência.</p>
                         </div>
                     </article>
 
-                    <article class="espaço espaço-aulas">
-                        <div class="texto-espaço">
+                    <article class="espaco espaco-aulas">
+                        <div class="texto-espaco">
                             <h3>Aulas de grupo</h3>
                             <p>Modalidades dinâmicas para treinar acompanhado.</p>
                         </div>
                     </article>
 
-                    <article class="espaço espaço-musculação">
-                        <div class="texto-espaço">
+                    <article class="espaco espaco-musculacao">
+                        <div class="texto-espaco">
                             <h3>Zona de musculação</h3>
                             <p>Espaço completo para força e desenvolvimento físico.</p>
                         </div>
                     </article>
 
-                    <article class="espaço espaço-balneários">
-                        <div class="texto-espaço">
+                    <article class="espaco espaco-balnearios">
+                        <div class="texto-espaco">
                             <h3>Balneários</h3>
                             <p>Conforto e apoio antes e depois de cada treino.</p>
                         </div>

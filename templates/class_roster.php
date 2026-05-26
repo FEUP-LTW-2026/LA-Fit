@@ -13,34 +13,36 @@ function drawClassRosterPage(?array $class, array $members): void
                     <?php } ?>
                 </div>
 
-                <section class="painel painel-aulas">
+                <section class="painel painel-lista">
                     <h2><?= count($members) ?> <?= count($members) === 1 ? 'inscrito' : 'inscritos' ?></h2>
 
                     <?php if (count($members) === 0) { ?>
                         <p>Nenhum membro inscrito nesta aula.</p>
                     <?php } else { ?>
-                        <table class="tabela-inscritos">
-                            <thead>
-                                <tr>
-                                    <th>Nome</th>
-                                    <th>Apelido</th>
-                                    <th>Username</th>
-                                    <th>Plano</th>
-                                    <th>Data de inscrição</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($members as $member) { ?>
+                        <div class="tabela-wrap">
+                            <table class="tabela">
+                                <thead>
                                     <tr>
-                                        <td><?= h($member['nome']) ?></td>
-                                        <td><?= h($member['apelido']) ?></td>
-                                        <td><?= h($member['nome_utilizador']) ?></td>
-                                        <td><?= h($member['plano_nome'] ?? '-') ?></td>
-                                        <td><?= h(substr($member['inscrito_em'], 0, 10)) ?></td>
+                                        <th>Nome</th>
+                                        <th>Apelido</th>
+                                        <th>Username</th>
+                                        <th>Plano</th>
+                                        <th>Data de inscrição</th>
                                     </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($members as $member) { ?>
+                                        <tr>
+                                            <td><?= h($member['nome']) ?></td>
+                                            <td><?= h($member['apelido']) ?></td>
+                                            <td><?= h($member['nome_utilizador']) ?></td>
+                                            <td><?= h($member['plano_nome'] ?? '-') ?></td>
+                                            <td><?= h(substr($member['inscrito_em'], 0, 10)) ?></td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
                     <?php } ?>
                 </section>
             </div>

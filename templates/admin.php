@@ -22,7 +22,7 @@ function drawAdminPage(array $users, array $plans, array $gyms, ?array $editingU
                     <p class="mensagem erro"><?= h($messages['error']) ?></p>
                 <?php } ?>
 
-                <section class="painel painel-editar-perfil painel-admin-form">
+                <section class="painel painel-editar-perfil painel-form">
                     <div class="cabecalho-painel">
                         <h2><?= $isEditing ? 'Editar conta' : 'Criar conta' ?></h2>
                         <?php if ($isEditing) { ?>
@@ -135,14 +135,14 @@ function drawAdminPage(array $users, array $plans, array $gyms, ?array $editingU
 
                 </section>
 
-                <section class="painel painel-admin-lista">
+                <section class="painel painel-lista">
                     <h2>Membros e treinadores</h2>
 
                     <?php if (count($users) === 0) { ?>
                         <p>Ainda não existem contas para gerir.</p>
                     <?php } else { ?>
-                        <div class="tabela-admin-wrap">
-                            <table class="tabela-admin">
+                        <div class="tabela-wrap">
+                            <table class="tabela">
                                 <thead>
                                     <tr>
                                         <th>Nome</th>
@@ -170,7 +170,7 @@ function drawAdminPage(array $users, array $plans, array $gyms, ?array $editingU
                                                 <?php } ?>
                                             </td>
                                             <td>
-                                                <div class="admin-acoes">
+                                                <div class="acoes-linha">
                                                     <a href="admin.php?edit=<?= (int)$user['id'] ?>" class="botao claro-voltar">Editar</a>
                                                     <form action="../actions/action_admin_toggle_user.php" method="post" data-confirm="<?= $user['estado'] === 'ativo' ? 'Tens a certeza que queres desativar esta conta?' : 'Tens a certeza que queres ativar esta conta?' ?>">
                                                         <input type="hidden" name="user_id" value="<?= (int)$user['id'] ?>">
