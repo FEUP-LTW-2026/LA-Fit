@@ -71,8 +71,11 @@ function drawHeader(string $title = 'LAFit', string $activePage = 'home', array 
                         'administrador' => 'admin.php',
                         default => 'perfil.php',
                     };
+                    $onProfilePage = in_array($activePage, ['perfil', 'trainer', 'admin'], true);
                     ?>
-                    <a href="<?= $profilePage ?>" class="botao cliente">Olá, <?= h($_SESSION['username']) ?></a>
+                    <?php if (!$onProfilePage) { ?>
+                        <a href="<?= $profilePage ?>" class="botao cliente">Olá, <?= h($_SESSION['username']) ?></a>
+                    <?php } ?>
                     <a href="../actions/action_logout.php" class="botao amarelo">Sair</a>
                 <?php } else { ?>
                     <a href="login.php" class="botao cliente">Iniciar Sessão</a>

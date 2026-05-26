@@ -33,7 +33,11 @@
 - [ ] Oversee and ensure the smooth operation of the entire system.
 
 **Extra:**
-- [ ] Something extra (e.g., personal training bookings, membership plans, waitlist, ...).
+- [X] Define tiered membership plans with different access levels, and allow members to subscribe to or upgrade their plan.
+- [ ] Admin Analytics Dashboard: Admins can view gym-wide metrics such as most popular classes, equipment usage, and member retention.
+- [ ] Disputes and Feedback: Members can report issues (e.g., equipment malfunction, class cancellations) and admins can manage and respond to these reports.
+- [ ] Member Progress Tracking: Members can log workouts, set fitness goals, and track progress over time with charts or statistics.
+- [ ] Nutrition Plans: Trainers can create and assign nutrition plans to their members, with meal and calorie tracking.
 
 ## Running
 

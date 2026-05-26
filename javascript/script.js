@@ -163,12 +163,12 @@ function attachHoverAnimations() {
         });
     }
 
-    const espacos = document.querySelectorAll('.espaço');
-    for (const espaço of espacos) {
-        espaço.addEventListener('mouseenter', function() {
+    const espacos = document.querySelectorAll('.espaco');
+    for (const espaco of espacos) {
+        espaco.addEventListener('mouseenter', function() {
             this.classList.add('hover-zoom');
         });
-        espaço.addEventListener('mouseleave', function() {
+        espaco.addEventListener('mouseleave', function() {
             this.classList.remove('hover-zoom');
         });
     }
