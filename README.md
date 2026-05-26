@@ -26,8 +26,8 @@
 - [X] Track and manage their assigned class schedule.
 
 **Admins:**
-- [ ] Manage members and trainers (create, update, and deactivate accounts).
-- [ ] Manage the class catalog (create, edit, and remove classes) and assign trainers to them.
+- [X] Manage members and trainers (create, update, and deactivate accounts).
+- [X] Manage the class catalog (create, edit, and remove classes) and assign trainers to them.
 - [ ] Manage equipment in the main training area (add, update availability status, and remove items).
 - [ ] Elevate a user to admin status.
 - [ ] Oversee and ensure the smooth operation of the entire system.

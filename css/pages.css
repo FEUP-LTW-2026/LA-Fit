@@ -29,7 +29,8 @@
 .pagina-aulas,
 .pagina-perfil,
 .pagina-avaliacao,
-.pagina-equipamentos {
+.pagina-equipamentos,
+.pagina-admin {
     background-color: var(--cinzento-claro);
     min-height: 70vh;
 }
@@ -37,7 +38,8 @@
 .pagina-aulas .titulo h1,
 .pagina-perfil .titulo h1,
 .pagina-avaliacao .titulo h1,
-.pagina-equipamentos .titulo h1 {
+.pagina-equipamentos .titulo h1,
+.pagina-admin .titulo h1 {
     font-size: 48px;
     margin-bottom: 14px;
 }
@@ -408,12 +410,14 @@
     margin-bottom: 8px;
 }
 
-.painel-editar-perfil .campo input {
+.painel-editar-perfil .campo input,
+.painel-editar-perfil .campo select {
     width: 100%;
     padding: 14px;
     border: 1px solid #cccccc;
     border-radius: 8px;
     font-size: 16px;
+    background-color: var(--branco);
 }
 
 .painel-editar-perfil .campo-largo {
@@ -509,6 +513,76 @@
 .painel-avaliacao {
     max-width: 760px;
     margin: 0 auto;
+}
+
+.painel-admin-form,
+.painel-admin-lista {
+    margin-bottom: 24px;
+}
+
+.tabela-admin-wrap {
+    overflow-x: auto;
+}
+
+.tabela-admin {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 960px;
+}
+
+.tabela-admin th,
+.tabela-admin td {
+    border-bottom: 1px solid var(--borda-suave);
+    padding: 14px 12px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.tabela-admin th {
+    color: var(--cinzento);
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.estado-conta {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-weight: bold;
+}
+
+.estado-conta-ativo,
+.estado-aula-admin-agendada {
+    background-color: #e8f7ea;
+    color: #1f6d2d;
+}
+
+.estado-conta-inativo,
+.estado-aula-admin-cancelada {
+    background-color: #ffe5e5;
+    color: #8a1f1f;
+}
+
+.estado-aula-admin-concluida {
+    background-color: #e8eef7;
+    color: #24446f;
+}
+
+.tabela-admin-aulas td span {
+    color: var(--cinzento);
+}
+
+.admin-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.admin-acoes .botao {
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 10px 14px;
+    white-space: nowrap;
 }
 
 .painel-avaliacao > p {
