@@ -125,3 +125,132 @@ function getClassById(PDO $db, int $id): ?array
 
     return $class ?: null;
 }
+
+function getAdminClasses(PDO $db): array
+{
+    $stmt = $db->prepare(
+        'SELECT aulas.*,
+                ginasios.nome AS ginasio_nome,
+                utilizadores.nome || " " || utilizadores.apelido AS treinador_nome,
+                COALESCE(SUM(CASE WHEN inscricoes_aulas.estado = "inscrito" THEN 1 ELSE 0 END), 0) AS inscritos
+         FROM aulas
+         JOIN treinadores ON treinadores.id = aulas.treinador_id
+         JOIN utilizadores ON utilizadores.id = treinadores.utilizador_id
+         JOIN ginasios ON ginasios.id = aulas.ginasio_id
+         LEFT JOIN inscricoes_aulas ON inscricoes_aulas.aula_id = aulas.id
+         GROUP BY aulas.id
+         ORDER BY
+            CASE aulas.estado
+                WHEN "agendada" THEN 1
+                WHEN "concluida" THEN 2
+                ELSE 3
+            END,
+            CASE aulas.dia_semana
+                WHEN "segunda" THEN 1
+                WHEN "terca" THEN 2
+                WHEN "quarta" THEN 3
+                WHEN "quinta" THEN 4
+                WHEN "sexta" THEN 5
+                WHEN "sabado" THEN 6
+                ELSE 7
+            END,
+            aulas.inicio'
+    );
+    $stmt->execute();
+
+    return $stmt->fetchAll();
+}
+
+function getAdminClassById(PDO $db, int $id): ?array
+{
+    $stmt = $db->prepare('SELECT * FROM aulas WHERE id = ?');
+    $stmt->execute([$id]);
+    $class = $stmt->fetch();
+
+    return $class ?: null;
+}
+
+function getActiveTrainers(PDO $db): array
+{
+    $stmt = $db->prepare(
+        'SELECT treinadores.id,
+                utilizadores.nome || " " || utilizadores.apelido AS nome
+         FROM treinadores
+         JOIN utilizadores ON utilizadores.id = treinadores.utilizador_id
+         WHERE utilizadores.estado = "ativo"
+         ORDER BY nome'
+    );
+    $stmt->execute();
+
+    return $stmt->fetchAll();
+}
+
+function createClass(PDO $db, array $data): int
+{
+    $stmt = $db->prepare(
+        'INSERT INTO aulas
+            (nome, tipo, descricao, treinador_id, ginasio_id, dia_semana, inicio, fim, lotacao, sala, estado)
+         VALUES
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+    );
+    $stmt->execute([
+        $data['name'],
+        $data['type'],
+        $data['description'],
+        $data['trainer_id'],
+        $data['gym_id'],
+        $data['day'],
+        $data['start'],
+        $data['end'],
+        $data['capacity'],
+        $data['room'],
+        $data['status'],
+    ]);
+
+    return (int)$db->lastInsertId();
+}
+
+function updateClass(PDO $db, int $classId, array $data): bool
+{
+    $stmt = $db->prepare(
+        'UPDATE aulas
+         SET nome = ?,
+             tipo = ?,
+             descricao = ?,
+             treinador_id = ?,
+             ginasio_id = ?,
+             dia_semana = ?,
+             inicio = ?,
+             fim = ?,
+             lotacao = ?,
+             sala = ?,
+             estado = ?
+         WHERE id = ?'
+    );
+
+    return $stmt->execute([
+        $data['name'],
+        $data['type'],
+        $data['description'],
+        $data['trainer_id'],
+        $data['gym_id'],
+        $data['day'],
+        $data['start'],
+        $data['end'],
+        $data['capacity'],
+        $data['room'],
+        $data['status'],
+        $classId,
+    ]) && $stmt->rowCount() > 0;
+}
+
+function removeClassFromCatalog(PDO $db, int $classId): bool
+{
+    $stmt = $db->prepare(
+        'UPDATE aulas
+         SET estado = "cancelada"
+         WHERE id = ?'
+    );
+
+    return $stmt->execute([$classId]) && $stmt->rowCount() > 0;
+}

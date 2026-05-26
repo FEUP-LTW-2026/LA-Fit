@@ -1,5 +1,5 @@
 <?php
-function drawAdminPage(array $users, array $plans, array $gyms, ?array $editingUser, array $messages = []): void
+function drawAdminPage(array $users, array $plans, array $gyms, array $classes, array $trainers, ?array $editingUser, ?array $editingClass, array $messages = []): void
 {
     $isEditing = $editingUser !== null;
     $formAction = $isEditing ? '../actions/action_admin_update_user.php' : '../actions/action_admin_create_user.php';
@@ -135,6 +135,8 @@ function drawAdminPage(array $users, array $plans, array $gyms, ?array $editingU
 
                 </section>
 
+                <?php drawAdminClassCatalog($classes, $trainers, $gyms, $editingClass); ?>
+
                 <section class="painel painel-lista">
                     <h2>Membros e treinadores</h2>
 
@@ -191,5 +193,157 @@ function drawAdminPage(array $users, array $plans, array $gyms, ?array $editingU
             </div>
         </section>
     </main>
+<?php
+}
+
+function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?array $editingClass): void
+{
+    $isEditing = $editingClass !== null;
+    $formAction = $isEditing ? '../actions/action_admin_update_class.php' : '../actions/action_admin_create_class.php';
+    $days = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
+    $statuses = ['agendada' => 'Agendada', 'concluida' => 'Concluída', 'cancelada' => 'Cancelada'];
+?>
+    <section class="painel painel-editar-perfil painel-form">
+        <div class="cabecalho-painel">
+            <h2><?= $isEditing ? 'Editar aula' : 'Criar aula' ?></h2>
+            <?php if ($isEditing) { ?>
+                <a href="admin.php" class="botao claro-voltar">Nova aula</a>
+            <?php } ?>
+        </div>
+
+        <form action="<?= h($formAction) ?>" method="post">
+            <?php if ($isEditing) { ?>
+                <input type="hidden" name="class_id" value="<?= (int)$editingClass['id'] ?>">
+            <?php } ?>
+
+            <fieldset class="grupo">
+                <legend>Catálogo de aulas</legend>
+                <div class="campos">
+                    <div class="campo">
+                        <label for="class_name">Nome</label>
+                        <input type="text" id="class_name" name="name" value="<?= h($editingClass['nome'] ?? '') ?>" required>
+                    </div>
+                    <div class="campo">
+                        <label for="class_type">Tipo</label>
+                        <input type="text" id="class_type" name="type" value="<?= h($editingClass['tipo'] ?? '') ?>" required>
+                    </div>
+                    <div class="campo campo-largo">
+                        <label for="class_description">Descrição</label>
+                        <textarea id="class_description" name="description" rows="3"><?= h($editingClass['descricao'] ?? '') ?></textarea>
+                    </div>
+                    <div class="campo">
+                        <label for="class_trainer">Treinador</label>
+                        <select id="class_trainer" name="trainer_id" required>
+                            <option value="">Escolher treinador</option>
+                            <?php foreach ($trainers as $trainer) { ?>
+                                <option value="<?= (int)$trainer['id'] ?>" <?= (int)($editingClass['treinador_id'] ?? 0) === (int)$trainer['id'] ? 'selected' : '' ?>>
+                                    <?= h($trainer['nome']) ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="campo">
+                        <label for="class_gym">Ginásio</label>
+                        <select id="class_gym" name="gym_id" required>
+                            <option value="">Escolher ginásio</option>
+                            <?php foreach ($gyms as $gym) { ?>
+                                <option value="<?= (int)$gym['id'] ?>" <?= (int)($editingClass['ginasio_id'] ?? 0) === (int)$gym['id'] ? 'selected' : '' ?>>
+                                    <?= h($gym['nome']) ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="campo">
+                        <label for="class_day">Dia</label>
+                        <select id="class_day" name="day" required>
+                            <?php foreach ($days as $day) { ?>
+                                <option value="<?= h($day) ?>" <?= ($editingClass['dia_semana'] ?? 'segunda') === $day ? 'selected' : '' ?>>
+                                    <?= h(formatClassDay($day)) ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="campo">
+                        <label for="class_start">Início</label>
+                        <input type="time" id="class_start" name="start" value="<?= h($editingClass['inicio'] ?? '') ?>" required>
+                    </div>
+                    <div class="campo">
+                        <label for="class_end">Fim</label>
+                        <input type="time" id="class_end" name="end" value="<?= h($editingClass['fim'] ?? '') ?>" required>
+                    </div>
+                    <div class="campo">
+                        <label for="class_capacity">Lotação</label>
+                        <input type="number" id="class_capacity" name="capacity" min="1" value="<?= h($editingClass['lotacao'] ?? '20') ?>" required>
+                    </div>
+                    <div class="campo">
+                        <label for="class_room">Sala</label>
+                        <input type="text" id="class_room" name="room" value="<?= h($editingClass['sala'] ?? '') ?>">
+                    </div>
+                    <div class="campo">
+                        <label for="class_status">Estado</label>
+                        <select id="class_status" name="status" required>
+                            <?php foreach ($statuses as $value => $label) { ?>
+                                <option value="<?= h($value) ?>" <?= ($editingClass['estado'] ?? 'agendada') === $value ? 'selected' : '' ?>>
+                                    <?= h($label) ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+
+            <button type="submit" class="botao amarelo"><?= $isEditing ? 'Guardar aula' : 'Criar aula' ?></button>
+        </form>
+    </section>
+
+    <section class="painel painel-lista">
+        <h2>Aulas</h2>
+
+        <?php if (count($classes) === 0) { ?>
+            <p>Ainda não existem aulas no catálogo.</p>
+        <?php } else { ?>
+            <div class="tabela-wrap">
+                <table class="tabela tabela-aulas-admin">
+                    <thead>
+                        <tr>
+                            <th>Aula</th>
+                            <th>Treinador</th>
+                            <th>Ginásio</th>
+                            <th>Horário</th>
+                            <th>Lotação</th>
+                            <th>Estado</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($classes as $class) { ?>
+                            <tr>
+                                <td>
+                                    <strong><?= h($class['nome']) ?></strong>
+                                    <span><?= h($class['tipo']) ?> · <?= h($class['sala'] ?: 'Sem sala') ?></span>
+                                </td>
+                                <td><?= h($class['treinador_nome']) ?></td>
+                                <td><?= h($class['ginasio_nome']) ?></td>
+                                <td><?= h(formatClassDay($class['dia_semana'])) ?> · <?= h($class['inicio']) ?> - <?= h($class['fim']) ?></td>
+                                <td><?= (int)$class['inscritos'] ?> / <?= (int)$class['lotacao'] ?></td>
+                                <td><span class="estado-conta estado-conta-<?= h($class['estado']) ?>"><?= h($class['estado']) ?></span></td>
+                                <td>
+                                    <div class="acoes-linha">
+                                        <a href="admin.php?edit_class=<?= (int)$class['id'] ?>" class="botao claro-voltar">Editar</a>
+                                        <?php if ($class['estado'] !== 'cancelada') { ?>
+                                            <form action="../actions/action_admin_delete_class.php" method="post" data-confirm="Tens a certeza que queres remover esta aula do catálogo?">
+                                                <input type="hidden" name="class_id" value="<?= (int)$class['id'] ?>">
+                                                <button type="submit" class="botao cliente">Remover</button>
+                                            </form>
+                                        <?php } ?>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php } ?>
+    </section>
 <?php
 }

@@ -10,6 +10,7 @@ require_once __DIR__ . '/../database/connection.php';
 require_once __DIR__ . '/../database/users.php';
 require_once __DIR__ . '/../database/plans.php';
 require_once __DIR__ . '/../database/gyms.php';
+require_once __DIR__ . '/../database/classes.php';
 
 require_once __DIR__ . '/../templates/common.php';
 require_once __DIR__ . '/../templates/admin.php';
@@ -18,8 +19,12 @@ $db = getDatabaseConnection();
 $users = getManageableUsers($db);
 $plans = getAllPlans($db);
 $gyms = getAllGyms($db);
+$classes = getAdminClasses($db);
+$trainers = getActiveTrainers($db);
 $editingUser = null;
+$editingClass = null;
 $editId = filter_input(INPUT_GET, 'edit', FILTER_VALIDATE_INT) ?: 0;
+$editClassId = filter_input(INPUT_GET, 'edit_class', FILTER_VALIDATE_INT) ?: 0;
 
 if ($editId > 0) {
     foreach ($users as $user) {
@@ -30,11 +35,23 @@ if ($editId > 0) {
     }
 }
 
+if ($editClassId > 0) {
+    foreach ($classes as $class) {
+        if ((int)$class['id'] === $editClassId) {
+            $editingClass = $class;
+            break;
+        }
+    }
+}
+
 $messages = [
     'success' => match ($_GET['sucesso'] ?? '') {
         'criado' => 'Conta criada com sucesso.',
         'atualizado' => 'Conta atualizada com sucesso.',
         'estado' => 'Estado da conta atualizado com sucesso.',
+        'aula_criada' => 'Aula criada com sucesso.',
+        'aula_atualizada' => 'Aula atualizada com sucesso.',
+        'aula_removida' => 'Aula removida do catálogo com sucesso.',
         default => null,
     },
     'error' => match ($_GET['erro'] ?? '') {
@@ -45,10 +62,14 @@ $messages = [
         'existe' => 'Já existe uma conta com esse username ou email.',
         'notfound' => 'Conta não encontrada.',
         'plano' => 'Um membro tem de ter um plano associado.',
+        'aula_notfound' => 'Aula não encontrada.',
+        'aula_horario' => 'Confirma a hora de início e fim da aula.',
+        'aula_numero' => 'A lotação tem de ser maior que zero.',
+        'aula_opcao' => 'Escolhe opções válidas para a aula.',
         default => null,
     },
 ];
 
 drawHeader('Admin - LAFit', 'admin');
-drawAdminPage($users, $plans, $gyms, $editingUser, $messages);
+drawAdminPage($users, $plans, $gyms, $classes, $trainers, $editingUser, $editingClass, $messages);
 drawFooter();
