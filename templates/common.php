@@ -64,7 +64,13 @@ function drawHeader(string $title = 'LAFit', string $activePage = 'home', array 
 
             <div class="ações-topo">
                 <?php if ($loggedIn) { ?>
-                    <?php $profilePage = ($_SESSION['role'] ?? '') === 'treinador' ? 'trainer.php' : 'perfil.php'; ?>
+                    <?php
+                    $profilePage = match ($_SESSION['role'] ?? '') {
+                        'treinador' => 'trainer.php',
+                        'administrador' => 'admin.php',
+                        default => 'perfil.php',
+                    };
+                    ?>
                     <a href="<?= $profilePage ?>" class="botao cliente">Olá, <?= h($_SESSION['username']) ?></a>
                     <a href="../actions/action_logout.php" class="botao amarelo">Sair</a>
                 <?php } else { ?>

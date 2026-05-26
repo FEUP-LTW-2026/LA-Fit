@@ -99,6 +99,151 @@ function updateUserPassword(PDO $db, int $userId, string $password): bool
     return $stmt->execute([$password, $userId]);
 }
 
+function getManageableUsers(PDO $db): array
+{
+    $stmt = $db->prepare(
+        'SELECT utilizadores.*,
+                membros.id AS membro_id,
+                membros.plano_id,
+                membros.ginasio_id,
+                planos.nome AS plano_nome,
+                ginasios.nome AS ginasio_nome,
+                treinadores.id AS treinador_id,
+                treinadores.biografia,
+                treinadores.especializacoes,
+                treinadores.certificacoes
+         FROM utilizadores
+         LEFT JOIN membros ON membros.utilizador_id = utilizadores.id
+         LEFT JOIN planos ON planos.id = membros.plano_id
+         LEFT JOIN ginasios ON ginasios.id = membros.ginasio_id
+         LEFT JOIN treinadores ON treinadores.utilizador_id = utilizadores.id
+         WHERE utilizadores.papel IN ("membro", "treinador")
+         ORDER BY utilizadores.papel, utilizadores.nome, utilizadores.apelido'
+    );
+    $stmt->execute();
+
+    return $stmt->fetchAll();
+}
+
+function createManagedUser(PDO $db, array $data): int
+{
+    $db->beginTransaction();
+
+    try {
+        $stmt = $db->prepare(
+            'INSERT INTO utilizadores
+                (nome_utilizador, email, palavra_passe, nome, apelido, papel, estado)
+             VALUES
+                (?, ?, ?, ?, ?, ?, ?)'
+        );
+        $stmt->execute([
+            $data['username'],
+            $data['email'],
+            $data['password'],
+            $data['first_name'],
+            $data['last_name'],
+            $data['role'],
+            $data['status'],
+        ]);
+
+        $userId = (int)$db->lastInsertId();
+
+        if ($data['role'] === 'membro') {
+            $stmt = $db->prepare(
+                'INSERT INTO membros (utilizador_id, plano_id, ginasio_id)
+                 VALUES (?, ?, ?)'
+            );
+            $stmt->execute([$userId, $data['plan_id'], $data['gym_id']]);
+        } elseif ($data['role'] === 'treinador') {
+            $stmt = $db->prepare(
+                'INSERT INTO treinadores (utilizador_id, biografia, especializacoes, certificacoes)
+                 VALUES (?, ?, ?, ?)'
+            );
+            $stmt->execute([
+                $userId,
+                $data['bio'],
+                $data['specializations'],
+                $data['certifications'],
+            ]);
+        }
+
+        $db->commit();
+        return $userId;
+    } catch (Exception $exception) {
+        $db->rollBack();
+        throw $exception;
+    }
+}
+
+function updateManagedUser(PDO $db, int $userId, array $data): bool
+{
+    $db->beginTransaction();
+
+    try {
+        $stmt = $db->prepare(
+            'UPDATE utilizadores
+             SET nome_utilizador = ?,
+                 email = ?,
+                 nome = ?,
+                 apelido = ?,
+                 estado = ?
+             WHERE id = ?
+               AND papel IN ("membro", "treinador")'
+        );
+        $stmt->execute([
+            $data['username'],
+            $data['email'],
+            $data['first_name'],
+            $data['last_name'],
+            $data['status'],
+            $userId,
+        ]);
+
+        if (!empty($data['password'])) {
+            updateUserPassword($db, $userId, $data['password']);
+        }
+
+        if ($data['role'] === 'membro') {
+            $stmt = $db->prepare(
+                'UPDATE membros
+                 SET plano_id = ?, ginasio_id = ?
+                 WHERE utilizador_id = ?'
+            );
+            $stmt->execute([$data['plan_id'], $data['gym_id'], $userId]);
+        } elseif ($data['role'] === 'treinador') {
+            $stmt = $db->prepare(
+                'UPDATE treinadores
+                 SET biografia = ?, especializacoes = ?, certificacoes = ?
+                 WHERE utilizador_id = ?'
+            );
+            $stmt->execute([
+                $data['bio'],
+                $data['specializations'],
+                $data['certifications'],
+                $userId,
+            ]);
+        }
+
+        $db->commit();
+        return true;
+    } catch (Exception $exception) {
+        $db->rollBack();
+        throw $exception;
+    }
+}
+
+function setManagedUserStatus(PDO $db, int $userId, string $status): bool
+{
+    $stmt = $db->prepare(
+        'UPDATE utilizadores
+         SET estado = ?
+         WHERE id = ?
+           AND papel IN ("membro", "treinador")'
+    );
+
+    return $stmt->execute([$status, $userId]) && $stmt->rowCount() > 0;
+}
+
 function getMemberByUsername(PDO $db, string $username): ?array
 {
     $stmt = $db->prepare(
