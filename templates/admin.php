@@ -1,8 +1,9 @@
 <?php
-function drawAdminPage(array $users, array $plans, array $gyms, array $classes, array $trainers, array $reports, ?array $editingUser, ?array $editingClass, array $messages = []): void
+function drawAdminPage(array $users, array $plans, array $gyms, array $classes, array $trainers, array $reports, array $equipment, ?array $editingUser, ?array $editingClass, ?array $editingEquipment, array $messages = []): void
 {
     $isEditing = $editingUser !== null;
     $isEditingClass = $editingClass !== null;
+    $isEditingEquipment = $editingEquipment !== null;
     $formAction = $isEditing ? '../actions/action_admin_update_user.php' : '../actions/action_admin_create_user.php';
     $selectedRole = $editingUser['papel'] ?? 'membro';
     $selectedStatus = $editingUser['estado'] ?? 'ativo';
@@ -23,7 +24,7 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                     <p class="mensagem erro"><?= h($messages['error']) ?></p>
                 <?php } ?>
 
-                <?php if (!$isEditingClass) { ?>
+                <?php if (!$isEditingClass && !$isEditingEquipment) { ?>
                 <section class="painel painel-editar-perfil painel-form">
                     <div class="cabecalho-painel">
                         <h2><?= $isEditing ? 'Editar conta' : 'Criar conta' ?></h2>
@@ -138,9 +139,11 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                 </section>
                 <?php } ?>
 
-                <?php if (!$isEditing) { drawAdminClassCatalog($classes, $trainers, $gyms, $editingClass); } ?>
+                <?php if (!$isEditing && !$isEditingEquipment) { drawAdminClassCatalog($classes, $trainers, $gyms, $editingClass); } ?>
 
-                <?php if (!$isEditing && !$isEditingClass) { ?>
+                <?php if (!$isEditing && !$isEditingClass) { drawAdminEquipmentSection($equipment, $editingEquipment); } ?>
+
+                <?php if (!$isEditing && !$isEditingClass && !$isEditingEquipment) { ?>
                 <section class="painel painel-lista">
                     <h2>Membros e treinadores</h2>
 
@@ -196,10 +199,116 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                 </section>
                 <?php } ?>
 
-                <?php if (!$isEditing && !$isEditingClass) { drawAdminReports($reports); } ?>
+                <?php if (!$isEditing && !$isEditingClass && !$isEditingEquipment) { drawAdminReports($reports); } ?>
             </div>
         </section>
     </main>
+<?php
+}
+
+function drawAdminEquipmentSection(array $equipment, ?array $editingEquipment): void
+{
+    $isEditing = $editingEquipment !== null;
+    $formAction = $isEditing ? '../actions/action_admin_update_equipment.php' : '../actions/action_admin_create_equipment.php';
+    $states = ['disponivel' => 'Disponível', 'ocupado' => 'Em uso', 'manutencao' => 'Manutenção'];
+    $selectedState = $editingEquipment['estado'] ?? 'disponivel';
+    $existingZones = array_unique(array_column($equipment, 'zona'));
+    sort($existingZones);
+?>
+    <section class="painel painel-editar-perfil painel-form">
+        <div class="cabecalho-painel">
+            <h2><?= $isEditing ? 'Editar equipamento' : 'Adicionar equipamento' ?></h2>
+            <?php if ($isEditing) { ?>
+                <a href="admin.php" class="botao claro-voltar">Novo equipamento</a>
+            <?php } ?>
+        </div>
+
+        <form action="<?= h($formAction) ?>" method="post">
+            <?php if ($isEditing) { ?>
+                <input type="hidden" name="equipment_id" value="<?= (int)$editingEquipment['id'] ?>">
+            <?php } ?>
+
+            <fieldset class="grupo">
+                <legend>Equipamento</legend>
+                <div class="campos">
+                    <div class="campo">
+                        <label for="eq_nome">Nome</label>
+                        <input type="text" id="eq_nome" name="nome" value="<?= h($editingEquipment['nome'] ?? '') ?>" required>
+                    </div>
+                    <div class="campo">
+                        <label for="eq_zona">Zona</label>
+                        <input type="text" id="eq_zona" name="zona" value="<?= h($editingEquipment['zona'] ?? '') ?>" required list="zonas-lista">
+                        <datalist id="zonas-lista">
+                            <?php foreach ($existingZones as $zone) { ?>
+                                <option value="<?= h($zone) ?>">
+                            <?php } ?>
+                        </datalist>
+                    </div>
+                    <div class="campo">
+                        <label for="eq_estado">Estado</label>
+                        <select id="eq_estado" name="estado" required>
+                            <?php foreach ($states as $value => $label) { ?>
+                                <option value="<?= h($value) ?>" <?= $selectedState === $value ? 'selected' : '' ?>>
+                                    <?= h($label) ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="campo">
+                        <label for="eq_quantidade">Quantidade</label>
+                        <input type="number" id="eq_quantidade" name="quantidade" min="1" value="<?= (int)($editingEquipment['quantidade'] ?? 1) ?>" required>
+                    </div>
+                </div>
+            </fieldset>
+
+            <button type="submit" class="botao amarelo"><?= $isEditing ? 'Guardar equipamento' : 'Adicionar equipamento' ?></button>
+        </form>
+    </section>
+
+    <?php if (!$isEditing) { ?>
+    <section class="painel painel-lista">
+        <h2>Equipamentos</h2>
+
+        <?php if (count($equipment) === 0) { ?>
+            <p>Ainda não existem equipamentos registados.</p>
+        <?php } else { ?>
+            <div class="tabela-wrap">
+                <table class="tabela">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Zona</th>
+                            <th>Estado</th>
+                            <th>Quantidade</th>
+                            <th>Atualizado em</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($equipment as $item) { ?>
+                            <tr>
+                                <td><?= h($item['nome']) ?></td>
+                                <td><?= h($item['zona']) ?></td>
+                                <td><span class="estado-conta estado-conta-<?= h($item['estado']) ?>"><?= h($states[$item['estado']] ?? $item['estado']) ?></span></td>
+                                <td><?= (int)$item['quantidade'] ?></td>
+                                <td><?= h(substr($item['atualizado_em'] ?? '', 0, 16)) ?></td>
+                                <td>
+                                    <div class="acoes-linha">
+                                        <a href="admin.php?edit_equipment=<?= (int)$item['id'] ?>" class="botao claro-voltar">Editar</a>
+                                        <form action="../actions/action_admin_delete_equipment.php" method="post" data-confirm="Tens a certeza que queres remover este equipamento?">
+                                            <input type="hidden" name="equipment_id" value="<?= (int)$item['id'] ?>">
+                                            <button type="submit" class="botao cliente">Remover</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php } ?>
+    </section>
+    <?php } ?>
 <?php
 }
 
