@@ -13,6 +13,7 @@ require_once __DIR__ . '/../database/gyms.php';
 require_once __DIR__ . '/../database/classes.php';
 require_once __DIR__ . '/../database/reports.php';
 require_once __DIR__ . '/../database/equipment.php';
+require_once __DIR__ . '/../database/overview.php';
 
 require_once __DIR__ . '/../templates/common.php';
 require_once __DIR__ . '/../templates/admin.php';
@@ -25,6 +26,7 @@ $classes = getAdminClasses($db);
 $trainers = getActiveTrainers($db);
 $reports = getAllReports($db);
 $equipment = getAllEquipment($db);
+$overview = getSystemOverview($db);
 $editingUser = null;
 $editingClass = null;
 $editingEquipment = null;
@@ -91,5 +93,5 @@ $messages = [
 ];
 
 drawHeader('Admin - LAFit', 'admin');
-drawAdminPage($users, $plans, $gyms, $classes, $trainers, $reports, $equipment, $editingUser, $editingClass, $editingEquipment, $messages);
+drawAdminPage($users, $plans, $gyms, $classes, $trainers, $reports, $equipment, $editingUser, $editingClass, $editingEquipment, $messages, $overview);
 drawFooter();

@@ -1,5 +1,5 @@
 <?php
-function drawAdminPage(array $users, array $plans, array $gyms, array $classes, array $trainers, array $reports, array $equipment, ?array $editingUser, ?array $editingClass, ?array $editingEquipment, array $messages = []): void
+function drawAdminPage(array $users, array $plans, array $gyms, array $classes, array $trainers, array $reports, array $equipment, ?array $editingUser, ?array $editingClass, ?array $editingEquipment, array $messages = [], array $overview = []): void
 {
     $isEditing = $editingUser !== null;
     $isEditingClass = $editingClass !== null;
@@ -23,6 +23,8 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                 <?php if (!empty($messages['error'])) { ?>
                     <p class="mensagem erro"><?= h($messages['error']) ?></p>
                 <?php } ?>
+
+                <?php if (!$isEditing && !$isEditingClass && !$isEditingEquipment && !empty($overview)) { drawAdminOverview($overview); } ?>
 
                 <?php if (!$isEditingClass && !$isEditingEquipment) { ?>
                 <section class="painel painel-editar-perfil painel-form">
@@ -208,6 +210,116 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
             </div>
         </section>
     </main>
+<?php
+}
+
+function drawAdminOverview(array $overview): void
+{
+    $stats     = $overview['stats'];
+    $manutencao = $overview['manutencao'];
+    $inativas   = $overview['inativas'];
+    $canceladas = $overview['canceladas'];
+
+    $temAlertas = $stats['equipamentos_manutencao'] > 0
+               || $stats['reportes_pendentes'] > 0
+               || $stats['contas_inativas'] > 0
+               || $stats['aulas_canceladas'] > 0;
+?>
+    <section class="painel painel-lista visao-geral">
+        <h2>Visão geral do sistema</h2>
+
+        <div class="grelha-stats">
+            <div class="stat-card">
+                <p><?= (int)$stats['membros_ativos'] ?></p>
+                <p>Membros ativos</p>
+            </div>
+            <div class="stat-card">
+                <p><?= (int)$stats['treinadores_ativos'] ?></p>
+                <p>Treinadores ativos</p>
+            </div>
+            <div class="stat-card">
+                <p><?= (int)$stats['aulas_agendadas'] ?></p>
+                <p>Aulas agendadas</p>
+            </div>
+            <div class="stat-card <?= $stats['reportes_pendentes'] > 0 ? 'stat-card-alerta' : '' ?>">
+                <p><?= (int)$stats['reportes_pendentes'] ?></p>
+                <p>Reportes pendentes</p>
+            </div>
+            <div class="stat-card <?= $stats['equipamentos_manutencao'] > 0 ? 'stat-card-aviso' : '' ?>">
+                <p><?= (int)$stats['equipamentos_manutencao'] ?></p>
+                <p>Equipamentos em manutenção</p>
+            </div>
+        </div>
+
+        <?php if ($temAlertas) { ?>
+        <div class="alertas-sistema">
+            <h3>Itens que precisam de atenção</h3>
+
+            <?php if (count($manutencao) > 0) { ?>
+            <div class="alerta-sistema alerta-aviso">
+                <div class="alerta-sistema-corpo">
+                    <p class="alerta-sistema-titulo">Equipamentos em manutenção (<?= count($manutencao) ?>)</p>
+                    <ul class="alerta-sistema-lista">
+                        <?php foreach ($manutencao as $item) { ?>
+                            <li>
+                                <?= h($item['nome']) ?> · <?= h($item['zona']) ?> · <?= (int)$item['quantidade'] ?> unidade<?= (int)$item['quantidade'] !== 1 ? 's' : '' ?>
+                                <a href="admin.php?edit_equipment=<?= (int)$item['id'] ?>" class="alerta-link">Editar</a>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </div>
+            </div>
+            <?php } ?>
+
+            <?php if ($stats['reportes_pendentes'] > 0 || $stats['reportes_em_analise'] > 0) { ?>
+            <div class="alerta-sistema alerta-erro">
+                <div class="alerta-sistema-corpo">
+                    <p class="alerta-sistema-titulo">
+                        Reportes por resolver —
+                        <?= (int)$stats['reportes_pendentes'] ?> pendente<?= $stats['reportes_pendentes'] != 1 ? 's' : '' ?>,
+                        <?= (int)$stats['reportes_em_analise'] ?> em análise
+                    </p>
+                    <p class="alerta-sistema-desc">Acede à secção de reportes abaixo para responder.</p>
+                </div>
+            </div>
+            <?php } ?>
+
+            <?php if (count($inativas) > 0) { ?>
+            <div class="alerta-sistema alerta-neutro">
+                <div class="alerta-sistema-corpo">
+                    <p class="alerta-sistema-titulo">Contas inativas (<?= count($inativas) ?>)</p>
+                    <ul class="alerta-sistema-lista">
+                        <?php foreach ($inativas as $user) { ?>
+                            <li>
+                                <?= h($user['nome'] . ' ' . $user['apelido']) ?> · <?= h($user['nome_utilizador']) ?> · <?= h($user['papel']) ?>
+                                <a href="admin.php?edit=<?= (int)$user['id'] ?>" class="alerta-link">Editar</a>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </div>
+            </div>
+            <?php } ?>
+
+            <?php if (count($canceladas) > 0) { ?>
+            <div class="alerta-sistema alerta-neutro">
+                <div class="alerta-sistema-corpo">
+                    <p class="alerta-sistema-titulo">Aulas canceladas (<?= count($canceladas) ?>)</p>
+                    <ul class="alerta-sistema-lista">
+                        <?php foreach ($canceladas as $aula) { ?>
+                            <li>
+                                <?= h($aula['nome']) ?> · <?= h(formatClassDay($aula['dia_semana'])) ?> <?= h($aula['inicio']) ?>–<?= h($aula['fim']) ?> · <?= h($aula['treinador_nome']) ?>
+                                <a href="admin.php?edit_class=<?= (int)$aula['id'] ?>" class="alerta-link">Editar</a>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </div>
+            </div>
+            <?php } ?>
+        </div>
+        <?php } else { ?>
+            <p class="sistema-ok">Tudo em ordem. Sem itens que precisem de atenção.</p>
+        <?php } ?>
+    </section>
 <?php
 }
 

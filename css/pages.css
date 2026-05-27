@@ -772,11 +772,137 @@
     color: #1f6d2d;
 }
 
+.visao-geral {
+    margin-bottom: 24px;
+}
+
+.grelha-stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    border: 1px solid var(--borda-suave);
+    border-radius: 10px;
+    padding: 20px 22px;
+}
+
+.stat-card p:first-child {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.stat-card p:last-child {
+    color: var(--cinzento);
+    font-size: 14px;
+}
+
+.stat-card-alerta {
+    border-color: #f4b8b8;
+    background-color: #fff8f8;
+}
+
+.stat-card-alerta p:first-child {
+    color: #8a1f1f;
+}
+
+.stat-card-aviso {
+    border-color: #f5d78e;
+    background-color: #fffbf0;
+}
+
+.stat-card-aviso p:first-child {
+    color: #8a5a00;
+}
+
+.alertas-sistema {
+    display: grid;
+    gap: 12px;
+}
+
+.alertas-sistema h3 {
+    font-size: 16px;
+    color: var(--cinzento);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.alerta-sistema {
+    border-radius: 8px;
+    padding: 16px 20px;
+    border: 1px solid transparent;
+}
+
+.alerta-aviso {
+    background-color: #fffbf0;
+    border-color: #f5d78e;
+}
+
+.alerta-erro {
+    background-color: #fff8f8;
+    border-color: #f4b8b8;
+}
+
+.alerta-neutro {
+    background-color: var(--cinzento-claro);
+    border-color: var(--borda-suave);
+}
+
+.alerta-sistema-titulo {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.alerta-sistema-desc {
+    color: var(--cinzento);
+    font-size: 14px;
+}
+
+.alerta-sistema-lista {
+    list-style: none;
+    display: grid;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.alerta-sistema-lista li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--cinzento-escuro);
+}
+
+.alerta-link {
+    margin-left: auto;
+    font-weight: bold;
+    font-size: 13px;
+    color: var(--amarelo-escuro);
+    white-space: nowrap;
+}
+
+.alerta-link:hover {
+    text-decoration: underline;
+}
+
+.sistema-ok {
+    color: #1f6d2d;
+    font-weight: bold;
+}
+
 @media (max-width: 1000px) {
     .grelha-aulas,
     .perfil-grid,
     .resumo-equipamentos {
         grid-template-columns: 1fr 1fr;
+    }
+
+    .grelha-stats {
+        grid-template-columns: repeat(3, 1fr);
     }
 
     .class-filters {
@@ -792,6 +918,10 @@
     .grelha-aulas,
     .perfil-grid {
         grid-template-columns: 1fr;
+    }
+
+    .grelha-stats {
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .pagina-aulas .titulo h1,
