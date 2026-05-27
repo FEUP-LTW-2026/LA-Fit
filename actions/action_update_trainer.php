@@ -11,7 +11,7 @@ require_once __DIR__ . '/../database/users.php';
 
 function redirectTrainer(string $status, string $code): void
 {
-    header('Location: ../pages/trainer.php?' . $status . '=' . $code);
+    header('Location: ../pages/perfil.php?' . $status . '=' . $code);
     exit;
 }
 
