@@ -8,6 +8,16 @@ function attachConfirmForms() {
             }
         });
     }
+
+    const buttons = document.querySelectorAll('button[data-confirm]');
+    for (const btn of buttons) {
+        btn.addEventListener('click', function(e) {
+            const message = this.getAttribute('data-confirm');
+            if (!confirm(message)) {
+                e.preventDefault();
+            }
+        });
+    }
 }
 
 function attachFlashMessages() {

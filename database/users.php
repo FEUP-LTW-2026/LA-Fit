@@ -315,6 +315,36 @@ function updateTrainerProfile(PDO $db, int $userId, int $trainerId, array $data)
     )->execute([$data['bio'], $data['specializations'], $data['certifications'], $trainerId]);
 }
 
+function elevateUserToAdmin(PDO $db, int $userId): bool
+{
+    $db->beginTransaction();
+
+    try {
+        $stmt = $db->prepare(
+            'UPDATE utilizadores
+             SET papel = "administrador"
+             WHERE id = ?
+               AND papel IN ("membro", "treinador")'
+        );
+        $stmt->execute([$userId]);
+
+        if ($stmt->rowCount() === 0) {
+            $db->rollBack();
+            return false;
+        }
+
+        $db->prepare(
+            'INSERT OR IGNORE INTO administradores (utilizador_id) VALUES (?)'
+        )->execute([$userId]);
+
+        $db->commit();
+        return true;
+    } catch (Exception $exception) {
+        $db->rollBack();
+        throw $exception;
+    }
+}
+
 function createMemberUser(PDO $db, array $data): int
 {
     $db->beginTransaction();

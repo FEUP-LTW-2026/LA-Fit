@@ -133,7 +133,12 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                             </div>
                         </fieldset>
 
-                        <button type="submit" class="botao amarelo"><?= $isEditing ? 'Guardar alterações' : 'Criar conta' ?></button>
+                        <div class="acoes-linha">
+                            <button type="submit" class="botao amarelo"><?= $isEditing ? 'Guardar alterações' : 'Criar conta' ?></button>
+                            <?php if ($isEditing) { ?>
+                                <button type="submit" formaction="../actions/action_admin_elevate_user.php" class="botao cliente" data-confirm="Tens a certeza que queres elevar esta conta para administrador? Esta ação não pode ser revertida.">Elevar para Admin</button>
+                            <?php } ?>
+                        </div>
                     </form>
 
                 </section>
