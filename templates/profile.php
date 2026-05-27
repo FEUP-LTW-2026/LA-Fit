@@ -18,7 +18,7 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
 
     $initials = strtoupper(substr($user['nome'], 0, 1) . substr($user['apelido'], 0, 1));
 ?>
-    <main class="pagina-perfil">
+    <main class="pagina-perfil" id="perfil">
         <section class="seccao">
             <div class="conteudo">
                 <div class="titulo">
@@ -74,7 +74,7 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                     </article>
                 </div>
 
-                <section class="painel painel-editar-perfil">
+                <section class="painel painel-editar-perfil" >
                     <h2>Editar perfil</h2>
                     <form action="../actions/action_update_profile.php" method="post" enctype="multipart/form-data">
                         <fieldset class="grupo">
@@ -135,7 +135,7 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                     </form>
                 </section>
 
-                <section class="painel painel-aulas">
+                <section class="painel painel-aulas" id="perfil-aulas">
                     <div class="cabecalho-painel">
                         <h2>As tuas aulas</h2>
                         <a href="aulas.php" class="botao cliente">Ver aulas</a>
@@ -183,7 +183,7 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                 </section>
 
                 <?php if ($member) { ?>
-                <section class="painel painel-equipamentos">
+                <section class="painel painel-equipamentos" id="perfil-equipamentos">
                     <div class="cabecalho-painel">
                         <h2>Equipamentos</h2>
                     </div>

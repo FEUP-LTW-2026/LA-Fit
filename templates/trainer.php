@@ -12,7 +12,7 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
         }
     }
 ?>
-    <main class="pagina-perfil">
+    <main class="pagina-perfil" id="trainer">
         <section class="seccao">
             <div class="conteudo">
                 <div class="titulo">
@@ -111,7 +111,7 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
                     </form>
                 </section>
 
-                <section class="painel painel-aulas">
+                <section class="painel painel-aulas" id="trainer-aulas">
                     <div class="cabecalho-painel">
                         <h2>As tuas aulas</h2>
                     </div>

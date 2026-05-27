@@ -8,7 +8,7 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
     $selectedRole = $editingUser['papel'] ?? 'membro';
     $selectedStatus = $editingUser['estado'] ?? 'ativo';
 ?>
-    <main class="pagina-admin">
+    <main class="pagina-admin" id="admin">
         <section class="seccao">
             <div class="conteudo">
                 <div class="titulo">
@@ -27,7 +27,7 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                 <?php if (!$isEditing && !$isEditingClass && !$isEditingEquipment && !empty($overview)) { drawAdminOverview($overview); } ?>
 
                 <?php if (!$isEditingClass && !$isEditingEquipment) { ?>
-                <section class="painel painel-editar-perfil painel-form">
+                <section class="painel painel-editar-perfil painel-form" id="admin-contas">
                     <div class="cabecalho-painel">
                         <h2><?= $isEditing ? 'Editar conta' : 'Criar conta' ?></h2>
                         <?php if ($isEditing) { ?>
@@ -225,7 +225,7 @@ function drawAdminOverview(array $overview): void
                || $stats['contas_inativas'] > 0
                || $stats['aulas_canceladas'] > 0;
 ?>
-    <section class="painel painel-lista visao-geral">
+    <section class="painel painel-lista visao-geral" id="admin-geral">
         <h2>Visão geral do sistema</h2>
 
         <div class="grelha-stats">
@@ -332,7 +332,7 @@ function drawAdminEquipmentSection(array $equipment, ?array $editingEquipment): 
     $existingZones = array_unique(array_column($equipment, 'zona'));
     sort($existingZones);
 ?>
-    <section class="painel painel-editar-perfil painel-form">
+    <section class="painel painel-editar-perfil painel-form" id="admin-equipamentos">
         <div class="cabecalho-painel">
             <h2><?= $isEditing ? 'Editar equipamento' : 'Adicionar equipamento' ?></h2>
             <?php if ($isEditing) { ?>
@@ -435,7 +435,7 @@ function drawAdminReports(array $reports): void
     $tipoLabel   = ['equipamento' => 'Equipamento', 'aula' => 'Aula', 'outro' => 'Outro'];
     $pendentes   = count(array_filter($reports, fn($r) => $r['estado'] === 'pendente'));
 ?>
-    <section class="painel painel-lista">
+    <section class="painel painel-lista" id="admin-reportes">
         <h2>Reportes <?php if ($pendentes > 0) { ?><span class="faixa"><?= $pendentes ?> pendente<?= $pendentes > 1 ? 's' : '' ?></span><?php } ?></h2>
 
         <?php if (count($reports) === 0) { ?>
@@ -495,7 +495,7 @@ function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?ar
     $days = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
     $statuses = ['agendada' => 'Agendada', 'concluida' => 'Concluída', 'cancelada' => 'Cancelada'];
 ?>
-    <section class="painel painel-editar-perfil painel-form">
+    <section class="painel painel-editar-perfil painel-form" id="admin-aulas">
         <div class="cabecalho-painel">
             <h2><?= $isEditing ? 'Editar aula' : 'Criar aula' ?></h2>
             <?php if ($isEditing) { ?>

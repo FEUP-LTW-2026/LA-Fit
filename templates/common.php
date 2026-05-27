@@ -67,6 +67,25 @@ function drawHeader(string $title = 'LAFit', string $activePage = 'home', array 
                 <a href="index.php#aulas-destaque" class="<?= $activePage === 'aulas' ? 'ativo' : '' ?>">Aulas</a>
                 <a href="#contactos">Contactos</a>
             </nav>
+            <?php } elseif ($activePage === 'perfil') { ?>
+            <nav class="menu">
+                <a href="#perfil">Perfil</a>
+                <a href="#perfil-aulas">Aulas</a>
+                <a href="#perfil-equipamentos">Equipamentos</a>
+            </nav>
+            <?php } elseif ($activePage === 'trainer') { ?>
+            <nav class="menu">
+                <a href="#trainer">Perfil</a>
+                <a href="#trainer-aulas">Aulas</a>
+            </nav>
+            <?php } elseif ($activePage === 'admin') { ?>
+            <nav class="menu">
+                <a href="#admin">Geral</a>
+                <a href="#admin-contas">Contas</a>
+                <a href="#admin-aulas">Aulas</a>
+                <a href="#admin-equipamentos">Equipamentos</a>
+                <a href="#admin-reportes">Reportes</a>
+            </nav>
             <?php } ?>
 
             <div class="acoes-topo">
