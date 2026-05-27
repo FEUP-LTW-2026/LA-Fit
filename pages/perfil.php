@@ -26,7 +26,6 @@ if ($role === 'administrador') {
     require_once __DIR__ . '/../database/plans.php';
     require_once __DIR__ . '/../database/gyms.php';
     require_once __DIR__ . '/../database/classes.php';
-    require_once __DIR__ . '/../database/reports.php';
     require_once __DIR__ . '/../database/equipment.php';
     require_once __DIR__ . '/../database/overview.php';
     require_once __DIR__ . '/../templates/admin.php';
@@ -36,7 +35,6 @@ if ($role === 'administrador') {
     $gyms           = getAllGyms($db);
     $classes        = getAdminClasses($db);
     $trainers       = getActiveTrainers($db);
-    $reports        = getAllReports($db);
     $equipment      = getAllEquipment($db);
     $overview       = getSystemOverview($db);
     $editingUser      = null;
@@ -69,7 +67,6 @@ if ($role === 'administrador') {
             'aula_criada'             => 'Aula criada com sucesso.',
             'aula_atualizada'         => 'Aula atualizada com sucesso.',
             'aula_removida'           => 'Aula removida do catálogo com sucesso.',
-            'reporte_atualizado'      => 'Reporte atualizado com sucesso.',
             'equipamento_criado'      => 'Equipamento adicionado com sucesso.',
             'equipamento_atualizado'  => 'Equipamento atualizado com sucesso.',
             'equipamento_removido'    => 'Equipamento removido com sucesso.',
@@ -87,8 +84,6 @@ if ($role === 'administrador') {
             'aula_horario'          => 'Confirma a hora de início e fim da aula.',
             'aula_numero'           => 'A lotação tem de ser maior que zero.',
             'aula_opcao'            => 'Escolhe opções válidas para a aula.',
-            'reporte_notfound'      => 'Reporte não encontrado.',
-            'reporte_opcao'         => 'Escolhe um estado válido para o reporte.',
             'equipamento_campos'    => 'Preenche o nome e a zona do equipamento.',
             'equipamento_opcao'     => 'Escolhe um estado válido para o equipamento.',
             'equipamento_numero'    => 'A quantidade tem de ser maior que zero.',
@@ -98,7 +93,7 @@ if ($role === 'administrador') {
     ];
 
     drawHeader('Admin - LAFit', 'admin');
-    drawAdminPage($users, $plans, $gyms, $classes, $trainers, $reports, $equipment, $editingUser, $editingClass, $editingEquipment, $messages, $overview);
+    drawAdminPage($users, $plans, $gyms, $classes, $trainers, $equipment, $editingUser, $editingClass, $editingEquipment, $messages, $overview);
     drawFooter();
 
 } elseif ($role === 'treinador') {

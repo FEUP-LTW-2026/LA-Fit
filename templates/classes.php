@@ -110,7 +110,7 @@ function drawClassCard(array $class, array $enrolledClassIds, bool $isLoggedIn, 
     $available = (int)$class['lotacao'] - (int)$class['inscritos'];
     $alreadyEnrolled = in_array($classId, $enrolledClassIds, true);
 ?>
-    <article class="aula">
+    <article class="aula" data-class-id="<?= $classId ?>">
         <p class="aula-dia"><?= h(formatClassDay($class['dia_semana'])) ?> · <?= h($class['inicio']) ?> - <?= h($class['fim']) ?></p>
         <h2><?= h($class['nome']) ?></h2>
         <p><?= h($class['descricao']) ?></p>
@@ -119,7 +119,7 @@ function drawClassCard(array $class, array $enrolledClassIds, bool $isLoggedIn, 
             <span><i class="fa-solid fa-location-dot"></i> <?= h($class['ginasio_nome']) ?></span>
             <span><i class="fa-solid fa-user"></i> <a href="profile_view.php?id=<?= (int)$class['treinador_id'] ?>" class="link-amarelo"><?= h($class['treinador_nome']) ?></a></span>
             <span><i class="fa-solid fa-door-open"></i> <?= h($class['sala']) ?></span>
-            <span><i class="fa-solid fa-users"></i> <?= $available ?> vagas</span>
+            <span class="vagas-aula"><i class="fa-solid fa-users"></i> <?= $available ?> vagas</span>
         </div>
 
         <div class="convite-avaliacao">

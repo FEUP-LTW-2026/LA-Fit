@@ -184,8 +184,41 @@ function attachHoverAnimations() {
     }
 }
 
+function attachScheduleRefresh() {
+    const grid = document.querySelector('.grelha-aulas');
+    if (!grid) return;
+
+    function refresh() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams();
+        if (urlParams.get('type')) params.set('type', urlParams.get('type'));
+        if (urlParams.get('trainer')) params.set('trainer', urlParams.get('trainer'));
+        if (urlParams.get('day')) params.set('day', urlParams.get('day'));
+        if (urlParams.get('time')) params.set('time', urlParams.get('time'));
+
+        fetch('api_classes.php?' + params.toString())
+            .then(function(response) { return response.json(); })
+            .then(function(data) {
+                const cards = grid.querySelectorAll('.aula[data-class-id]');
+                for (const card of cards) {
+                    const id = parseInt(card.getAttribute('data-class-id'), 10);
+                    const info = data.classes[id];
+                    if (!info) continue;
+                    const vagasEl = card.querySelector('.vagas-aula');
+                    if (vagasEl) {
+                        vagasEl.innerHTML = '<i class="fa-solid fa-users"></i> ' + info.vagas + ' vagas';
+                    }
+                }
+            })
+            .catch(function() {});
+    }
+
+    setInterval(refresh, 30000);
+}
+
 attachConfirmForms();
 attachFlashMessages();
 attachAdminRoleSwitch();
 attachEquipmentRefresh();
+attachScheduleRefresh();
 attachHoverAnimations();

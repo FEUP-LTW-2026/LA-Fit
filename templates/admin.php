@@ -1,5 +1,5 @@
 <?php
-function drawAdminPage(array $users, array $plans, array $gyms, array $classes, array $trainers, array $reports, array $equipment, ?array $editingUser, ?array $editingClass, ?array $editingEquipment, array $messages = [], array $overview = []): void
+function drawAdminPage(array $users, array $plans, array $gyms, array $classes, array $trainers, array $equipment, ?array $editingUser, ?array $editingClass, ?array $editingEquipment, array $messages = [], array $overview = []): void
 {
     $isEditing = $editingUser !== null;
     $isEditingClass = $editingClass !== null;
@@ -206,7 +206,6 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                 </section>
                 <?php } ?>
 
-                <?php if (!$isEditing && !$isEditingClass && !$isEditingEquipment) { drawAdminReports($reports); } ?>
             </div>
         </section>
     </main>
@@ -429,64 +428,6 @@ function drawAdminEquipmentSection(array $equipment, ?array $editingEquipment): 
 <?php
 }
 
-function drawAdminReports(array $reports): void
-{
-    $estadoLabel = ['pendente' => 'Pendente', 'em_analise' => 'Em análise', 'resolvido' => 'Resolvido'];
-    $tipoLabel   = ['equipamento' => 'Equipamento', 'aula' => 'Aula', 'outro' => 'Outro'];
-    $pendentes   = count(array_filter($reports, fn($r) => $r['estado'] === 'pendente'));
-?>
-    <section class="painel painel-lista" id="admin-reportes">
-        <h2>Reportes <?php if ($pendentes > 0) { ?><span class="faixa"><?= $pendentes ?> pendente<?= $pendentes > 1 ? 's' : '' ?></span><?php } ?></h2>
-
-        <?php if (count($reports) === 0) { ?>
-            <p>Não há reportes submetidos.</p>
-        <?php } else { ?>
-            <div class="lista-reportes">
-                <?php foreach ($reports as $report) { ?>
-                    <article class="reporte">
-                        <div class="reporte-cabecalho">
-                            <div>
-                                <span class="faixa"><?= h($tipoLabel[$report['tipo']] ?? $report['tipo']) ?></span>
-                                <h3><?= h($report['assunto']) ?></h3>
-                                <p class="reporte-meta"><?= h($report['membro_nome']) ?> · <?= h(substr($report['criado_em'], 0, 10)) ?></p>
-                                <p class="reporte-descricao"><?= h($report['descricao']) ?></p>
-                            </div>
-                            <span class="estado-reporte estado-reporte-<?= h($report['estado']) ?>">
-                                <?= h($estadoLabel[$report['estado']] ?? $report['estado']) ?>
-                            </span>
-                        </div>
-
-                        <?php if (!empty($report['resposta_admin'])) { ?>
-                            <div class="reporte-resposta">
-                                <p><strong>Resposta:</strong> <?= h($report['resposta_admin']) ?></p>
-                            </div>
-                        <?php } ?>
-
-                        <form action="../actions/action_admin_respond_report.php" method="post" class="reporte-form">
-                            <input type="hidden" name="report_id" value="<?= (int)$report['id'] ?>">
-                            <div class="campos">
-                                <div class="campo campo-largo">
-                                    <label for="resposta-<?= (int)$report['id'] ?>">Resposta</label>
-                                    <textarea id="resposta-<?= (int)$report['id'] ?>" name="resposta" rows="2"><?= h($report['resposta_admin'] ?? '') ?></textarea>
-                                </div>
-                                <div class="campo">
-                                    <label for="estado-<?= (int)$report['id'] ?>">Estado</label>
-                                    <select id="estado-<?= (int)$report['id'] ?>" name="estado" required>
-                                        <option value="pendente" <?= $report['estado'] === 'pendente' ? 'selected' : '' ?>>Pendente</option>
-                                        <option value="em_analise" <?= $report['estado'] === 'em_analise' ? 'selected' : '' ?>>Em análise</option>
-                                        <option value="resolvido" <?= $report['estado'] === 'resolvido' ? 'selected' : '' ?>>Resolvido</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <button type="submit" class="botao claro-voltar">Guardar resposta</button>
-                        </form>
-                    </article>
-                <?php } ?>
-            </div>
-        <?php } ?>
-    </section>
-<?php
-}
 
 function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?array $editingClass): void
 {
