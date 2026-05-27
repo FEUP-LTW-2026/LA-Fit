@@ -26,9 +26,9 @@ $_SESSION['role'] = $user['papel'];
 $_SESSION['name'] = $user['nome'];
 
 if ($user['papel'] === 'treinador') {
-    header('Location: ../pages/trainer.php');
+    header('Location: ../pages/perfil.php');
 } elseif ($user['papel'] === 'administrador') {
-    header('Location: ../pages/admin.php');
+    header('Location: ../pages/perfil.php');
 } else {
     header('Location: ../pages/perfil.php');
 }

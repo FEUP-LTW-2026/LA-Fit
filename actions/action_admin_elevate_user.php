@@ -12,16 +12,16 @@ require_once __DIR__ . '/../database/users.php';
 $userId = filter_input(INPUT_POST, 'user_id', FILTER_VALIDATE_INT) ?: 0;
 
 if ($userId <= 0) {
-    header('Location: ../pages/admin.php?erro=notfound');
+    header('Location: ../pages/perfil.php?erro=notfound');
     exit;
 }
 
 $db = getDatabaseConnection();
 
 if (!elevateUserToAdmin($db, $userId)) {
-    header('Location: ../pages/admin.php?erro=notfound&edit=' . $userId);
+    header('Location: ../pages/perfil.php?erro=notfound&edit=' . $userId);
     exit;
 }
 
-header('Location: ../pages/admin.php?sucesso=atualizado');
+header('Location: ../pages/perfil.php?sucesso=atualizado');
 exit;

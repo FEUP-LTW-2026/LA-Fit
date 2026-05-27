@@ -12,7 +12,7 @@ require_once __DIR__ . '/../database/classes.php';
 function redirectAdminUpdateClass(string $type, string $code, int $classId = 0): void
 {
     $edit = $classId > 0 ? '&edit_class=' . $classId : '';
-    header('Location: ../pages/admin.php?' . $type . '=' . $code . $edit);
+    header('Location: ../pages/perfil.php?' . $type . '=' . $code . $edit);
     exit;
 }
 

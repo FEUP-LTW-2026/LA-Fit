@@ -13,7 +13,7 @@ $db = getDatabaseConnection();
 
 function redirectAdmin(string $param, string $value): never
 {
-    header("Location: ../pages/admin.php?$param=$value");
+    header("Location: ../pages/perfil.php?$param=$value");
     exit;
 }
 

@@ -12,7 +12,7 @@ require_once __DIR__ . '/../database/users.php';
 function redirectAdminUpdate(string $type, string $code, int $userId = 0): void
 {
     $edit = $userId > 0 ? '&edit=' . $userId : '';
-    header('Location: ../pages/admin.php?' . $type . '=' . $code . $edit);
+    header('Location: ../pages/perfil.php?' . $type . '=' . $code . $edit);
     exit;
 }
 

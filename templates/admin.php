@@ -31,7 +31,7 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                     <div class="cabecalho-painel">
                         <h2><?= $isEditing ? 'Editar conta' : 'Criar conta' ?></h2>
                         <?php if ($isEditing) { ?>
-                            <a href="admin.php" class="botao claro-voltar">Nova conta</a>
+                            <a href="perfil.php" class="botao claro-voltar">Nova conta</a>
                         <?php } ?>
                     </div>
 
@@ -187,7 +187,7 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                                             </td>
                                             <td>
                                                 <div class="acoes-linha">
-                                                    <a href="admin.php?edit=<?= (int)$user['id'] ?>" class="botao claro-voltar">Editar</a>
+                                                    <a href="perfil.php?edit=<?= (int)$user['id'] ?>" class="botao claro-voltar">Editar</a>
                                                     <form action="../actions/action_admin_toggle_user.php" method="post" data-confirm="<?= $user['estado'] === 'ativo' ? 'Tens a certeza que queres desativar esta conta?' : 'Tens a certeza que queres ativar esta conta?' ?>">
                                                         <input type="hidden" name="user_id" value="<?= (int)$user['id'] ?>">
                                                         <input type="hidden" name="status" value="<?= $user['estado'] === 'ativo' ? 'inativo' : 'ativo' ?>">
@@ -263,7 +263,7 @@ function drawAdminOverview(array $overview): void
                         <?php foreach ($manutencao as $item) { ?>
                             <li>
                                 <?= h($item['nome']) ?> · <?= h($item['zona']) ?> · <?= (int)$item['quantidade'] ?> unidade<?= (int)$item['quantidade'] !== 1 ? 's' : '' ?>
-                                <a href="admin.php?edit_equipment=<?= (int)$item['id'] ?>" class="alerta-link">Editar</a>
+                                <a href="perfil.php?edit_equipment=<?= (int)$item['id'] ?>" class="alerta-link">Editar</a>
                             </li>
                         <?php } ?>
                     </ul>
@@ -292,7 +292,7 @@ function drawAdminOverview(array $overview): void
                         <?php foreach ($inativas as $user) { ?>
                             <li>
                                 <?= h($user['nome'] . ' ' . $user['apelido']) ?> · <?= h($user['nome_utilizador']) ?> · <?= h($user['papel']) ?>
-                                <a href="admin.php?edit=<?= (int)$user['id'] ?>" class="alerta-link">Editar</a>
+                                <a href="perfil.php?edit=<?= (int)$user['id'] ?>" class="alerta-link">Editar</a>
                             </li>
                         <?php } ?>
                     </ul>
@@ -308,7 +308,7 @@ function drawAdminOverview(array $overview): void
                         <?php foreach ($canceladas as $aula) { ?>
                             <li>
                                 <?= h($aula['nome']) ?> · <?= h(formatClassDay($aula['dia_semana'])) ?> <?= h($aula['inicio']) ?>–<?= h($aula['fim']) ?> · <?= h($aula['treinador_nome']) ?>
-                                <a href="admin.php?edit_class=<?= (int)$aula['id'] ?>" class="alerta-link">Editar</a>
+                                <a href="perfil.php?edit_class=<?= (int)$aula['id'] ?>" class="alerta-link">Editar</a>
                             </li>
                         <?php } ?>
                     </ul>
@@ -336,7 +336,7 @@ function drawAdminEquipmentSection(array $equipment, ?array $editingEquipment): 
         <div class="cabecalho-painel">
             <h2><?= $isEditing ? 'Editar equipamento' : 'Adicionar equipamento' ?></h2>
             <?php if ($isEditing) { ?>
-                <a href="admin.php" class="botao claro-voltar">Novo equipamento</a>
+                <a href="perfil.php" class="botao claro-voltar">Novo equipamento</a>
             <?php } ?>
         </div>
 
@@ -411,7 +411,7 @@ function drawAdminEquipmentSection(array $equipment, ?array $editingEquipment): 
                                 <td><?= h(substr($item['atualizado_em'] ?? '', 0, 16)) ?></td>
                                 <td>
                                     <div class="acoes-linha">
-                                        <a href="admin.php?edit_equipment=<?= (int)$item['id'] ?>" class="botao claro-voltar">Editar</a>
+                                        <a href="perfil.php?edit_equipment=<?= (int)$item['id'] ?>" class="botao claro-voltar">Editar</a>
                                         <form action="../actions/action_admin_delete_equipment.php" method="post" data-confirm="Tens a certeza que queres remover este equipamento?">
                                             <input type="hidden" name="equipment_id" value="<?= (int)$item['id'] ?>">
                                             <button type="submit" class="botao cliente">Remover</button>
@@ -499,7 +499,7 @@ function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?ar
         <div class="cabecalho-painel">
             <h2><?= $isEditing ? 'Editar aula' : 'Criar aula' ?></h2>
             <?php if ($isEditing) { ?>
-                <a href="admin.php" class="botao claro-voltar">Nova aula</a>
+                <a href="perfil.php" class="botao claro-voltar">Nova aula</a>
             <?php } ?>
         </div>
 
@@ -622,7 +622,7 @@ function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?ar
                                 <td><span class="estado-conta estado-conta-<?= h($class['estado']) ?>"><?= h($class['estado']) ?></span></td>
                                 <td>
                                     <div class="acoes-linha">
-                                        <a href="admin.php?edit_class=<?= (int)$class['id'] ?>" class="botao claro-voltar">Editar</a>
+                                        <a href="perfil.php?edit_class=<?= (int)$class['id'] ?>" class="botao claro-voltar">Editar</a>
                                         <?php if ($class['estado'] !== 'cancelada') { ?>
                                             <form action="../actions/action_admin_delete_class.php" method="post" data-confirm="Tens a certeza que queres remover esta aula do catálogo?">
                                                 <input type="hidden" name="class_id" value="<?= (int)$class['id'] ?>">
