@@ -11,11 +11,13 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
     <main class="pagina-admin" id="admin">
         <section class="seccao">
             <div class="conteudo">
+                <?php if (!$isEditing && !$isEditingClass && !$isEditingEquipment) { ?>
                 <div class="titulo">
                     <p class="subtitulo">Administração</p>
-                    <h1>Gestão de contas</h1>
-                    <p>Cria, atualiza e desativa contas de membros e treinadores.</p>
+                    <h1>Painel de gestão</h1>
+                    <p>Gere contas, aulas, equipamentos e reportes do ginásio.</p>
                 </div>
+                <?php } ?>
 
                 <?php if (!empty($messages['success'])) { ?>
                     <p class="mensagem sucesso"><?= h($messages['success']) ?></p>
@@ -31,7 +33,7 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                     <div class="cabecalho-painel">
                         <h2><?= $isEditing ? 'Editar conta' : 'Criar conta' ?></h2>
                         <?php if ($isEditing) { ?>
-                            <a href="perfil.php" class="botao claro-voltar">Nova conta</a>
+                            <a href="perfil.php" class="botao claro-voltar">Cancelar</a>
                         <?php } ?>
                     </div>
 
@@ -146,10 +148,6 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                 </section>
                 <?php } ?>
 
-                <?php if (!$isEditing && !$isEditingEquipment) { drawAdminClassCatalog($classes, $trainers, $gyms, $editingClass); } ?>
-
-                <?php if (!$isEditing && !$isEditingClass) { drawAdminEquipmentSection($equipment, $editingEquipment); } ?>
-
                 <?php if (!$isEditing && !$isEditingClass && !$isEditingEquipment) { ?>
                 <section class="painel painel-lista">
                     <h2>Membros e treinadores</h2>
@@ -205,6 +203,10 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                     <?php } ?>
                 </section>
                 <?php } ?>
+
+                <?php if (!$isEditing && !$isEditingEquipment) { drawAdminClassCatalog($classes, $trainers, $gyms, $editingClass); } ?>
+
+                <?php if (!$isEditing && !$isEditingClass) { drawAdminEquipmentSection($equipment, $editingEquipment); } ?>
 
             </div>
         </section>
@@ -387,7 +389,7 @@ function drawAdminEquipmentSection(array $equipment, ?array $editingEquipment): 
         <div class="cabecalho-painel">
             <h2><?= $isEditing ? 'Editar equipamento' : 'Adicionar equipamento' ?></h2>
             <?php if ($isEditing) { ?>
-                <a href="perfil.php" class="botao claro-voltar">Novo equipamento</a>
+                <a href="perfil.php" class="botao claro-voltar">Cancelar</a>
             <?php } ?>
         </div>
 
@@ -492,7 +494,7 @@ function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?ar
         <div class="cabecalho-painel">
             <h2><?= $isEditing ? 'Editar aula' : 'Criar aula' ?></h2>
             <?php if ($isEditing) { ?>
-                <a href="perfil.php" class="botao claro-voltar">Nova aula</a>
+                <a href="perfil.php" class="botao claro-voltar">Cancelar</a>
             <?php } ?>
         </div>
 
