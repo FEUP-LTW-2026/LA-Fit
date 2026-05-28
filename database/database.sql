@@ -1,5 +1,7 @@
 PRAGMA foreign_keys = OFF;
 
+DROP TABLE IF EXISTS objetivos;
+DROP TABLE IF EXISTS treinos;
 DROP TABLE IF EXISTS relatorios;
 DROP TABLE IF EXISTS avaliacoes;
 DROP TABLE IF EXISTS equipamentos;
@@ -128,6 +130,28 @@ CREATE TABLE relatorios (
     resposta_admin TEXT,
     criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
     atualizado_em DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE treinos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    membro_id INTEGER NOT NULL REFERENCES membros(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    data TEXT NOT NULL,
+    tipo TEXT NOT NULL CHECK (tipo IN ('musculacao', 'cardio', 'funcional', 'yoga', 'outro')),
+    duracao_minutos INTEGER NOT NULL CHECK (duracao_minutos > 0),
+    notas TEXT,
+    criado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE objetivos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    membro_id INTEGER NOT NULL REFERENCES membros(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    descricao TEXT NOT NULL,
+    valor_alvo REAL NOT NULL CHECK (valor_alvo > 0),
+    valor_atual REAL NOT NULL DEFAULT 0 CHECK (valor_atual >= 0),
+    unidade TEXT NOT NULL DEFAULT '',
+    data_limite TEXT,
+    concluido INTEGER NOT NULL DEFAULT 0 CHECK (concluido IN (0, 1)),
+    criado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE avaliacoes (

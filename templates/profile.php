@@ -1,5 +1,5 @@
 <?php
-function drawProfilePage(array $user, ?array $member, array $enrollments, array $equipmentByZone, array $summary, array $equipmentFilters = [], array $equipmentFilterOptions = [], array $messages = []): void
+function drawProfilePage(array $user, ?array $member, array $enrollments, array $equipmentByZone, array $summary, array $equipmentFilters = [], array $equipmentFilterOptions = [], array $messages = [], array $workouts = [], array $goals = [], array $workoutStats = []): void
 {
     $weekDays = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
     $enrollmentsByDay = [];
@@ -186,6 +186,7 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                 <section class="painel painel-equipamentos" id="perfil-equipamentos">
                     <div class="cabecalho-painel">
                         <h2>Equipamentos</h2>
+                        <button type="button" class="botao cliente" id="btn-ver-equipamentos">Ver mais</button>
                     </div>
 
                     <div class="resumo-equipamentos">
@@ -194,27 +195,31 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                         <?php drawEquipmentSummaryItem('manutencao', 'Manutenção', $summary['manutencao'] ?? 0, 'fa-screwdriver-wrench'); ?>
                     </div>
 
-                    <?php drawEquipmentFilters($equipmentFilters, $equipmentFilterOptions, 'perfil.php'); ?>
+                    <div class="equipamentos-detalhe" hidden>
+                        <?php drawEquipmentFilters($equipmentFilters, $equipmentFilterOptions, 'perfil.php'); ?>
 
-                    <?php if (count($equipmentByZone) === 0) { ?>
-                        <p>Nenhum equipamento encontrado com esses filtros.</p>
-                    <?php } else { ?>
-                        <div class="zonas-equipamentos">
-                            <?php foreach ($equipmentByZone as $zone => $items) { ?>
-                                <section class="zona-equipamentos">
-                                    <div class="cabecalho-zona">
-                                        <h2><?= h($zone) ?></h2>
-                                        <span><?= count($items) ?> <?= count($items) === 1 ? 'equipamento' : 'equipamentos' ?></span>
-                                    </div>
-                                    <div class="lista-equipamentos">
-                                        <?php foreach ($items as $equipment) drawEquipmentItem($equipment); ?>
-                                    </div>
-                                </section>
-                            <?php } ?>
-                        </div>
-                    <?php } ?>
+                        <?php if (count($equipmentByZone) === 0) { ?>
+                            <p>Nenhum equipamento encontrado com esses filtros.</p>
+                        <?php } else { ?>
+                            <div class="zonas-equipamentos">
+                                <?php foreach ($equipmentByZone as $zone => $items) { ?>
+                                    <section class="zona-equipamentos">
+                                        <div class="cabecalho-zona">
+                                            <h2><?= h($zone) ?></h2>
+                                            <span><?= count($items) ?> <?= count($items) === 1 ? 'equipamento' : 'equipamentos' ?></span>
+                                        </div>
+                                        <div class="lista-equipamentos">
+                                            <?php foreach ($items as $equipment) drawEquipmentItem($equipment); ?>
+                                        </div>
+                                    </section>
+                                <?php } ?>
+                            </div>
+                        <?php } ?>
+                    </div>
                 </section>
                 <?php } ?>
+
+                <?php if ($member) { drawProgressSection($workouts, $goals, $workoutStats); } ?>
             </div>
         </section>
     </main>

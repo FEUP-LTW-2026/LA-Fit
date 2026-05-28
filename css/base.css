@@ -12,6 +12,7 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 90px;
 }
 
 * {
@@ -19,6 +20,8 @@ html {
     padding: 0;
     box-sizing: border-box;
 }
+
+[hidden] { display: none !important; }
 
 body {
     font-family: Arial, sans-serif;
