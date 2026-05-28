@@ -1,5 +1,5 @@
 <?php
-function drawProfilePage(array $user, ?array $member, array $enrollments, array $equipmentByZone, array $summary, array $equipmentFilters = [], array $equipmentFilterOptions = [], array $messages = [], array $workouts = [], array $goals = [], array $workoutStats = []): void
+function drawProfilePage(array $user, ?array $member, array $enrollments, array $equipmentByZone, array $summary, array $equipmentFilters = [], array $equipmentFilterOptions = [], array $messages = [], array $workouts = [], array $goals = [], array $workoutStats = [], array $nutritionPlans = []): void
 {
     $weekDays = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
     $enrollmentsByDay = [];
@@ -220,6 +220,8 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                 <?php } ?>
 
                 <?php if ($member) { drawProgressSection($workouts, $goals, $workoutStats); } ?>
+
+                <?php if ($member) { drawMemberNutritionSection($nutritionPlans); } ?>
             </div>
         </section>
     </main>

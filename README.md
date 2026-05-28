@@ -37,7 +37,7 @@
 - [X] Admins can view gym-wide metrics such as most popular classes, equipment usage, and member retention.
 - [X] Members can report issues (e.g., equipment malfunction, class cancellations) and admins can manage and respond to these reports.
 - [X] Members can log workouts, set fitness goals, and track progress over time with charts or statistics.
-- [ ] Nutrition Plans: Trainers can create and assign nutrition plans to their members, with meal and calorie tracking.
+- [X] Nutrition Plans: Trainers can create and assign nutrition plans to their members, with meal and calorie tracking.
 
 ## Running
 
@@ -51,7 +51,7 @@ To view the current project locally, run:
 
 Then open this link in the browser:
 
-    http://localhost:9000
+    http://localhost:9000/
 
 Main PHP pages:
 

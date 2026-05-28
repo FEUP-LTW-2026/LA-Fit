@@ -1,5 +1,8 @@
 PRAGMA foreign_keys = OFF;
 
+DROP TABLE IF EXISTS planos_nutricao_membros;
+DROP TABLE IF EXISTS refeicoes;
+DROP TABLE IF EXISTS planos_nutricao;
 DROP TABLE IF EXISTS objetivos;
 DROP TABLE IF EXISTS treinos;
 DROP TABLE IF EXISTS relatorios;
@@ -152,6 +155,39 @@ CREATE TABLE objetivos (
     data_limite TEXT,
     concluido INTEGER NOT NULL DEFAULT 0 CHECK (concluido IN (0, 1)),
     criado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE planos_nutricao (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    treinador_id INTEGER NOT NULL
+        REFERENCES treinadores(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    nome TEXT NOT NULL,
+    descricao TEXT,
+    criado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE refeicoes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    plano_id INTEGER NOT NULL
+        REFERENCES planos_nutricao(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    nome TEXT NOT NULL,
+    tipo TEXT NOT NULL DEFAULT 'outro'
+        CHECK (tipo IN ('pequeno_almoco', 'almoco', 'jantar', 'lanche', 'outro')),
+    calorias INTEGER NOT NULL DEFAULT 0 CHECK (calorias >= 0),
+    proteinas REAL NOT NULL DEFAULT 0 CHECK (proteinas >= 0),
+    hidratos REAL NOT NULL DEFAULT 0 CHECK (hidratos >= 0),
+    gorduras REAL NOT NULL DEFAULT 0 CHECK (gorduras >= 0),
+    ordem INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE planos_nutricao_membros (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    plano_id INTEGER NOT NULL
+        REFERENCES planos_nutricao(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    membro_id INTEGER NOT NULL
+        REFERENCES membros(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    atribuido_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (plano_id, membro_id)
 );
 
 CREATE TABLE avaliacoes (

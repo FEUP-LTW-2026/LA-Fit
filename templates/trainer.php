@@ -1,5 +1,5 @@
 <?php
-function drawTrainerPage(array $user, array $trainer, array $classes, array $messages = []): void
+function drawTrainerPage(array $user, array $trainer, array $classes, array $messages = [], array $nutritionPlans = [], array $nutritionMembers = []): void
 {
     $initials = strtoupper(substr($user['nome'], 0, 1) . substr($user['apelido'], 0, 1));
 
@@ -150,6 +150,8 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
                         </div>
                     <?php } ?>
                 </section>
+
+                <?php drawTrainerNutritionSection($nutritionPlans, $nutritionMembers); ?>
             </div>
         </section>
     </main>

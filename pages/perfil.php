@@ -99,36 +99,53 @@ if ($role === 'administrador') {
 } elseif ($role === 'treinador') {
 
     require_once __DIR__ . '/../database/classes.php';
+    require_once __DIR__ . '/../database/nutrition.php';
     require_once __DIR__ . '/../templates/trainer.php';
+    require_once __DIR__ . '/../templates/nutrition.php';
 
-    $trainer = getTrainerByUsername($db, $_SESSION['username']);
-    $classes = getFilteredClasses($db, ['trainer' => $trainer['id']]);
+    $trainer          = getTrainerByUsername($db, $_SESSION['username']);
+    $classes          = getFilteredClasses($db, ['trainer' => $trainer['id']]);
+    $nutritionPlans   = getTrainerNutritionPlans($db, (int)$trainer['id']);
+    $nutritionMembers = getMembersForAssignment($db);
 
     $messages = [
-        'success' => isset($_GET['sucesso']) ? 'Perfil atualizado com sucesso.' : null,
+        'success' => match ($_GET['sucesso'] ?? '') {
+            'sucesso'              => 'Perfil atualizado com sucesso.',
+            'plano_criado'         => 'Plano nutricional criado com sucesso.',
+            'plano_removido'       => 'Plano nutricional eliminado.',
+            'refeicao_adicionada'  => 'Refeição adicionada ao plano.',
+            'refeicao_removida'    => 'Refeição removida.',
+            'plano_atribuido'      => 'Plano atribuído ao membro.',
+            'plano_removido_membro'=> 'Membro removido do plano.',
+            default                => isset($_GET['sucesso']) ? 'Perfil atualizado com sucesso.' : null,
+        },
         'error'   => match ($_GET['erro'] ?? '') {
-            'campos'       => 'Preenche todos os campos obrigatórios.',
-            'email'        => 'Indica um email válido.',
-            'email_existe' => 'Esse email já está a ser usado.',
-            'foto'         => 'Não foi possível guardar a fotografia.',
-            'foto_tamanho' => 'A fotografia não pode ter mais de 2 MB.',
-            'foto_tipo'    => 'Usa uma fotografia JPG, PNG ou WebP.',
-            default        => null,
+            'campos'          => 'Preenche todos os campos obrigatórios.',
+            'email'           => 'Indica um email válido.',
+            'email_existe'    => 'Esse email já está a ser usado.',
+            'foto'            => 'Não foi possível guardar a fotografia.',
+            'foto_tamanho'    => 'A fotografia não pode ter mais de 2 MB.',
+            'foto_tipo'       => 'Usa uma fotografia JPG, PNG ou WebP.',
+            'nutricao_campos' => 'Preenche todos os campos obrigatórios do plano.',
+            'refeicao_campos' => 'Preenche o nome e tipo da refeição.',
+            default           => null,
         },
     ];
 
     drawHeader('Área Treinador - LAFit', 'trainer');
-    drawTrainerPage($user, $trainer, $classes, $messages);
+    drawTrainerPage($user, $trainer, $classes, $messages, $nutritionPlans, $nutritionMembers);
     drawFooter();
 
 } else {
 
     require_once __DIR__ . '/../database/enrollments.php';
     require_once __DIR__ . '/../database/equipment.php';
-    require_once __DIR__ . '/../templates/profile.php';
     require_once __DIR__ . '/../database/progress.php';
+    require_once __DIR__ . '/../database/nutrition.php';
+    require_once __DIR__ . '/../templates/profile.php';
     require_once __DIR__ . '/../templates/equipment.php';
     require_once __DIR__ . '/../templates/progress.php';
+    require_once __DIR__ . '/../templates/nutrition.php';
 
     $member               = getMemberByUsername($db, $_SESSION['username']);
     $enrollments          = [];
@@ -139,6 +156,7 @@ if ($role === 'administrador') {
     $workouts             = [];
     $goals                = [];
     $workoutStats         = ['mes_treinos' => 0, 'mes_minutos' => 0, 'mes_dias' => 0, 'total_treinos' => 0, 'semanal' => []];
+    $nutritionPlans       = [];
 
     if ($member) {
         $allowedStates = ['disponivel', 'ocupado', 'manutencao'];
@@ -153,6 +171,7 @@ if ($role === 'administrador') {
         $workouts             = getWorkoutsForMember($db, (int)$member['id']);
         $goals                = getGoalsForMember($db, (int)$member['id']);
         $workoutStats         = getWorkoutStats($db, (int)$member['id']);
+        $nutritionPlans       = getMemberNutritionPlans($db, (int)$member['id']);
     }
 
     $messages = [
@@ -182,7 +201,7 @@ if ($role === 'administrador') {
     ];
 
     drawHeader('Perfil - LAFit', 'perfil');
-    drawProfilePage($user, $member, $enrollments, $equipmentByZone, $equipmentSummary, $equipmentFilters, $equipmentFilterOptions, $messages, $workouts, $goals, $workoutStats);
+    drawProfilePage($user, $member, $enrollments, $equipmentByZone, $equipmentSummary, $equipmentFilters, $equipmentFilterOptions, $messages, $workouts, $goals, $workoutStats, $nutritionPlans);
     drawFooter();
 
 }
