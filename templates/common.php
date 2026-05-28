@@ -73,6 +73,7 @@ function drawHeader(string $title = 'LAFit', string $activePage = 'home', array 
                 <a href="#perfil-progresso">Progresso</a>
                 <a href="#perfil-aulas">Aulas</a>
                 <a href="#perfil-equipamentos">Equipamentos</a>
+                <a href="#perfil-progresso">Progresso</a>
             </nav>
             <?php } elseif ($activePage === 'trainer') { ?>
             <nav class="menu">

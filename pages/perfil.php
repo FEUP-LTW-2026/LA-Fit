@@ -127,7 +127,9 @@ if ($role === 'administrador') {
     require_once __DIR__ . '/../database/equipment.php';
     require_once __DIR__ . '/../database/progress.php';
     require_once __DIR__ . '/../templates/profile.php';
+    require_once __DIR__ . '/../database/progress.php';
     require_once __DIR__ . '/../templates/equipment.php';
+    require_once __DIR__ . '/../templates/progress.php';
 
     $member               = getMemberByUsername($db, $_SESSION['username']);
     $enrollments          = [];

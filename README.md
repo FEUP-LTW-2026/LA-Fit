@@ -34,7 +34,7 @@
 
 **Extra:**
 - [X] Define tiered membership plans with different access levels, and allow members to subscribe to or upgrade their plan.
-- [X] Admin Analytics Dashboard: Admins can view gym-wide metrics such as most popular classes, equipment usage, and member retention.
+- [X] Admins can view gym-wide metrics such as most popular classes, equipment usage, and member retention.
 - [X] Members can report issues (e.g., equipment malfunction, class cancellations) and admins can manage and respond to these reports.
 - [X] Member Progress Tracking: Members can log workouts, set fitness goals, and track progress over time with charts or statistics.
 - [ ] Nutrition Plans: Trainers can create and assign nutrition plans to their members, with meal and calorie tracking.

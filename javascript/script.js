@@ -216,9 +216,51 @@ function attachScheduleRefresh() {
     setInterval(refresh, 30000);
 }
 
+function attachEquipmentToggle() {
+    const btn = document.getElementById('btn-ver-equipamentos');
+    const detalhe = document.querySelector('.equipamentos-detalhe');
+    if (!btn || !detalhe) return;
+
+    const sectionsToHide = document.querySelectorAll(
+        '.titulo, .perfil-grid, .painel-editar-perfil, .painel-aulas, .painel-progresso'
+    );
+
+    btn.addEventListener('click', function () {
+        const expanded = !detalhe.hidden;
+        detalhe.hidden = expanded;
+        btn.textContent = expanded ? 'Ver mais' : 'Fechar';
+        for (const s of sectionsToHide) {
+            s.hidden = !expanded;
+        }
+        if (!expanded) {
+            document.getElementById('perfil-equipamentos').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+}
+
+function attachWorkoutToggle() {
+    const btn = document.querySelector('.toggle-treinos');
+    if (!btn) return;
+    const extrasWorkouts = document.querySelector('.treinos-extras');
+    const extrasGoals = document.querySelector('.objetivos-extras');
+    const ref = extrasWorkouts || extrasGoals;
+    if (!ref) return;
+    btn.addEventListener('click', function () {
+        const expanded = !ref.hidden;
+        if (extrasWorkouts) extrasWorkouts.hidden = expanded;
+        if (extrasGoals) extrasGoals.hidden = expanded;
+        btn.textContent = expanded
+            ? btn.dataset.labelMore
+            : 'Esconder';
+    });
+    btn.dataset.labelMore = btn.textContent.trim();
+}
+
 attachConfirmForms();
 attachFlashMessages();
 attachAdminRoleSwitch();
 attachEquipmentRefresh();
 attachScheduleRefresh();
+attachEquipmentToggle();
+attachWorkoutToggle();
 attachHoverAnimations();
