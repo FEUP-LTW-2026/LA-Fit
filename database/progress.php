@@ -44,55 +44,50 @@ function getGoalsForMember(PDO $db, int $memberId): array
     foreach ($goals as &$goal) {
         $goal['progress'] = getGoalProgress($db, $goal);
     }
+    unset($goal);
 
     return $goals;
 }
 
 function getGoalProgress(PDO $db, array $goal): array
 {
-    $memberId = $goal['membro_id'] ?? 0;
+    $memberId = (int)($goal['membro_id'] ?? 0);
     $startDate = $goal['data_inicio'] ?? $goal['criado_em'] ?? date('Y-m-d');
     $target = (int)$goal['objetivo_valor'];
+    $type = $goal['tipo'] ?? 'treinos';
 
-    switch ($goal['tipo']) {
-        case 'minutos':
-            $stmt = $db->prepare(
-                'SELECT COALESCE(SUM(duracao_minutos), 0) AS valor
-                 FROM workouts
-                 WHERE membro_id = ?
-                   AND date(data_treino) >= date(?)'
-            );
-            $stmt->execute([$memberId, $startDate]);
-            $current = (int)$stmt->fetchColumn();
-            $label = 'minutos';
-            break;
-
-        case 'calorias':
-            $stmt = $db->prepare(
-                'SELECT COALESCE(SUM(calorias), 0) AS valor
-                 FROM workouts
-                 WHERE membro_id = ?
-                   AND date(data_treino) >= date(?)'
-            );
-            $stmt->execute([$memberId, $startDate]);
-            $current = (int)$stmt->fetchColumn();
-            $label = 'kcal';
-            break;
-
-        default:
-            $stmt = $db->prepare(
-                'SELECT COUNT(*) AS valor
-                 FROM workouts
-                 WHERE membro_id = ?
-                   AND date(data_treino) >= date(?)'
-            );
-            $stmt->execute([$memberId, $startDate]);
-            $current = (int)$stmt->fetchColumn();
-            $label = 'treinos';
-            break;
+    if ($type === 'calorias') {
+        $column = 'calorias';
+        $label = 'kcal';
+    } elseif ($type === 'minutos') {
+        $column = 'duracao_minutos';
+        $label = 'minutos';
+    } else {
+        $column = 'id';
+        $label = 'treinos';
     }
 
+    if ($column === 'id') {
+        $stmt = $db->prepare(
+            'SELECT COUNT(*) AS valor
+             FROM workouts
+             WHERE membro_id = ?
+               AND date(data_treino) >= date(?)'
+        );
+    } else {
+        $stmt = $db->prepare(
+            "SELECT COALESCE(SUM($column), 0) AS valor
+             FROM workouts
+             WHERE membro_id = ?
+               AND date(data_treino) >= date(?)"
+        );
+    }
+
+    $stmt->execute([$memberId, $startDate]);
+    $current = (int)$stmt->fetchColumn();
+
     $percent = $target > 0 ? min(100, (int)floor(100 * $current / $target)) : 0;
+
     return [
         'current' => $current,
         'target' => $target,

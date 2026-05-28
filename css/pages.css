@@ -352,91 +352,100 @@
     grid-row: span 2;
 }
 
+.painel-progresso {
+    background-color: #fff9e7;
+    border-color: rgba(241, 196, 15, 0.35);
+    box-shadow: var(--sombra-card);
+}
+
+.painel-progresso .cabecalho-painel {
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid rgba(212, 172, 13, 0.16);
+}
+
 .grelha-progresso {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 16px;
+    gap: 18px;
     margin-bottom: 24px;
 }
 
 .progresso-card {
-    border: 1px solid var(--borda-suave);
-    border-radius: 12px;
-    padding: 18px 20px;
-    background-color: var(--branco);
+    border: 1px solid rgba(212, 172, 13, 0.12);
+    border-radius: 16px;
+    padding: 22px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.98), #fffdf0);
+    box-shadow: inset 0 0 0 1px rgba(241, 196, 15, 0.12);
+    display: grid;
+    gap: 14px;
 }
 
-.progresso-card p {
+.progresso-card__icone {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background-color: rgba(241, 196, 15, 0.12);
+    color: var(--amarelo-escuro);
+    font-size: 18px;
+}
+
+.progresso-card__conteudo p {
     color: var(--cinzento);
-    margin-bottom: 8px;
+    margin: 0;
     font-size: 14px;
 }
 
-.progresso-card strong {
-    font-size: 28px;
+.progresso-card__conteudo strong {
+    font-size: 30px;
+    color: var(--cinzento-escuro);
 }
 
 .perfil-progresso-secao {
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 20px;
+    grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+    gap: 22px;
 }
 
-.lista-metas {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 16px;
-}
-
+.lista-metas,
 .lista-treinos {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 14px;
+    gap: 16px;
 }
 
-.entrada-treino {
-    border: 1px solid var(--borda-suave);
-    border-radius: 12px;
-    padding: 16px;
+.entrada-treino,
+.meta-item {
+    border: 1px solid rgba(221, 221, 221, 0.8);
+    border-radius: 16px;
+    padding: 18px;
     background-color: var(--branco);
     display: grid;
     gap: 10px;
 }
 
-.entrada-treino strong {
-    display: block;
-    margin-bottom: 6px;
-}
-
-.entrada-treino small {
-    color: var(--cinzento);
-}
-
-.meta-item {
-    border: 1px solid var(--borda-suave);
-    border-radius: 12px;
-    padding: 16px;
-    background-color: var(--branco);
-    display: grid;
-    gap: 12px;
-}
-
+.entrada-treino strong,
 .meta-detalhe strong {
     display: block;
     margin-bottom: 6px;
+    color: var(--cinzento-escuro);
+}
+
+.entrada-treino small,
+.meta-detalhe small,
+.progresso-card__conteudo small {
+    color: var(--cinzento);
+    font-size: 13px;
 }
 
 .meta-detalhe p {
     margin: 0 0 6px;
     color: var(--cinzento-escuro);
-}
-
-.meta-detalhe small {
-    color: var(--cinzento);
 }
 
 .meta-progresso span,
@@ -447,25 +456,70 @@
 
 .barra-meta {
     background-color: var(--cinzento-claro);
-    border-radius: 8px;
-    height: 10px;
+    border-radius: 10px;
+    height: 12px;
     overflow: hidden;
 }
 
 .barra-meta-preenchida {
-    background-color: var(--amarelo);
+    background: linear-gradient(90deg, var(--amarelo), var(--amarelo-escuro));
     height: 100%;
 }
 
 .grafico-semana {
     display: grid;
-    gap: 10px;
+    gap: 12px;
     margin-top: 10px;
 }
 
 .barra-dia {
     display: grid;
-    gap: 6px;
+    gap: 8px;
+}
+
+.barra-externa {
+    background-color: rgba(241, 196, 15, 0.15);
+    border-radius: 999px;
+    height: 12px;
+    overflow: hidden;
+}
+
+.barra-interna {
+    background: linear-gradient(90deg, var(--amarelo), var(--amarelo-escuro));
+    height: 100%;
+}
+
+.barra-dia span,
+.barra-dia small {
+    color: var(--cinzento);
+    font-size: 13px;
+}
+
+.sem-conteudo {
+    color: var(--cinzento);
+    font-size: 14px;
+}
+
+@media (max-width: 1080px) {
+    .grelha-progresso {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .perfil-progresso-secao {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 720px) {
+    .grelha-progresso {
+        grid-template-columns: 1fr;
+    }
+
+    .painel-progresso,
+    .painel-registo-treino,
+    .painel-metas {
+        padding: 20px;
+    }
 }
 
 .barra-externa {

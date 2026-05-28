@@ -83,20 +83,32 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
 
                     <div class="grelha-progresso">
                         <article class="progresso-card">
-                            <p>Treinos últimos 30 dias</p>
-                            <strong><?= (int)$progressSummary['total_workouts'] ?></strong>
+                            <span class="progresso-card__icone"><i class="fa-solid fa-dumbbell" aria-hidden="true"></i></span>
+                            <div class="progresso-card__conteudo">
+                                <p>Treinos últimos 30 dias</p>
+                                <strong><?= (int)$progressSummary['total_workouts'] ?></strong>
+                            </div>
                         </article>
                         <article class="progresso-card">
-                            <p>Minutos de treino</p>
-                            <strong><?= (int)$progressSummary['total_minutes'] ?> min</strong>
+                            <span class="progresso-card__icone"><i class="fa-solid fa-clock" aria-hidden="true"></i></span>
+                            <div class="progresso-card__conteudo">
+                                <p>Minutos de treino</p>
+                                <strong><?= (int)$progressSummary['total_minutes'] ?> min</strong>
+                            </div>
                         </article>
                         <article class="progresso-card">
-                            <p>Calorias queimadas</p>
-                            <strong><?= (int)$progressSummary['total_calories'] ?> kcal</strong>
+                            <span class="progresso-card__icone"><i class="fa-solid fa-fire" aria-hidden="true"></i></span>
+                            <div class="progresso-card__conteudo">
+                                <p>Calorias queimadas</p>
+                                <strong><?= (int)$progressSummary['total_calories'] ?> kcal</strong>
+                            </div>
                         </article>
                         <article class="progresso-card">
-                            <p>Duração média</p>
-                            <strong><?= (int)$progressSummary['average_duration'] ?> min</strong>
+                            <span class="progresso-card__icone"><i class="fa-solid fa-gauge-high" aria-hidden="true"></i></span>
+                            <div class="progresso-card__conteudo">
+                                <p>Duração média</p>
+                                <strong><?= (int)$progressSummary['average_duration'] ?> min</strong>
+                            </div>
                         </article>
                     </div>
 
