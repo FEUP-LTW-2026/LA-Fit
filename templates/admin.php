@@ -214,10 +214,13 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
 
 function drawAdminOverview(array $overview): void
 {
-    $stats     = $overview['stats'];
-    $manutencao = $overview['manutencao'];
-    $inativas   = $overview['inativas'];
-    $canceladas = $overview['canceladas'];
+    $stats            = $overview['stats'];
+    $manutencao       = $overview['manutencao'];
+    $inativas         = $overview['inativas'];
+    $canceladas       = $overview['canceladas'];
+    $popularClasses   = $overview['popular_classes'] ?? [];
+    $equipmentUsage   = $overview['equipment_usage'] ?? [];
+    $memberRetention  = $overview['member_retention'] ?? [];
 
     $temAlertas = $stats['equipamentos_manutencao'] > 0
                || $stats['reportes_pendentes'] > 0
@@ -318,6 +321,55 @@ function drawAdminOverview(array $overview): void
         <?php } else { ?>
             <p class="sistema-ok">Tudo em ordem. Sem itens que precisem de atenção.</p>
         <?php } ?>
+
+        <div class="grelha-analytics">
+            <section class="analytics-card">
+                <h3>Aulas mais populares</h3>
+                <?php if (count($popularClasses) === 0) { ?>
+                    <p>Nenhuma aula com inscrições por enquanto.</p>
+                <?php } else { ?>
+                    <ul class="analytics-list">
+                        <?php foreach ($popularClasses as $class) { ?>
+                            <li>
+                                <div>
+                                    <strong><?= h($class['nome']) ?></strong>
+                                    <small><?= h($class['ginasio_nome']) ?> · <?= h($class['treinador_nome']) ?></small>
+                                </div>
+                                <span><?= (int)$class['inscritos'] ?> inscrito<?= (int)$class['inscritos'] !== 1 ? 's' : '' ?></span>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                <?php } ?>
+            </section>
+
+            <section class="analytics-card">
+                <h3>Uso do equipamento</h3>
+                <ul class="analytics-list">
+                    <li>
+                        <span>Disponível</span>
+                        <strong><?= (int)$equipmentUsage['disponivel']['item_count'] ?> itens</strong>
+                    </li>
+                    <li>
+                        <span>Em uso</span>
+                        <strong><?= (int)$equipmentUsage['ocupado']['item_count'] ?> itens</strong>
+                    </li>
+                    <li>
+                        <span>Em manutenção</span>
+                        <strong><?= (int)$equipmentUsage['manutencao']['item_count'] ?> itens</strong>
+                    </li>
+                </ul>
+                <p class="analytics-note">Total de unidades reportadas: <?= (int)$equipmentUsage['disponivel']['total_quantity'] + (int)$equipmentUsage['ocupado']['total_quantity'] + (int)$equipmentUsage['manutencao']['total_quantity'] ?></p>
+            </section>
+
+            <section class="analytics-card">
+                <h3>Retenção de membros</h3>
+                <div class="analytics-metrics">
+                    <p><strong><?= h($memberRetention['retention_rate']) ?>%</strong> com atividade nos últimos 30 dias</p>
+                    <p><strong><?= h($memberRetention['participation_rate']) ?>%</strong> com inscrição ativa</p>
+                    <p><strong><?= (int)$memberRetention['active_members'] ?></strong> membros ativos</p>
+                </div>
+            </section>
+        </div>
     </section>
 <?php
 }

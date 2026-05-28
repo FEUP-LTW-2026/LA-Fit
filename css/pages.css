@@ -783,6 +783,65 @@
     margin-bottom: 24px;
 }
 
+.grelha-analytics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.analytics-card {
+    border: 1px solid var(--borda-suave);
+    border-radius: 10px;
+    padding: 20px 22px;
+    background-color: white;
+}
+
+.analytics-card h3 {
+    margin-bottom: 14px;
+    font-size: 16px;
+}
+
+.analytics-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+}
+
+.analytics-list li {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: flex-start;
+    color: var(--cinzento-escuro);
+    font-size: 14px;
+}
+
+.analytics-list small {
+    display: block;
+    color: var(--cinzento);
+    margin-top: 4px;
+    font-size: 13px;
+}
+
+.analytics-note {
+    margin-top: 14px;
+    color: var(--cinzento);
+    font-size: 14px;
+}
+
+.analytics-metrics p {
+    margin: 0 0 10px;
+    font-size: 14px;
+    color: var(--cinzento-escuro);
+}
+
+.analytics-metrics p strong {
+    color: var(--preto);
+}
+
 .stat-card {
     border: 1px solid var(--borda-suave);
     border-radius: 10px;
@@ -903,6 +962,10 @@
 
     .grelha-stats {
         grid-template-columns: repeat(3, 1fr);
+    }
+
+    .grelha-analytics {
+        grid-template-columns: 1fr;
     }
 
     .class-filters {
