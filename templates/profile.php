@@ -1,5 +1,5 @@
 <?php
-function drawProfilePage(array $user, ?array $member, array $enrollments, array $equipmentByZone, array $summary, array $equipmentFilters = [], array $equipmentFilterOptions = [], array $messages = []): void
+function drawProfilePage(array $user, ?array $member, array $enrollments, array $equipmentByZone, array $summary, array $equipmentFilters = [], array $equipmentFilterOptions = [], array $messages = [], array $workouts = [], array $goals = [], array $progressSummary = []): void
 {
     $weekDays = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
     $enrollmentsByDay = [];
@@ -74,6 +74,120 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                     </article>
                 </div>
 
+                <?php if ($member) { ?>
+                <section class="painel painel-progresso" id="perfil-progresso">
+                    <div class="cabecalho-painel">
+                        <h2>Progresso</h2>
+                        <p>Regista treinos, define metas e acompanha a evolução com estatísticas simples.</p>
+                    </div>
+
+                    <div class="grelha-progresso">
+                        <article class="progresso-card">
+                            <p>Treinos últimos 30 dias</p>
+                            <strong><?= (int)$progressSummary['total_workouts'] ?></strong>
+                        </article>
+                        <article class="progresso-card">
+                            <p>Minutos de treino</p>
+                            <strong><?= (int)$progressSummary['total_minutes'] ?> min</strong>
+                        </article>
+                        <article class="progresso-card">
+                            <p>Calorias queimadas</p>
+                            <strong><?= (int)$progressSummary['total_calories'] ?> kcal</strong>
+                        </article>
+                        <article class="progresso-card">
+                            <p>Duração média</p>
+                            <strong><?= (int)$progressSummary['average_duration'] ?> min</strong>
+                        </article>
+                    </div>
+
+                    <div class="perfil-progresso-secao">
+                        <div>
+                            <h3>Metas ativas</h3>
+                            <?php if (count($goals) === 0) { ?>
+                                <p class="sem-conteudo">Ainda não definiste nenhuma meta.</p>
+                            <?php } else { ?>
+                                <ul class="lista-metas">
+                                    <?php foreach ($goals as $goal) { ?>
+                                        <li class="meta-item">
+                                            <div class="meta-detalhe">
+                                                <strong><?= h($goal['titulo']) ?></strong>
+                                                <p><?= h($goal['descricao'] ?: 'Sem descrição adicional.') ?></p>
+                                                <small>
+                                                    <?= h($goal['objetivo_valor']) ?> <?= h($goal['unidade']) ?> · <?= h($goal['estado']) ?>
+                                                    <?= $goal['data_limite'] ? 'até ' . h($goal['data_limite']) : '' ?>
+                                                </small>
+                                            </div>
+                                            <div class="meta-progresso">
+                                                <span><?= (int)$goal['progress']['current'] ?>/<?= (int)$goal['progress']['target'] ?> <?= h($goal['progress']['label']) ?></span>
+                                                <div class="barra-meta">
+                                                    <div class="barra-meta-preenchida" style="width: <?= (int)$goal['progress']['percent'] ?>%"></div>
+                                                </div>
+                                                <small><?= (int)$goal['progress']['percent'] ?>% <?= $goal['progress']['complete'] ? 'Concluído' : 'Em progresso' ?></small>
+                                            </div>
+                                        </li>
+                                    <?php } ?>
+                                </ul>
+                            <?php } ?>
+                        </div>
+
+                        <div>
+                            <h3>Últimos 7 dias</h3>
+                            <div class="grafico-semana">
+                                <?php
+                                    $daily = $progressSummary['daily'] ?? [];
+                                    $max = max($daily) ?: 1;
+                                    $dayNames = [
+                                        'segunda' => 'Seg',
+                                        'terca' => 'Ter',
+                                        'quarta' => 'Qua',
+                                        'quinta' => 'Qui',
+                                        'sexta' => 'Sex',
+                                        'sabado' => 'Sáb',
+                                        'domingo' => 'Dom',
+                                    ];
+                                ?>
+                                <?php foreach ($daily as $day => $count) { ?>
+                                    <div class="barra-dia">
+                                        <span><?= h($dayNames[$day] ?? substr($day, 0, 3)) ?></span>
+                                        <div class="barra-externa">
+                                            <div class="barra-interna" style="width: <?= (int)round(($count / $max) * 100) ?>%"></div>
+                                        </div>
+                                        <small><?= (int)$count ?></small>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <?php } ?>
+
+                <?php if ($member) { ?>
+                <section class="painel painel-progresso" id="perfil-treinos">
+                    <div class="cabecalho-painel">
+                        <h2>Registos recentes</h2>
+                        <p>Vê os últimos treinos que registaste para acompanhar o teu ritmo.</p>
+                    </div>
+
+                    <?php if (count($workouts) === 0) { ?>
+                        <p class="sem-conteudo">Ainda não registaste nenhum treino.</p>
+                    <?php } else { ?>
+                        <ul class="lista-treinos">
+                            <?php foreach ($workouts as $workout) { ?>
+                                <li class="entrada-treino">
+                                    <div>
+                                        <strong><?= h($workout['tipo']) ?></strong>
+                                        <small><?= h($workout['data_treino']) ?> · <?= (int)$workout['duracao_minutos'] ?> min · <?= (int)$workout['calorias'] ?> kcal</small>
+                                    </div>
+                                    <?php if (!empty($workout['notas'])) { ?>
+                                        <p><?= h($workout['notas']) ?></p>
+                                    <?php } ?>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    <?php } ?>
+                </section>
+                <?php } ?>
+
                 <section class="painel painel-editar-perfil" >
                     <h2>Editar perfil</h2>
                     <form action="../actions/action_update_profile.php" method="post" enctype="multipart/form-data">
@@ -134,6 +248,88 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                         <button type="submit" class="botao amarelo">Guardar alterações</button>
                     </form>
                 </section>
+
+                <?php if ($member) { ?>
+                <section class="painel painel-form painel-registo-treino" id="perfil-registo-treino">
+                    <div class="cabecalho-painel">
+                        <h2>Registar treino</h2>
+                        <p>Guarda o treino do dia e vê a tua atividade a crescer.</p>
+                    </div>
+
+                    <form action="../actions/action_log_workout.php" method="post">
+                        <fieldset class="grupo">
+                            <legend>Treino</legend>
+                            <div class="campos">
+                                <div class="campo">
+                                    <label for="workout_date">Data do treino</label>
+                                    <input type="date" id="workout_date" name="date" required>
+                                </div>
+                                <div class="campo">
+                                    <label for="workout_type">Tipo de treino</label>
+                                    <input type="text" id="workout_type" name="type" placeholder="e.g. Força, Cardio" required>
+                                </div>
+                                <div class="campo">
+                                    <label for="workout_duration">Duração (min)</label>
+                                    <input type="number" id="workout_duration" name="duration" min="1" required>
+                                </div>
+                                <div class="campo">
+                                    <label for="workout_calories">Calorias</label>
+                                    <input type="number" id="workout_calories" name="calories" min="0" required>
+                                </div>
+                                <div class="campo campo-largo">
+                                    <label for="workout_notes">Notas</label>
+                                    <input type="text" id="workout_notes" name="notes" placeholder="Como correu o treino?">
+                                </div>
+                            </div>
+                        </fieldset>
+                        <button type="submit" class="botao amarelo">Registar treino</button>
+                    </form>
+                </section>
+
+                <section class="painel painel-form painel-metas" id="perfil-metas">
+                    <div class="cabecalho-painel">
+                        <h2>Definir meta</h2>
+                        <p>Cria um objetivo e acompanha os resultados com percentagens claras.</p>
+                    </div>
+
+                    <form action="../actions/action_set_goal.php" method="post">
+                        <fieldset class="grupo">
+                            <legend>Meta</legend>
+                            <div class="campos">
+                                <div class="campo">
+                                    <label for="goal_title">Título</label>
+                                    <input type="text" id="goal_title" name="title" required>
+                                </div>
+                                <div class="campo campo-largo">
+                                    <label for="goal_description">Descrição</label>
+                                    <input type="text" id="goal_description" name="description" placeholder="e.g. 3 treinos por semana">
+                                </div>
+                                <div class="campo">
+                                    <label for="goal_type">Tipo</label>
+                                    <select id="goal_type" name="type" required>
+                                        <option value="treinos">Treinos</option>
+                                        <option value="minutos">Minutos</option>
+                                        <option value="calorias">Calorias</option>
+                                    </select>
+                                </div>
+                                <div class="campo">
+                                    <label for="goal_target">Objetivo</label>
+                                    <input type="number" id="goal_target" name="target" min="1" required>
+                                </div>
+                                <div class="campo">
+                                    <label for="goal_unit">Unidade</label>
+                                    <input type="text" id="goal_unit" name="unit" value="treinos" required>
+                                </div>
+                                <div class="campo">
+                                    <label for="goal_deadline">Data limite</label>
+                                    <input type="date" id="goal_deadline" name="deadline">
+                                </div>
+                            </div>
+                        </fieldset>
+                        <button type="submit" class="botao amarelo">Criar meta</button>
+                    </form>
+                </section>
+                <?php } ?>
 
                 <section class="painel painel-aulas" id="perfil-aulas">
                     <div class="cabecalho-painel">

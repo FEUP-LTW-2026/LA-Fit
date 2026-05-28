@@ -108,6 +108,35 @@ CREATE TABLE inscricoes_aulas (
     UNIQUE (membro_id, aula_id)
 );
 
+CREATE TABLE metas (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    membro_id INTEGER NOT NULL
+        REFERENCES membros(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    titulo TEXT NOT NULL,
+    descricao TEXT,
+    tipo TEXT NOT NULL
+        CHECK (tipo IN ('treinos', 'minutos', 'calorias')),
+    objetivo_valor INTEGER NOT NULL CHECK (objetivo_valor > 0),
+    unidade TEXT NOT NULL,
+    estado TEXT NOT NULL DEFAULT 'ativo'
+        CHECK (estado IN ('ativo', 'concluido', 'cancelado', 'arquivado')),
+    data_inicio TEXT NOT NULL DEFAULT CURRENT_DATE,
+    data_limite TEXT,
+    criado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE workouts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    membro_id INTEGER NOT NULL
+        REFERENCES membros(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    data_treino TEXT NOT NULL,
+    tipo TEXT NOT NULL,
+    duracao_minutos INTEGER NOT NULL CHECK (duracao_minutos > 0),
+    calorias INTEGER NOT NULL CHECK (calorias >= 0),
+    notas TEXT,
+    criado_em TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE equipamentos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
@@ -177,6 +206,14 @@ INSERT INTO aulas (nome, tipo, descricao, treinador_id, ginasio_id, dia_semana, 
 
 INSERT INTO inscricoes_aulas (membro_id, aula_id, estado) VALUES
     (1, 1, 'presente');
+
+INSERT INTO metas (membro_id, titulo, descricao, tipo, objetivo_valor, unidade, estado, data_inicio, data_limite) VALUES
+    (1, '3 treinos por semana', 'Completar pelo menos 3 sessões de treino por semana.', 'treinos', 3, 'treinos', 'ativo', date('now', '-7 days'), date('now', '+23 days'));
+
+INSERT INTO workouts (membro_id, data_treino, tipo, duracao_minutos, calorias, notas) VALUES
+    (1, date('now', '-3 days'), 'Treino de força', 50, 420, 'Senti que melhorei o ritmo.'),
+    (1, date('now', '-1 days'), 'Cardio intervalado', 35, 360, 'Sessão intensa com bate-pé.'),
+    (1, date('now', '-5 days'), 'Alongamentos', 30, 180, 'Recuperação e mobilidade.');
 
 INSERT INTO equipamentos (nome, zona, estado, quantidade) VALUES
     ('Passadeira', 'Cardio', 'disponivel', 12),

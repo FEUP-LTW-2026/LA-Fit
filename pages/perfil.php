@@ -125,6 +125,7 @@ if ($role === 'administrador') {
 
     require_once __DIR__ . '/../database/enrollments.php';
     require_once __DIR__ . '/../database/equipment.php';
+    require_once __DIR__ . '/../database/progress.php';
     require_once __DIR__ . '/../templates/profile.php';
     require_once __DIR__ . '/../templates/equipment.php';
 
@@ -134,6 +135,9 @@ if ($role === 'administrador') {
     $equipmentSummary     = [];
     $equipmentFilters     = [];
     $equipmentFilterOptions = [];
+    $workouts             = [];
+    $goals                = [];
+    $progressSummary      = [];
 
     if ($member) {
         $allowedStates = ['disponivel', 'ocupado', 'manutencao'];
@@ -145,10 +149,18 @@ if ($role === 'administrador') {
         $equipmentByZone      = getFilteredEquipmentByZone($db, $equipmentFilters);
         $equipmentSummary     = getEquipmentAvailabilitySummary($db);
         $equipmentFilterOptions = getEquipmentFilterOptions($db);
+        $workouts             = getWorkoutsForMember($db, (int)$member['membro_id']);
+        $goals                = getGoalsForMember($db, (int)$member['membro_id']);
+        $progressSummary      = getWorkoutSummaryForMember($db, (int)$member['membro_id']);
     }
 
     $messages = [
-        'success' => isset($_GET['sucesso']) ? 'Perfil atualizado com sucesso.' : null,
+        'success' => match ($_GET['sucesso'] ?? '') {
+            'perfil'   => 'Perfil atualizado com sucesso.',
+            'workout'  => 'Treino registado com sucesso.',
+            'goal'     => 'Meta criada com sucesso.',
+            default    => isset($_GET['sucesso']) ? 'Operação concluída com sucesso.' : null,
+        },
         'error'   => match ($_GET['erro'] ?? '') {
             'campos'       => 'Preenche todos os campos obrigatórios.',
             'email'        => 'Indica um email válido.',
@@ -158,12 +170,31 @@ if ($role === 'administrador') {
             'foto'         => 'Não foi possível guardar a fotografia.',
             'foto_tamanho' => 'A fotografia não pode ter mais de 2 MB.',
             'foto_tipo'    => 'Usa uma fotografia JPG, PNG ou WebP.',
+            'workout_campos' => 'Preenche a data, o tipo e a duração do treino.',
+            'workout_data'   => 'Insere uma data de treino válida.',
+            'workout_gravar' => 'Não foi possível registar o treino.',
+            'goal_campos'    => 'Preenche o título, tipo e objetivo da meta.',
+            'goal_data'      => 'Insere uma data limite válida para a meta.',
+            'goal_gravar'    => 'Não foi possível criar a meta.',
+            'not_member'     => 'Esta funcionalidade só está disponível para membros ativos.',
             default        => null,
         },
     ];
 
     drawHeader('Perfil - LAFit', 'perfil');
-    drawProfilePage($user, $member, $enrollments, $equipmentByZone, $equipmentSummary, $equipmentFilters, $equipmentFilterOptions, $messages);
+    drawProfilePage(
+        $user,
+        $member,
+        $enrollments,
+        $equipmentByZone,
+        $equipmentSummary,
+        $equipmentFilters,
+        $equipmentFilterOptions,
+        $messages,
+        $workouts,
+        $goals,
+        $progressSummary
+    );
     drawFooter();
 
 }

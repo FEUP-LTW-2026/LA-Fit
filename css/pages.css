@@ -352,6 +352,157 @@
     grid-row: span 2;
 }
 
+.grelha-progresso {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.progresso-card {
+    border: 1px solid var(--borda-suave);
+    border-radius: 12px;
+    padding: 18px 20px;
+    background-color: var(--branco);
+}
+
+.progresso-card p {
+    color: var(--cinzento);
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.progresso-card strong {
+    font-size: 28px;
+}
+
+.perfil-progresso-secao {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+}
+
+.lista-metas {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+}
+
+.lista-treinos {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+}
+
+.entrada-treino {
+    border: 1px solid var(--borda-suave);
+    border-radius: 12px;
+    padding: 16px;
+    background-color: var(--branco);
+    display: grid;
+    gap: 10px;
+}
+
+.entrada-treino strong {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.entrada-treino small {
+    color: var(--cinzento);
+}
+
+.meta-item {
+    border: 1px solid var(--borda-suave);
+    border-radius: 12px;
+    padding: 16px;
+    background-color: var(--branco);
+    display: grid;
+    gap: 12px;
+}
+
+.meta-detalhe strong {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.meta-detalhe p {
+    margin: 0 0 6px;
+    color: var(--cinzento-escuro);
+}
+
+.meta-detalhe small {
+    color: var(--cinzento);
+}
+
+.meta-progresso span,
+.meta-progresso small {
+    display: block;
+    color: var(--cinzento-escuro);
+}
+
+.barra-meta {
+    background-color: var(--cinzento-claro);
+    border-radius: 8px;
+    height: 10px;
+    overflow: hidden;
+}
+
+.barra-meta-preenchida {
+    background-color: var(--amarelo);
+    height: 100%;
+}
+
+.grafico-semana {
+    display: grid;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.barra-dia {
+    display: grid;
+    gap: 6px;
+}
+
+.barra-externa {
+    background-color: var(--cinzento-claro);
+    border-radius: 8px;
+    height: 10px;
+    overflow: hidden;
+}
+
+.barra-interna {
+    background-color: var(--amarelo);
+    height: 100%;
+}
+
+.barra-dia span,
+.barra-dia small {
+    color: var(--cinzento);
+    font-size: 13px;
+}
+
+.sem-conteudo {
+    color: var(--cinzento);
+    font-size: 14px;
+}
+
+.painel-registo-treino .campos,
+.painel-metas .campos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.painel-registo-treino .campo.campo-largo,
+.painel-metas .campo.campo-largo {
+    grid-column: 1 / -1;
+}
+
 .painel {
     background-color: var(--branco);
     border: 1px solid var(--borda-suave);
