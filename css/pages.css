@@ -436,6 +436,29 @@
     color: var(--cinzento-escuro);
 }
 
+..meta-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    color: var(--amarelo-escuro);
+    background-color: rgba(241, 196, 15, 0.12);
+    margin-bottom: 8px;
+}
+
+.meta-item.completed {
+    border-color: rgba(46, 204, 113, 0.28);
+    background-color: #f1fbf3;
+}
+
+.entrada-treino-notes {
+    color: var(--cinzento-escuro);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
 .entrada-treino small,
 .meta-detalhe small,
 .progresso-card__conteudo small {

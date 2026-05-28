@@ -120,9 +120,10 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                             <?php } else { ?>
                                 <ul class="lista-metas">
                                     <?php foreach ($goals as $goal) { ?>
-                                        <li class="meta-item">
+                                        <li class="meta-item<?= $goal['progress']['complete'] ? ' completed' : '' ?>">
                                             <div class="meta-detalhe">
                                                 <strong><?= h($goal['titulo']) ?></strong>
+                                                <small class="meta-status"><?= $goal['progress']['complete'] ? 'Concluída' : 'Em progresso' ?></small>
                                                 <p><?= h($goal['descricao'] ?: 'Sem descrição adicional.') ?></p>
                                                 <small>
                                                     <?= h($goal['objetivo_valor']) ?> <?= h($goal['unidade']) ?> · <?= h($goal['estado']) ?>
@@ -191,7 +192,7 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                                         <small><?= h($workout['data_treino']) ?> · <?= (int)$workout['duracao_minutos'] ?> min · <?= (int)$workout['calorias'] ?> kcal</small>
                                     </div>
                                     <?php if (!empty($workout['notas'])) { ?>
-                                        <p><?= h($workout['notas']) ?></p>
+                                        <p class="entrada-treino-notes"><?= h($workout['notas']) ?></p>
                                     <?php } ?>
                                 </li>
                             <?php } ?>
