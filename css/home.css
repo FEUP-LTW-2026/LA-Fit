@@ -4,6 +4,12 @@
     padding: 80px 0;
 }
 
+#planos,
+#vantagens {
+    padding-top: 35px;
+    padding-bottom: 130px;
+}
+
 .principal-caixa {
     display: flex;
     align-items: center;

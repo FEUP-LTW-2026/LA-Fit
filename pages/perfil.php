@@ -126,7 +126,9 @@ if ($role === 'administrador') {
     require_once __DIR__ . '/../database/enrollments.php';
     require_once __DIR__ . '/../database/equipment.php';
     require_once __DIR__ . '/../templates/profile.php';
+    require_once __DIR__ . '/../database/progress.php';
     require_once __DIR__ . '/../templates/equipment.php';
+    require_once __DIR__ . '/../templates/progress.php';
 
     $member               = getMemberByUsername($db, $_SESSION['username']);
     $enrollments          = [];
@@ -134,6 +136,9 @@ if ($role === 'administrador') {
     $equipmentSummary     = [];
     $equipmentFilters     = [];
     $equipmentFilterOptions = [];
+    $workouts             = [];
+    $goals                = [];
+    $workoutStats         = ['mes_treinos' => 0, 'mes_minutos' => 0, 'mes_dias' => 0, 'total_treinos' => 0, 'semanal' => []];
 
     if ($member) {
         $allowedStates = ['disponivel', 'ocupado', 'manutencao'];
@@ -145,25 +150,39 @@ if ($role === 'administrador') {
         $equipmentByZone      = getFilteredEquipmentByZone($db, $equipmentFilters);
         $equipmentSummary     = getEquipmentAvailabilitySummary($db);
         $equipmentFilterOptions = getEquipmentFilterOptions($db);
+        $workouts             = getWorkoutsForMember($db, (int)$member['id']);
+        $goals                = getGoalsForMember($db, (int)$member['id']);
+        $workoutStats         = getWorkoutStats($db, (int)$member['id']);
     }
 
     $messages = [
-        'success' => isset($_GET['sucesso']) ? 'Perfil atualizado com sucesso.' : null,
+        'success' => match ($_GET['sucesso'] ?? '') {
+            'sucesso'            => 'Perfil atualizado com sucesso.',
+            'treino_registado'   => 'Treino registado com sucesso.',
+            'treino_removido'    => 'Treino removido.',
+            'objetivo_criado'    => 'Objetivo criado com sucesso.',
+            'objetivo_atualizado'=> 'Progresso atualizado.',
+            'objetivo_removido'  => 'Objetivo removido.',
+            default              => isset($_GET['sucesso']) ? 'Perfil atualizado com sucesso.' : null,
+        },
         'error'   => match ($_GET['erro'] ?? '') {
-            'campos'       => 'Preenche todos os campos obrigatórios.',
-            'email'        => 'Indica um email válido.',
-            'username'     => 'Esse username já está a ser usado.',
-            'email_existe' => 'Esse email já está a ser usado.',
-            'password'     => 'As palavras-passe não coincidem.',
-            'foto'         => 'Não foi possível guardar a fotografia.',
-            'foto_tamanho' => 'A fotografia não pode ter mais de 2 MB.',
-            'foto_tipo'    => 'Usa uma fotografia JPG, PNG ou WebP.',
-            default        => null,
+            'campos'          => 'Preenche todos os campos obrigatórios.',
+            'email'           => 'Indica um email válido.',
+            'username'        => 'Esse username já está a ser usado.',
+            'email_existe'    => 'Esse email já está a ser usado.',
+            'password'        => 'As palavras-passe não coincidem.',
+            'foto'            => 'Não foi possível guardar a fotografia.',
+            'foto_tamanho'    => 'A fotografia não pode ter mais de 2 MB.',
+            'foto_tipo'       => 'Usa uma fotografia JPG, PNG ou WebP.',
+            'treino_campos'   => 'Preenche todos os campos do treino.',
+            'treino_tipo'     => 'Escolhe um tipo de treino válido.',
+            'objetivo_campos' => 'Preenche a descrição e a meta do objetivo.',
+            default           => null,
         },
     ];
 
     drawHeader('Perfil - LAFit', 'perfil');
-    drawProfilePage($user, $member, $enrollments, $equipmentByZone, $equipmentSummary, $equipmentFilters, $equipmentFilterOptions, $messages);
+    drawProfilePage($user, $member, $enrollments, $equipmentByZone, $equipmentSummary, $equipmentFilters, $equipmentFilterOptions, $messages, $workouts, $goals, $workoutStats);
     drawFooter();
 
 }
