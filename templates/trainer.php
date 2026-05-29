@@ -1,5 +1,5 @@
 <?php
-function drawTrainerPage(array $user, array $trainer, array $classes, array $messages = [], array $nutritionPlans = [], array $nutritionMembers = []): void
+function drawTrainerPage(array $user, array $trainer, array $classes, array $messages = [], array $nutritionPlans = [], array $nutritionMembers = [], ?array $editingClass = null): void
 {
     $initials = strtoupper(substr($user['nome'], 0, 1) . substr($user['apelido'], 0, 1));
 
@@ -15,11 +15,13 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
     <main class="pagina-perfil" id="trainer">
         <section class="seccao">
             <div class="conteudo">
+                <?php if (!$editingClass) { ?>
                 <div class="titulo">
                     <p class="subtitulo">Área Treinador</p>
                     <h1>Olá, <?= h($user['nome']) ?></h1>
                     <p>Gere o teu perfil público e consulta as tuas aulas.</p>
                 </div>
+                <?php } ?>
 
                 <?php if (!empty($messages['success'])) { ?>
                     <p class="mensagem sucesso"><?= h($messages['success']) ?></p>
@@ -28,6 +30,7 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
                     <p class="mensagem erro"><?= h($messages['error']) ?></p>
                 <?php } ?>
 
+                <?php if (!$editingClass) { ?>
                 <div class="perfil-grid">
                     <article class="painel">
                         <div class="perfil-topo">
@@ -58,7 +61,9 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
                         <p><?= h($trainer['biografia'] ?? 'Sem biografia definida.') ?></p>
                     </article>
                 </div>
+                <?php } ?>
 
+                <?php if (!$editingClass) { ?>
                 <section class="painel painel-editar-perfil">
                     <h2>Editar perfil público</h2>
                     <form action="../actions/action_update_trainer.php" method="post" enctype="multipart/form-data">
@@ -111,7 +116,74 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
                         <button type="submit" class="botao amarelo">Guardar alterações</button>
                     </form>
                 </section>
+                <?php } ?>
 
+                <?php if ($editingClass) { ?>
+                <section class="painel painel-editar-perfil painel-form" id="trainer-aulas">
+                    <div class="cabecalho-painel">
+                        <h2>Editar aula</h2>
+                        <a href="profile.php" class="botao claro-voltar">Cancelar</a>
+                    </div>
+                    <form action="../actions/action_trainer_update_class.php" method="post">
+                        <?= csrfField() ?>
+                        <input type="hidden" name="class_id" value="<?= (int)$editingClass['id'] ?>">
+                        <?php
+                        $days     = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
+                        $statuses = ['agendada' => 'Agendada', 'concluida' => 'Concluída', 'cancelada' => 'Cancelada'];
+                        ?>
+                        <fieldset class="grupo">
+                            <legend>Detalhes da aula</legend>
+                            <div class="campos">
+                                <div class="campo">
+                                    <label for="tc_name">Nome</label>
+                                    <input type="text" id="tc_name" name="name" value="<?= h($editingClass['nome']) ?>" required>
+                                </div>
+                                <div class="campo">
+                                    <label for="tc_type">Tipo</label>
+                                    <input type="text" id="tc_type" name="type" value="<?= h($editingClass['tipo']) ?>" required>
+                                </div>
+                                <div class="campo campo-largo">
+                                    <label for="tc_desc">Descrição</label>
+                                    <textarea id="tc_desc" name="description" rows="2"><?= h($editingClass['descricao'] ?? '') ?></textarea>
+                                </div>
+                                <div class="campo">
+                                    <label for="tc_day">Dia</label>
+                                    <select id="tc_day" name="day" required>
+                                        <?php foreach ($days as $d) { ?>
+                                            <option value="<?= h($d) ?>" <?= $editingClass['dia_semana'] === $d ? 'selected' : '' ?>>
+                                                <?= h(formatClassDay($d)) ?>
+                                            </option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="campo">
+                                    <label for="tc_start">Início</label>
+                                    <input type="time" id="tc_start" name="start" value="<?= h($editingClass['inicio']) ?>" required>
+                                </div>
+                                <div class="campo">
+                                    <label for="tc_end">Fim</label>
+                                    <input type="time" id="tc_end" name="end" value="<?= h($editingClass['fim']) ?>" required>
+                                </div>
+                                <div class="campo">
+                                    <label for="tc_room">Sala</label>
+                                    <input type="text" id="tc_room" name="room" value="<?= h($editingClass['sala'] ?? '') ?>">
+                                </div>
+                                <div class="campo">
+                                    <label for="tc_status">Estado</label>
+                                    <select id="tc_status" name="status" required>
+                                        <?php foreach ($statuses as $val => $label) { ?>
+                                            <option value="<?= h($val) ?>" <?= $editingClass['estado'] === $val ? 'selected' : '' ?>>
+                                                <?= h($label) ?>
+                                            </option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <button type="submit" class="botao amarelo">Guardar aula</button>
+                    </form>
+                </section>
+                <?php } else { ?>
                 <section class="painel painel-aulas" id="trainer-aulas">
                     <div class="cabecalho-painel">
                         <h2>As tuas aulas</h2>
@@ -142,6 +214,7 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
                                                             </a>
                                                         </p>
                                                     </div>
+                                                    <a href="profile.php?edit_class=<?= (int)$class['id'] ?>#trainer-aulas" class="botao claro-voltar">Editar</a>
                                                 </article>
                                             <?php } ?>
                                         </div>
@@ -151,8 +224,9 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
                         </div>
                     <?php } ?>
                 </section>
+                <?php } ?>
 
-                <?php drawTrainerNutritionSection($nutritionPlans, $nutritionMembers); ?>
+                <?php if (!$editingClass) { drawTrainerNutritionSection($nutritionPlans, $nutritionMembers); } ?>
             </div>
         </section>
     </main>

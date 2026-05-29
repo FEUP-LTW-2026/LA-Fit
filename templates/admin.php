@@ -38,6 +38,7 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                     </div>
 
                     <form action="<?= h($formAction) ?>" method="post">
+                        <?= csrfField() ?>
                         <?php if ($isEditing) { ?>
                             <input type="hidden" name="user_id" value="<?= (int)$editingUser['id'] ?>">
                             <input type="hidden" id="role" name="role" value="<?= h($selectedRole) ?>">
@@ -192,8 +193,8 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                                             <td>
                                                 <div class="acoes-linha">
                                                     <a href="profile.php?edit=<?= (int)$user['id'] ?>" class="botao claro-voltar">Editar</a>
-                                                    <form action="../actions/action_admin_toggle_user.php" method="post" data-confirm="<?= $user['estado'] === 'ativo' ? 'Tens a certeza que queres desativar esta conta?' : 'Tens a certeza que queres ativar esta conta?' ?>
-                        <?= csrfField() ?>">
+                                                    <form action="../actions/action_admin_toggle_user.php" method="post" data-confirm="<?= $user['estado'] === 'ativo' ? 'Tens a certeza que queres desativar esta conta?' : 'Tens a certeza que queres ativar esta conta?' ?>">
+                                                        <?= csrfField() ?>
                                                         <input type="hidden" name="user_id" value="<?= (int)$user['id'] ?>">
                                                         <input type="hidden" name="status" value="<?= $user['estado'] === 'ativo' ? 'inativo' : 'ativo' ?>">
                                                         <button type="submit" class="botao cliente">
@@ -401,6 +402,7 @@ function drawAdminEquipmentSection(array $equipment, ?array $editingEquipment): 
         </div>
 
         <form action="<?= h($formAction) ?>" method="post">
+            <?= csrfField() ?>
             <?php if ($isEditing) { ?>
                 <input type="hidden" name="equipment_id" value="<?= (int)$editingEquipment['id'] ?>">
             <?php } ?>
@@ -513,6 +515,7 @@ function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?ar
         </div>
 
         <form action="<?= h($formAction) ?>" method="post">
+            <?= csrfField() ?>
             <?php if ($isEditing) { ?>
                 <input type="hidden" name="class_id" value="<?= (int)$editingClass['id'] ?>">
             <?php } ?>

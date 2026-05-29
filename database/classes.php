@@ -244,6 +244,28 @@ function updateClass(PDO $db, int $classId, array $data): bool
     ]) && $stmt->rowCount() > 0;
 }
 
+function getTrainerClassById(PDO $db, int $classId, int $trainerId): ?array
+{
+    $stmt = $db->prepare('SELECT * FROM aulas WHERE id = ? AND treinador_id = ?');
+    $stmt->execute([$classId, $trainerId]);
+    return $stmt->fetch() ?: null;
+}
+
+function updateTrainerClass(PDO $db, int $classId, int $trainerId, array $data): bool
+{
+    $stmt = $db->prepare(
+        'UPDATE aulas
+         SET nome = ?, tipo = ?, descricao = ?, dia_semana = ?,
+             inicio = ?, fim = ?, sala = ?, estado = ?
+         WHERE id = ? AND treinador_id = ?'
+    );
+    return $stmt->execute([
+        $data['name'], $data['type'], $data['description'], $data['day'],
+        $data['start'], $data['end'], $data['room'], $data['status'],
+        $classId, $trainerId,
+    ]) && $stmt->rowCount() > 0;
+}
+
 function removeClassFromCatalog(PDO $db, int $classId): bool
 {
     $stmt = $db->prepare(

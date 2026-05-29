@@ -107,10 +107,16 @@ if ($role === 'administrador') {
     $classes          = getFilteredClasses($db, ['trainer' => $trainer['id']]);
     $nutritionPlans   = getTrainerNutritionPlans($db, (int)$trainer['id']);
     $nutritionMembers = getMembersForAssignment($db);
+    $editingClass     = null;
+    $editClassId      = filter_input(INPUT_GET, 'edit_class', FILTER_VALIDATE_INT) ?: 0;
+    if ($editClassId > 0) {
+        $editingClass = getTrainerClassById($db, $editClassId, (int)$trainer['id']);
+    }
 
     $messages = [
         'success' => match ($_GET['sucesso'] ?? '') {
             'sucesso'              => 'Perfil atualizado com sucesso.',
+            'aula_atualizada'      => 'Aula atualizada com sucesso.',
             'plano_criado'         => 'Plano nutricional criado com sucesso.',
             'plano_removido'       => 'Plano nutricional eliminado.',
             'refeicao_adicionada'  => 'Refeição adicionada ao plano.',
@@ -128,12 +134,16 @@ if ($role === 'administrador') {
             'foto_tipo'       => 'Usa uma fotografia JPG, PNG ou WebP.',
             'nutricao_campos' => 'Preenche todos os campos obrigatórios do plano.',
             'refeicao_campos' => 'Preenche o nome e tipo da refeição.',
+            'aula_campos'     => 'Preenche o nome, tipo e horário da aula.',
+            'aula_horario'    => 'Confirma a hora de início e fim da aula.',
+            'aula_opcao'      => 'Escolhe opções válidas para a aula.',
+            'aula_notfound'   => 'Aula não encontrada.',
             default           => null,
         },
     ];
 
     drawHeader('Área Treinador - LAFit', 'trainer');
-    drawTrainerPage($user, $trainer, $classes, $messages, $nutritionPlans, $nutritionMembers);
+    drawTrainerPage($user, $trainer, $classes, $messages, $nutritionPlans, $nutritionMembers, $editingClass);
     drawFooter();
 
 } else {
