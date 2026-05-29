@@ -149,8 +149,13 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                 <?php } ?>
 
                 <?php if (!$isEditing && !$isEditingClass && !$isEditingEquipment) { ?>
-                <section class="painel painel-lista">
-                    <h2>Membros e treinadores</h2>
+                <section class="painel painel-lista" id="admin-contas-lista">
+                    <div class="cabecalho-painel">
+                        <h2>Membros e treinadores</h2>
+                        <?php if (count($users) > 3) { ?>
+                            <button type="button" class="botao cliente admin-ver-mais" data-target="admin-contas-lista">Ver mais</button>
+                        <?php } ?>
+                    </div>
 
                     <?php if (count($users) === 0) { ?>
                         <p>Ainda não existem contas para gerir.</p>
@@ -169,7 +174,8 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($users as $user) { ?>
+                                    <?php foreach ($users as $i => $user) { ?>
+                                        <?php if ($i === 3) { ?></tbody><tbody class="admin-extra-rows" hidden><?php } ?>
                                         <tr>
                                             <td><?= h($user['nome'] . ' ' . $user['apelido']) ?></td>
                                             <td><?= h($user['nome_utilizador']) ?></td>
@@ -436,8 +442,13 @@ function drawAdminEquipmentSection(array $equipment, ?array $editingEquipment): 
     </section>
 
     <?php if (!$isEditing) { ?>
-    <section class="painel painel-lista">
-        <h2>Equipamentos</h2>
+    <section class="painel painel-lista" id="admin-equipamentos-lista">
+        <div class="cabecalho-painel">
+            <h2>Equipamentos</h2>
+            <?php if (count($equipment) > 3) { ?>
+                <button type="button" class="botao cliente admin-ver-mais" data-target="admin-equipamentos-lista">Ver mais</button>
+            <?php } ?>
+        </div>
 
         <?php if (count($equipment) === 0) { ?>
             <p>Ainda não existem equipamentos registados.</p>
@@ -455,7 +466,8 @@ function drawAdminEquipmentSection(array $equipment, ?array $editingEquipment): 
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($equipment as $item) { ?>
+                        <?php foreach ($equipment as $i => $item) { ?>
+                            <?php if ($i === 3) { ?></tbody><tbody class="admin-extra-rows" hidden><?php } ?>
                             <tr>
                                 <td><?= h($item['nome']) ?></td>
                                 <td><?= h($item['zona']) ?></td>
@@ -584,8 +596,13 @@ function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?ar
     </section>
 
     <?php if (!$isEditing) { ?>
-    <section class="painel painel-lista">
-        <h2>Aulas</h2>
+    <section class="painel painel-lista" id="admin-aulas-lista">
+        <div class="cabecalho-painel">
+            <h2>Aulas</h2>
+            <?php if (count($classes) > 3) { ?>
+                <button type="button" class="botao cliente admin-ver-mais" data-target="admin-aulas-lista">Ver mais</button>
+            <?php } ?>
+        </div>
 
         <?php if (count($classes) === 0) { ?>
             <p>Ainda não existem aulas no catálogo.</p>
@@ -604,7 +621,8 @@ function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?ar
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($classes as $class) { ?>
+                        <?php foreach ($classes as $i => $class) { ?>
+                            <?php if ($i === 3) { ?></tbody><tbody class="admin-extra-rows" hidden><?php } ?>
                             <tr>
                                 <td>
                                     <strong><?= h($class['nome']) ?></strong>

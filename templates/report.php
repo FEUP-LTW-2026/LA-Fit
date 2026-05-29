@@ -119,7 +119,7 @@ function drawReportPage(array $reports, array $messages = []): void
                                 </div>
                                 <div class="campo campo-largo">
                                     <label for="descricao">Descrição</label>
-                                    <textarea id="descricao" name="descricao" rows="4" placeholder="Descreve o problema com o máximo de detalhe possível." required></textarea>
+                                    <textarea id="descricao" name="descricao" rows="4" maxlength="500" placeholder="Descreve o problema com o máximo de detalhe possível." required></textarea>
                                 </div>
                             </div>
                         </fieldset>

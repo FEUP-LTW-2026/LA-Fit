@@ -18,6 +18,14 @@ if (!$assignId) {
 $db      = getDatabaseConnection();
 $trainer = getTrainerByUsername($db, $_SESSION['username']);
 
-unassignPlanFromMember($db, $assignId, (int)$trainer['id']);
+$ok = unassignPlanFromMember($db, $assignId, (int)$trainer['id']);
+
+$isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+          strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+if ($isAjax) {
+    header('Content-Type: application/json');
+    echo json_encode(['success' => $ok]);
+    exit;
+}
 header('Location: ../pages/profile.php?sucesso=plano_removido_membro#trainer-nutricao');
 exit;

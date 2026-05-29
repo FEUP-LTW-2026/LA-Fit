@@ -25,6 +25,14 @@ if (!$workoutId) {
     exit;
 }
 
-deleteWorkout($db, $workoutId, (int)$member['id']);
+$ok = deleteWorkout($db, $workoutId, (int)$member['id']);
+
+$isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
+          strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+if ($isAjax) {
+    header('Content-Type: application/json');
+    echo json_encode(['success' => $ok]);
+    exit;
+}
 header('Location: ../pages/profile.php?sucesso=treino_removido#perfil-progresso');
 exit;
