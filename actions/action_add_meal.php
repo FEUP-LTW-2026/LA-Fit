@@ -20,7 +20,7 @@ $gorduras  = max(0.0, (float)($_POST['gorduras'] ?? 0));
 $allowedTipos = ['pequeno_almoco', 'almoco', 'jantar', 'lanche', 'outro'];
 
 if (!$planId || !$nome || !in_array($tipo, $allowedTipos, true)) {
-    header('Location: ../pages/perfil.php?erro=refeicao_campos#trainer-nutricao');
+    header('Location: ../pages/profile.php?erro=refeicao_campos#trainer-nutricao');
     exit;
 }
 
@@ -28,5 +28,5 @@ $db      = getDatabaseConnection();
 $trainer = getTrainerByUsername($db, $_SESSION['username']);
 
 addMealToPlan($db, $planId, $nome, $tipo, $calorias, $proteinas, $hidratos, $gorduras, (int)$trainer['id']);
-header('Location: ../pages/perfil.php?sucesso=refeicao_adicionada#trainer-nutricao');
+header('Location: ../pages/profile.php?sucesso=refeicao_adicionada#trainer-nutricao');
 exit;

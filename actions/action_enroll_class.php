@@ -10,7 +10,7 @@ require_once __DIR__ . '/../database/connection.php';
 require_once __DIR__ . '/../database/enrollments.php';
 
 $classId = (int)($_POST['class_id'] ?? 0);
-$returnTo = getEnrollmentReturnUrl($_POST['return_to'] ?? 'aulas.php');
+$returnTo = getEnrollmentReturnUrl($_POST['return_to'] ?? 'classes.php');
 
 if ($classId <= 0) {
     header('Location: ' . addEnrollmentResult($returnTo, 'erro'));
@@ -34,7 +34,7 @@ function getEnrollmentReturnUrl(string $returnTo): string
         return '../pages/' . $returnTo;
     }
 
-    return '../pages/aulas.php';
+    return '../pages/classes.php';
 }
 
 function addEnrollmentResult(string $url, string $result): string

@@ -53,8 +53,8 @@ function drawHeader(string $title = 'LAFit', string $activePage = 'home', array 
             </a>
 
             <?php
-            $onProfilePage = in_array($activePage, ['perfil', 'trainer', 'admin', 'report'], true);
-            $hideNav = $onProfilePage || ($loggedIn && $activePage === 'aulas');
+            $onProfilePage = in_array($activePage, ['profile', 'trainer', 'admin', 'report'], true);
+            $hideNav = $onProfilePage || ($loggedIn && $activePage === 'classes');
             ?>
             <?php if (!$hideNav) { ?>
             <nav class="menu">
@@ -64,10 +64,10 @@ function drawHeader(string $title = 'LAFit', string $activePage = 'home', array 
                     <a href="index.php#planos">Planos</a>
                 <?php } ?>
                 <a href="index.php#espacos">Espaços</a>
-                <a href="index.php#aulas-destaque" class="<?= $activePage === 'aulas' ? 'ativo' : '' ?>">Aulas</a>
+                <a href="index.php#aulas-destaque" class="<?= $activePage === 'classes' ? 'ativo' : '' ?>">Aulas</a>
                 <a href="#contactos">Contactos</a>
             </nav>
-            <?php } elseif ($activePage === 'perfil') { ?>
+            <?php } elseif ($activePage === 'profile') { ?>
             <nav class="menu">
                 <a href="#perfil">Perfil</a>
                 <a href="#perfil-aulas">Aulas</a>
@@ -93,21 +93,21 @@ function drawHeader(string $title = 'LAFit', string $activePage = 'home', array 
             <div class="acoes-topo">
                 <?php if ($loggedIn) { ?>
                     <?php
-                    $profilePage = 'perfil.php';
+                    $profilePage = 'profile.php';
                     ?>
                     <?php if (!$onProfilePage) { ?>
                         <a href="<?= $profilePage ?>" class="botao cliente">Olá, <?= h($_SESSION['username']) ?></a>
-                    <?php } elseif ($activePage === 'perfil') { ?>
+                    <?php } elseif ($activePage === 'profile') { ?>
                         <a href="report.php" class="botao cliente">Reportar problema</a>
                     <?php } elseif ($activePage === 'admin') { ?>
                         <a href="report.php" class="botao cliente">Ver reportes</a>
                     <?php } elseif ($activePage === 'report') { ?>
-                        <a href="perfil.php" class="botao cliente">Área do cliente</a>
+                        <a href="profile.php" class="botao cliente">Área do cliente</a>
                     <?php } ?>
                     <a href="../actions/action_logout.php" class="botao amarelo">Sair</a>
                 <?php } else { ?>
                     <a href="login.php" class="botao cliente">Iniciar Sessão</a>
-                    <a href="inscricao.php" class="botao amarelo">Aderir agora</a>
+                    <a href="enrollment.php" class="botao amarelo">Aderir agora</a>
                 <?php } ?>
             </div>
         </div>

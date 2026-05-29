@@ -34,7 +34,7 @@ function drawReviewPage(array $classes, ?int $selectedClassId = null): void
                     <?php if (count($classes) === 0) { ?>
                         <h2>Ainda não há aulas disponíveis para avaliar</h2>
                         <p>As opiniões ficam disponíveis depois de marcar presença numa aula.</p>
-                        <a href="aulas.php" class="botao amarelo">Ver horários</a>
+                        <a href="classes.php" class="botao amarelo">Ver horários</a>
                     <?php } else { ?>
                         <form action="../actions/action_review_class.php" method="post" class="form-avaliacao-pagina">
                             <div class="campo">

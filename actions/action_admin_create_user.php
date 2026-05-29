@@ -11,7 +11,7 @@ require_once __DIR__ . '/../database/users.php';
 
 function redirectAdminCreate(string $type, string $code): void
 {
-    header('Location: ../pages/perfil.php?' . $type . '=' . $code);
+    header('Location: ../pages/profile.php?' . $type . '=' . $code);
     exit;
 }
 

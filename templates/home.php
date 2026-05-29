@@ -15,8 +15,8 @@ function drawHome(array $plans, array $gyms, array $classes): void
                     </p>
 
                     <div class="acoes">
-                        <a href="inscricao.php" class="botao amarelo">Aderir por 19,99€/mês</a>
-                        <a href="aulas.php" class="botao claro">Ver aulas</a>
+                        <a href="enrollment.php" class="botao amarelo">Aderir por 19,99€/mês</a>
+                        <a href="classes.php" class="botao claro">Ver aulas</a>
                     </div>
 
                     <div class="numeros">
@@ -177,7 +177,7 @@ function drawHome(array $plans, array $gyms, array $classes): void
                 </div>
 
                 <div class="centro">
-                    <a href="aulas.php" class="botao cliente">Ver todas as aulas</a>
+                    <a href="classes.php" class="botao cliente">Ver todas as aulas</a>
                 </div>
             </div>
         </section>
@@ -190,7 +190,7 @@ function drawHome(array $plans, array $gyms, array $classes): void
                 <p>
                     Treina na LAFit, supera-te todos os dias e encontra um plano que acompanhe o teu ritmo.
                 </p>
-                <a href="inscricao.php" class="botao amarelo">Quero aderir</a>
+                <a href="enrollment.php" class="botao amarelo">Quero aderir</a>
             </div>
         </section>
         <?php } ?>
@@ -215,7 +215,7 @@ function drawPlanCard(array $plan): void
                 <li><?= h($benefit) ?></li>
             <?php } ?>
         </ul>
-        <a href="inscricao.php?plano=<?= (int)$plan['id'] ?>" class="botao <?= $isPopular ? 'amarelo' : 'claro' ?> largo">Escolher plano</a>
+        <a href="enrollment.php?plano=<?= (int)$plan['id'] ?>" class="botao <?= $isPopular ? 'amarelo' : 'claro' ?> largo">Escolher plano</a>
     </article>
 <?php
 }

@@ -23,7 +23,7 @@ function drawEquipmentPage(array $equipmentByZone, array $summary, array $filter
                     <div class="class-empty-state">
                         <h2>Nenhum equipamento encontrado com esses filtros.</h2>
                         <p>Experimenta ajustar a zona ou o estado para veres mais opções.</p>
-                        <a href="equipamentos.php" class="botao cliente">Limpar filtros</a>
+                        <a href="equipment.php" class="botao cliente">Limpar filtros</a>
                     </div>
                 <?php } else { ?>
                     <div class="zonas-equipamentos">
@@ -47,7 +47,7 @@ function drawEquipmentPage(array $equipmentByZone, array $summary, array $filter
 <?php
 }
 
-function drawEquipmentFilters(array $filters, array $filterOptions, string $action = 'equipamentos.php'): void
+function drawEquipmentFilters(array $filters, array $filterOptions, string $action = 'equipment.php'): void
 {
     $zones = $filterOptions['zones'] ?? [];
     $states = ['disponivel' => 'Disponível', 'ocupado' => 'Em uso', 'manutencao' => 'Manutenção'];

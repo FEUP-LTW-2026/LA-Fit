@@ -13,7 +13,7 @@ $nome     = trim($_POST['nome'] ?? '');
 $descricao = trim($_POST['descricao'] ?? '');
 
 if (!$nome) {
-    header('Location: ../pages/perfil.php?erro=nutricao_campos#trainer-nutricao');
+    header('Location: ../pages/profile.php?erro=nutricao_campos#trainer-nutricao');
     exit;
 }
 
@@ -21,5 +21,5 @@ $db      = getDatabaseConnection();
 $trainer = getTrainerByUsername($db, $_SESSION['username']);
 
 createNutritionPlan($db, (int)$trainer['id'], $nome, $descricao);
-header('Location: ../pages/perfil.php?sucesso=plano_criado#trainer-nutricao');
+header('Location: ../pages/profile.php?sucesso=plano_criado#trainer-nutricao');
 exit;

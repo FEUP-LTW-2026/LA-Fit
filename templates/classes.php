@@ -3,7 +3,7 @@ function drawClassesPage(array $classes, array $enrolledClassIds, array $filters
 {
     $isLoggedIn = isset($_SESSION['username']);
     $isMember = ($_SESSION['role'] ?? '') === 'membro';
-    $returnTo = 'aulas.php' . (!empty($_SERVER['QUERY_STRING']) ? '?' . $_SERVER['QUERY_STRING'] : '');
+    $returnTo = 'classes.php' . (!empty($_SERVER['QUERY_STRING']) ? '?' . $_SERVER['QUERY_STRING'] : '');
 ?>
     <main class="pagina-aulas">
         <section class="seccao">
@@ -27,7 +27,7 @@ function drawClassesPage(array $classes, array $enrolledClassIds, array $filters
                     <div class="class-empty-state">
                         <h2>Nao encontramos aulas com esses filtros.</h2>
                         <p>Experimenta ajustar o tipo, treinador, dia ou hora para veres mais opcoes.</p>
-                        <a href="aulas.php" class="botao cliente">Limpar filtros</a>
+                        <a href="classes.php" class="botao cliente">Limpar filtros</a>
                     </div>
                 <?php } else { ?>
                     <div class="grelha-aulas">
@@ -47,7 +47,7 @@ function drawClassFilters(array $filters, array $filterOptions): void
     $trainers = $filterOptions['trainers'] ?? [];
     $times = $filterOptions['times'] ?? [];
 ?>
-    <form class="class-filters" action="aulas.php" method="get">
+    <form class="class-filters" action="classes.php" method="get">
         <div class="filter-field">
             <label for="type">Tipo</label>
             <select id="type" name="type">
@@ -98,7 +98,7 @@ function drawClassFilters(array $filters, array $filterOptions): void
 
         <div class="filter-actions">
             <button type="submit" class="botao amarelo">Filtrar</button>
-            <a href="aulas.php" class="botao cliente">Limpar</a>
+            <a href="classes.php" class="botao cliente">Limpar</a>
         </div>
     </form>
 <?php
@@ -124,7 +124,7 @@ function drawClassCard(array $class, array $enrolledClassIds, bool $isLoggedIn, 
 
         <div class="convite-avaliacao">
             <h3>Já foi a uma destas? Deixe a sua opinião</h3>
-            <a href="avaliacao.php?class_id=<?= $classId ?>" class="botao amarelo largo">Dar opinião</a>
+            <a href="review.php?class_id=<?= $classId ?>" class="botao amarelo largo">Dar opinião</a>
         </div>
 
         <?php if (!$isLoggedIn) { ?>

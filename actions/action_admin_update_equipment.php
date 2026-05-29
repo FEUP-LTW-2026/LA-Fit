@@ -12,7 +12,7 @@ require_once __DIR__ . '/../database/equipment.php';
 function redirectAdminUpdateEquipment(string $type, string $code, int $equipmentId = 0): void
 {
     $edit = $equipmentId > 0 ? '&edit_equipment=' . $equipmentId : '';
-    header('Location: ../pages/perfil.php?' . $type . '=' . $code . $edit);
+    header('Location: ../pages/profile.php?' . $type . '=' . $code . $edit);
     exit;
 }
 

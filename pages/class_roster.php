@@ -17,7 +17,7 @@ require_once __DIR__ . '/../templates/class_roster.php';
 $classId = (int)($_GET['aula'] ?? 0);
 
 if ($classId <= 0) {
-    header('Location: perfil.php');
+    header('Location: profile.php');
     exit;
 }
 
@@ -26,7 +26,7 @@ $trainer = getTrainerByUsername($db, $_SESSION['username']);
 $members = getEnrolledMembersForClass($db, $classId, (int)$trainer['id']);
 
 if ($members === null) {
-    header('Location: perfil.php');
+    header('Location: profile.php');
     exit;
 }
 

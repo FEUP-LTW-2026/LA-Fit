@@ -45,7 +45,7 @@ if ($role === 'administrador') {
     $userId = (int)($user['id'] ?? 0);
 
     if (!$userId) {
-        header('Location: perfil.php');
+        header('Location: profile.php');
         exit;
     }
 

@@ -11,7 +11,7 @@ require_once __DIR__ . '/../database/nutrition.php';
 
 $planId = filter_input(INPUT_POST, 'plan_id', FILTER_VALIDATE_INT);
 if (!$planId) {
-    header('Location: ../pages/perfil.php?erro=notfound#trainer-nutricao');
+    header('Location: ../pages/profile.php?erro=notfound#trainer-nutricao');
     exit;
 }
 
@@ -19,5 +19,5 @@ $db      = getDatabaseConnection();
 $trainer = getTrainerByUsername($db, $_SESSION['username']);
 
 deleteNutritionPlan($db, $planId, (int)$trainer['id']);
-header('Location: ../pages/perfil.php?sucesso=plano_removido#trainer-nutricao');
+header('Location: ../pages/profile.php?sucesso=plano_removido#trainer-nutricao');
 exit;

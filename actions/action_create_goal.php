@@ -14,7 +14,7 @@ $db = getDatabaseConnection();
 $member = getMemberByUsername($db, $_SESSION['username']);
 
 if (!$member) {
-    header('Location: ../pages/perfil.php');
+    header('Location: ../pages/profile.php');
     exit;
 }
 
@@ -24,10 +24,10 @@ $unidade    = trim($_POST['unidade'] ?? '');
 $dataLimite = trim($_POST['data_limite'] ?? '');
 
 if (!$descricao || $valorAlvo <= 0) {
-    header('Location: ../pages/perfil.php?erro=objetivo_campos#perfil-progresso');
+    header('Location: ../pages/profile.php?erro=objetivo_campos#perfil-progresso');
     exit;
 }
 
 createGoal($db, (int)$member['id'], $descricao, $valorAlvo, $unidade, $dataLimite ?: null);
-header('Location: ../pages/perfil.php?sucesso=objetivo_criado#perfil-progresso');
+header('Location: ../pages/profile.php?sucesso=objetivo_criado#perfil-progresso');
 exit;

@@ -17,13 +17,13 @@ $db = getDatabaseConnection();
 $memberId = getMemberIdForUsername($db, $_SESSION['username']);
 
 if (!$memberId) {
-    header('Location: perfil.php');
+    header('Location: profile.php');
     exit;
 }
 
 $classes = getReviewableClassesForMember($db, $memberId);
 $selectedClassId = isset($_GET['class_id']) ? (int)$_GET['class_id'] : null;
 
-drawHeader('Opinião - LAFit', 'aulas');
+drawHeader('Opinião - LAFit', 'classes');
 drawReviewPage($classes, $selectedClassId);
 drawFooter();

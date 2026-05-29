@@ -24,6 +24,6 @@ $equipmentByZone = getFilteredEquipmentByZone($db, $filters);
 $summary = getEquipmentAvailabilitySummary($db);
 $filterOptions = getEquipmentFilterOptions($db);
 
-drawHeader('Equipamentos - LAFit', 'equipamentos');
+drawHeader('Equipamentos - LAFit', 'equipment');
 drawEquipmentPage($equipmentByZone, $summary, $filters, $filterOptions);
 drawFooter();

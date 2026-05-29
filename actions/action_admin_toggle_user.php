@@ -13,16 +13,16 @@ $userId = filter_input(INPUT_POST, 'user_id', FILTER_VALIDATE_INT) ?: 0;
 $status = $_POST['status'] ?? '';
 
 if ($userId <= 0 || !in_array($status, ['ativo', 'inativo'], true)) {
-    header('Location: ../pages/perfil.php?erro=estado');
+    header('Location: ../pages/profile.php?erro=estado');
     exit;
 }
 
 $db = getDatabaseConnection();
 
 if (!setManagedUserStatus($db, $userId, $status)) {
-    header('Location: ../pages/perfil.php?erro=notfound');
+    header('Location: ../pages/profile.php?erro=notfound');
     exit;
 }
 
-header('Location: ../pages/perfil.php?sucesso=estado');
+header('Location: ../pages/profile.php?sucesso=estado');
 exit;

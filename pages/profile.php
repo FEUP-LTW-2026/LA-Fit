@@ -200,7 +200,7 @@ if ($role === 'administrador') {
         },
     ];
 
-    drawHeader('Perfil - LAFit', 'perfil');
+    drawHeader('Perfil - LAFit', 'profile');
     drawProfilePage($user, $member, $enrollments, $equipmentByZone, $equipmentSummary, $equipmentFilters, $equipmentFilterOptions, $messages, $workouts, $goals, $workoutStats, $nutritionPlans);
     drawFooter();
 

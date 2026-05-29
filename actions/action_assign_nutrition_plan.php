@@ -13,7 +13,7 @@ $planId   = filter_input(INPUT_POST, 'plan_id', FILTER_VALIDATE_INT);
 $membroId = filter_input(INPUT_POST, 'membro_id', FILTER_VALIDATE_INT);
 
 if (!$planId || !$membroId) {
-    header('Location: ../pages/perfil.php?erro=nutricao_campos#trainer-nutricao');
+    header('Location: ../pages/profile.php?erro=nutricao_campos#trainer-nutricao');
     exit;
 }
 
@@ -21,5 +21,5 @@ $db      = getDatabaseConnection();
 $trainer = getTrainerByUsername($db, $_SESSION['username']);
 
 assignPlanToMember($db, $planId, $membroId, (int)$trainer['id']);
-header('Location: ../pages/perfil.php?sucesso=plano_atribuido#trainer-nutricao');
+header('Location: ../pages/profile.php?sucesso=plano_atribuido#trainer-nutricao');
 exit;

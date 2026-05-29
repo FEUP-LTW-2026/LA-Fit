@@ -53,7 +53,7 @@
     height: 500px;
     border-radius: 20px;
     background: linear-gradient(180deg, rgba(241, 196, 15, 0.2), rgba(0, 0, 0, 0.55)),
-        url("../images/principal.jpg");
+        url("../images/main.jpg");
     background-size: cover;
     background-position: center;
     border: 2px solid rgba(255, 255, 255, 0.08);
@@ -88,17 +88,17 @@
 
 .espaco-aulas {
     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
-        url("../images/aulas.jpg");
+        url("../images/classes.jpg");
 }
 
 .espaco-musculacao {
     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
-        url("../images/musculaçao.jpg");
+        url("../images/weight_training.jpg");
 }
  
 .espaco-balnearios {
     background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)),
-        url("../images/balneario.jpg");
+        url("../images/locker_room.jpg");
 }
 
 .texto-espaco {

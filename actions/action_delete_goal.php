@@ -14,17 +14,17 @@ $db = getDatabaseConnection();
 $member = getMemberByUsername($db, $_SESSION['username']);
 
 if (!$member) {
-    header('Location: ../pages/perfil.php');
+    header('Location: ../pages/profile.php');
     exit;
 }
 
 $goalId = filter_input(INPUT_POST, 'goal_id', FILTER_VALIDATE_INT);
 
 if (!$goalId) {
-    header('Location: ../pages/perfil.php#perfil-progresso');
+    header('Location: ../pages/profile.php#perfil-progresso');
     exit;
 }
 
 deleteGoal($db, $goalId, (int)$member['id']);
-header('Location: ../pages/perfil.php?sucesso=objetivo_removido#perfil-progresso');
+header('Location: ../pages/profile.php?sucesso=objetivo_removido#perfil-progresso');
 exit;

@@ -11,7 +11,7 @@ require_once __DIR__ . '/../templates/profile_view.php';
 $trainerId = (int)($_GET['id'] ?? 0);
 
 if ($trainerId <= 0) {
-    header('Location: aulas.php');
+    header('Location: classes.php');
     exit;
 }
 
@@ -19,12 +19,12 @@ $db = getDatabaseConnection();
 $trainer = getTrainerById($db, $trainerId);
 
 if (!$trainer) {
-    header('Location: aulas.php');
+    header('Location: classes.php');
     exit;
 }
 
 $classes = getFilteredClasses($db, ['trainer' => $trainerId]);
 
-drawHeader(h($trainer['nome'] . ' ' . $trainer['apelido']) . ' - LAFit', 'aulas');
+drawHeader(h($trainer['nome'] . ' ' . $trainer['apelido']) . ' - LAFit', 'classes');
 drawTrainerProfilePage($trainer, $classes);
 drawFooter();
