@@ -214,9 +214,9 @@ INSERT INTO planos (nome, preco_mensal, descricao, beneficios) VALUES
     ('Premium', 39.99, 'Plano completo com plano nutricional e zona VIP.', 'Tudo do plano ilimitado|Plano nutricional personalizado|Cocktails grátis|Zona VIP');
 
 INSERT INTO utilizadores (nome_utilizador, email, palavra_passe, nome, apelido, papel, estado) VALUES
-    ('admin', 'admin@lafit.test', 'p4s5w0rd', 'Admin', 'LAFit', 'administrador', 'ativo'),
-    ('member', 'member@lafit.test', '1234', 'Member', 'LAFit', 'membro', 'ativo'),
-    ('trainer', 'trainer@lafit.test', '1234', 'Trainer', 'LAFit', 'treinador', 'ativo');
+    ('admin', 'admin@lafit.test', '$2y$12$y1Whr1i5a/HBAoZ1fclnfOF2Fg6CrtJO7.g/qRmgrfYHWzR/mA7S.', 'Admin', 'LAFit', 'administrador', 'ativo'),
+    ('member', 'member@lafit.test', '$2y$12$cbODfU0SP03NSndCehlP1uBpBU57tVzPwtQX.vgfzYhZplcfX8xd2', 'Member', 'LAFit', 'membro', 'ativo'),
+    ('trainer', 'trainer@lafit.test', '$2y$12$cbODfU0SP03NSndCehlP1uBpBU57tVzPwtQX.vgfzYhZplcfX8xd2', 'Trainer', 'LAFit', 'treinador', 'ativo');
 
 INSERT INTO administradores (utilizador_id) VALUES
     (1);

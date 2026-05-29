@@ -62,6 +62,7 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
                 <section class="painel painel-editar-perfil">
                     <h2>Editar perfil público</h2>
                     <form action="../actions/action_update_trainer.php" method="post" enctype="multipart/form-data">
+                        <?= csrfField() ?>
                         <fieldset class="grupo">
                             <legend>Dados pessoais</legend>
                             <div class="campos">

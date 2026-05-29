@@ -37,6 +37,7 @@ function drawReviewPage(array $classes, ?int $selectedClassId = null): void
                         <a href="classes.php" class="botao amarelo">Ver horários</a>
                     <?php } else { ?>
                         <form action="../actions/action_review_class.php" method="post" class="form-avaliacao-pagina">
+                        <?= csrfField() ?>
                             <div class="campo">
                                 <label for="class_id">1. Em que sessão quer deixar a sua opinião?</label>
                                 <select id="class_id" name="class_id" required>

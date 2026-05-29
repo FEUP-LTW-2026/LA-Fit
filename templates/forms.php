@@ -27,6 +27,7 @@ function drawLoginPage(?string $error = null): void
                     <?php } ?>
 
                     <form action="../actions/action_login.php" method="post">
+                        <?= csrfField() ?>
                         <div class="campo-login">
                             <label for="login">Username ou email</label>
                             <input type="text" id="login" name="login" required>
@@ -65,6 +66,7 @@ function drawRegistrationPage(array $plans, array $gyms, ?string $error = null, 
                     <?php } ?>
 
                     <form action="../actions/action_register.php" method="post">
+                        <?= csrfField() ?>
                         <fieldset class="grupo">
                             <legend>Dados pessoais</legend>
                             <div class="campos">

@@ -100,6 +100,7 @@ function drawProgressSection(array $workouts, array $goals, array $stats): void
 
                             <?php if (!$concluido) { ?>
                             <form action="../actions/action_update_goal.php" method="post" class="objetivo-atualizar">
+                        <?= csrfField() ?>
                                 <input type="hidden" name="goal_id" value="<?= (int)$goal['id'] ?>">
                                 <input type="number" name="valor_atual" step="0.1" min="0" value="<?= h(number_format($goal['valor_atual'], 1, '.', '')) ?>" required>
                                 <span><?= h($goal['unidade']) ?></span>
@@ -108,6 +109,7 @@ function drawProgressSection(array $workouts, array $goals, array $stats): void
                             <?php } ?>
 
                             <form action="../actions/action_delete_goal.php" method="post" data-confirm="Tens a certeza que queres remover este objetivo?">
+                        <?= csrfField() ?>
                                 <input type="hidden" name="goal_id" value="<?= (int)$goal['id'] ?>">
                                 <button type="submit" class="botao-remover"><i class="fa-solid fa-xmark"></i></button>
                             </form>
@@ -122,6 +124,7 @@ function drawProgressSection(array $workouts, array $goals, array $stats): void
                 <details class="painel-form-colapsavel">
                     <summary>Novo objetivo</summary>
                     <form action="../actions/action_create_goal.php" method="post" class="form-inline">
+                        <?= csrfField() ?>
                         <div class="campo">
                             <label>Descrição</label>
                             <input type="text" name="descricao" placeholder="Ex: Correr 5 km" required>
@@ -151,6 +154,7 @@ function drawProgressSection(array $workouts, array $goals, array $stats): void
                 <details class="painel-form-colapsavel" open>
                     <summary>Registar treino</summary>
                     <form action="../actions/action_log_workout.php" method="post" class="form-inline">
+                        <?= csrfField() ?>
                         <div class="campos-linha">
                             <div class="campo">
                                 <label>Data</label>
@@ -193,6 +197,7 @@ function drawProgressSection(array $workouts, array $goals, array $stats): void
                                 <?php if ($w['notas']) { ?><p class="treino-notas"><?= h($w['notas']) ?></p><?php } ?>
                             </div>
                             <form action="../actions/action_delete_workout.php" method="post" data-confirm="Tens a certeza que queres remover este registo?">
+                        <?= csrfField() ?>
                                 <input type="hidden" name="workout_id" value="<?= (int)$w['id'] ?>">
                                 <button type="submit" class="botao-remover"><i class="fa-solid fa-xmark"></i></button>
                             </form>

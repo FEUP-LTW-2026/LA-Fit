@@ -8,6 +8,14 @@ if (!isset($_SESSION['user_id'])) {
 
 require_once __DIR__ . '/../database/connection.php';
 require_once __DIR__ . '/../database/users.php';
+require_once __DIR__ . '/../database/csrf.php';
+
+
+if (!verifyCsrfToken()) {
+    http_response_code(403);
+    header('Location: ../pages/login.php');
+    exit;
+}
 
 function redirectProfile(string $status, string $code): void
 {

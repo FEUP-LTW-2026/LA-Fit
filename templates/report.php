@@ -47,6 +47,7 @@ function drawAdminReportPage(array $reports, array $messages = []): void
                                     <?php } ?>
 
                                     <form action="../actions/action_admin_respond_report.php" method="post" class="reporte-form">
+                        <?= csrfField() ?>
                                         <input type="hidden" name="report_id" value="<?= (int)$report['id'] ?>">
                                         <div class="campos">
                                             <div class="campo campo-largo">
@@ -102,6 +103,7 @@ function drawReportPage(array $reports, array $messages = []): void
                     </div>
 
                     <form action="../actions/action_create_report.php" method="post">
+                        <?= csrfField() ?>
                         <fieldset class="grupo">
                             <legend>Detalhes do problema</legend>
                             <div class="campos">

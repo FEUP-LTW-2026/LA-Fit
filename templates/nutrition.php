@@ -17,6 +17,7 @@ function drawTrainerNutritionSection(array $plans, array $members): void
         <details class="painel-form-colapsavel">
             <summary>Novo plano</summary>
             <form action="../actions/action_create_nutrition_plan.php" method="post" class="form-inline">
+                        <?= csrfField() ?>
                 <div class="campo">
                     <label>Nome do plano</label>
                     <input type="text" name="nome" placeholder="Ex: Plano de definição" required>
@@ -50,6 +51,7 @@ function drawTrainerNutritionSection(array $plans, array $members): void
                         </span>
                     </div>
                     <form action="../actions/action_delete_nutrition_plan.php" method="post" data-confirm="Tens a certeza que queres eliminar este plano? Será removido de todos os membros.">
+                        <?= csrfField() ?>
                         <input type="hidden" name="plan_id" value="<?= (int)$plan['id'] ?>">
                         <button type="submit" class="botao-remover"><i class="fa-solid fa-xmark"></i></button>
                     </form>
@@ -75,6 +77,7 @@ function drawTrainerNutritionSection(array $plans, array $members): void
                                 <span><?= number_format((float)$meal['gorduras'], 1) ?>g gord</span>
                             </div>
                             <form action="../actions/action_delete_meal.php" method="post" data-confirm="Remover esta refeição?">
+                        <?= csrfField() ?>
                                 <input type="hidden" name="meal_id" value="<?= (int)$meal['id'] ?>">
                                 <button type="submit" class="botao-remover"><i class="fa-solid fa-xmark"></i></button>
                             </form>
@@ -86,6 +89,7 @@ function drawTrainerNutritionSection(array $plans, array $members): void
                     <details class="painel-form-colapsavel">
                         <summary>Adicionar refeição</summary>
                         <form action="../actions/action_add_meal.php" method="post" class="form-inline">
+                        <?= csrfField() ?>
                             <input type="hidden" name="plan_id" value="<?= (int)$plan['id'] ?>">
                             <div class="campos-linha">
                                 <div class="campo">
@@ -135,6 +139,7 @@ function drawTrainerNutritionSection(array $plans, array $members): void
                         <div class="atribuicao-item">
                             <span><?= h($a['nome'] . ' ' . $a['apelido']) ?> <small>@<?= h($a['nome_utilizador']) ?></small></span>
                             <form action="../actions/action_unassign_nutrition_plan.php" method="post" data-confirm="Remover este membro do plano?">
+                        <?= csrfField() ?>
                                 <input type="hidden" name="assign_id" value="<?= (int)$a['atribuicao_id'] ?>">
                                 <button type="submit" class="botao-remover"><i class="fa-solid fa-xmark"></i></button>
                             </form>
@@ -147,6 +152,7 @@ function drawTrainerNutritionSection(array $plans, array $members): void
 
                     <?php if (!empty($members)) { ?>
                     <form action="../actions/action_assign_nutrition_plan.php" method="post" class="form-inline">
+                        <?= csrfField() ?>
                         <input type="hidden" name="plan_id" value="<?= (int)$plan['id'] ?>">
                         <div class="campos-linha">
                             <div class="campo">

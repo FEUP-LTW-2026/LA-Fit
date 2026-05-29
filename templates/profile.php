@@ -77,6 +77,7 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                 <section class="painel painel-editar-perfil" >
                     <h2>Editar perfil</h2>
                     <form action="../actions/action_update_profile.php" method="post" enctype="multipart/form-data">
+                        <?= csrfField() ?>
                         <fieldset class="grupo">
                             <legend>Dados pessoais</legend>
                             <div class="campos">
@@ -172,6 +173,7 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
 
                                                     <?php if (($enrollment['inscricao_estado'] ?? '') === 'inscrito') { ?>
                                                         <form action="../actions/action_cancel_register.php" method="post" data-confirm="Tens a certeza que queres cancelar a inscrição nesta aula?">
+                        <?= csrfField() ?>
                                                             <input type="hidden" name="class_id" value="<?= (int)$enrollment['id'] ?>">
                                                             <input type="hidden" name="return_to" value="profile.php">
                                                             <button type="submit" class="botao claro-voltar">Cancelar</button>

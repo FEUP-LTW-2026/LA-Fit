@@ -20,6 +20,14 @@ if ($classId <= 0) {
 $db = getDatabaseConnection();
 
 require_once __DIR__ . '/../database/users.php';
+require_once __DIR__ . '/../database/csrf.php';
+
+if (!verifyCsrfToken()) {
+    http_response_code(403);
+    header('Location: ../pages/login.php');
+    exit;
+}
+
 $memberRow = getMemberByUsername($db, $_SESSION['username']);
 $features  = getMemberPlanFeatures($memberRow['plano_nome'] ?? '');
 if (!$features['classes']) {

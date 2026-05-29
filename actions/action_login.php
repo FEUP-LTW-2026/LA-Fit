@@ -3,6 +3,14 @@ session_start();
 
 require_once __DIR__ . '/../database/connection.php';
 require_once __DIR__ . '/../database/users.php';
+require_once __DIR__ . '/../database/csrf.php';
+
+
+if (!verifyCsrfToken()) {
+    http_response_code(403);
+    header('Location: ../pages/login.php');
+    exit;
+}
 
 $login = trim($_POST['login'] ?? '');
 $password = $_POST['password'] ?? '';

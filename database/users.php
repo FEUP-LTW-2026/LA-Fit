@@ -14,13 +14,16 @@ function getUserByLoginAndPassword(PDO $db, string $login, string $password): ?a
         'SELECT *
          FROM utilizadores
          WHERE (nome_utilizador = ? OR email = ?)
-           AND palavra_passe = ?
            AND estado = "ativo"'
     );
-    $stmt->execute([$login, $login, $password]);
+    $stmt->execute([$login, $login]);
     $user = $stmt->fetch();
 
-    return $user ?: null;
+    if (!$user || !password_verify($password, $user['palavra_passe'])) {
+        return null;
+    }
+
+    return $user;
 }
 
 function getUserByUsername(PDO $db, string $username): ?array
@@ -105,7 +108,7 @@ function updateUserPassword(PDO $db, int $userId, string $password): bool
          WHERE id = ?'
     );
 
-    return $stmt->execute([$password, $userId]);
+    return $stmt->execute([password_hash($password, PASSWORD_DEFAULT), $userId]);
 }
 
 function getManageableUsers(PDO $db): array
@@ -148,7 +151,7 @@ function createManagedUser(PDO $db, array $data): int
         $stmt->execute([
             $data['username'],
             $data['email'],
-            $data['password'],
+            password_hash($data['password'], PASSWORD_DEFAULT),
             $data['first_name'],
             $data['last_name'],
             $data['role'],
@@ -368,7 +371,7 @@ function createMemberUser(PDO $db, array $data): int
         $stmt->execute([
             $data['username'],
             $data['email'],
-            $data['password'],
+            password_hash($data['password'], PASSWORD_DEFAULT),
             $data['first_name'],
             $data['last_name'],
         ]);

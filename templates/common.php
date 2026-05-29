@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../database/csrf.php';
+
 function h($value): string
 {
     return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');

@@ -192,7 +192,8 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                                             <td>
                                                 <div class="acoes-linha">
                                                     <a href="profile.php?edit=<?= (int)$user['id'] ?>" class="botao claro-voltar">Editar</a>
-                                                    <form action="../actions/action_admin_toggle_user.php" method="post" data-confirm="<?= $user['estado'] === 'ativo' ? 'Tens a certeza que queres desativar esta conta?' : 'Tens a certeza que queres ativar esta conta?' ?>">
+                                                    <form action="../actions/action_admin_toggle_user.php" method="post" data-confirm="<?= $user['estado'] === 'ativo' ? 'Tens a certeza que queres desativar esta conta?' : 'Tens a certeza que queres ativar esta conta?' ?>
+                        <?= csrfField() ?>">
                                                         <input type="hidden" name="user_id" value="<?= (int)$user['id'] ?>">
                                                         <input type="hidden" name="status" value="<?= $user['estado'] === 'ativo' ? 'inativo' : 'ativo' ?>">
                                                         <button type="submit" class="botao cliente">
@@ -478,6 +479,7 @@ function drawAdminEquipmentSection(array $equipment, ?array $editingEquipment): 
                                     <div class="acoes-linha">
                                         <a href="profile.php?edit_equipment=<?= (int)$item['id'] ?>" class="botao claro-voltar">Editar</a>
                                         <form action="../actions/action_admin_delete_equipment.php" method="post" data-confirm="Tens a certeza que queres remover este equipamento?">
+                        <?= csrfField() ?>
                                             <input type="hidden" name="equipment_id" value="<?= (int)$item['id'] ?>">
                                             <button type="submit" class="botao cliente">Remover</button>
                                         </form>
@@ -638,6 +640,7 @@ function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?ar
                                         <a href="profile.php?edit_class=<?= (int)$class['id'] ?>" class="botao claro-voltar">Editar</a>
                                         <?php if ($class['estado'] !== 'cancelada') { ?>
                                             <form action="../actions/action_admin_delete_class.php" method="post" data-confirm="Tens a certeza que queres remover esta aula do catálogo?">
+                        <?= csrfField() ?>
                                                 <input type="hidden" name="class_id" value="<?= (int)$class['id'] ?>">
                                                 <button type="submit" class="botao cliente">Remover</button>
                                             </form>
