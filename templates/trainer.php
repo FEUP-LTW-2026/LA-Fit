@@ -66,7 +66,7 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
                 <?php if (!$editingClass) { ?>
                 <section class="painel painel-editar-perfil">
                     <h2>Editar perfil público</h2>
-                    <form action="../actions/action_update_trainer.php" method="post" enctype="multipart/form-data">
+                    <form action="../actions/action_update_profile.php" method="post" enctype="multipart/form-data">
                         <?= csrfField() ?>
                         <fieldset class="grupo">
                             <legend>Dados pessoais</legend>
@@ -124,7 +124,7 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
                         <h2>Editar aula</h2>
                         <a href="profile.php" class="botao claro-voltar">Cancelar</a>
                     </div>
-                    <form action="../actions/action_trainer_update_class.php" method="post">
+                    <form action="../actions/action_class.php" method="post">
                         <?= csrfField() ?>
                         <input type="hidden" name="class_id" value="<?= (int)$editingClass['id'] ?>">
                         <?php

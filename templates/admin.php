@@ -4,7 +4,7 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
     $isEditing = $editingUser !== null;
     $isEditingClass = $editingClass !== null;
     $isEditingEquipment = $editingEquipment !== null;
-    $formAction = $isEditing ? '../actions/action_admin_update_user.php' : '../actions/action_admin_create_user.php';
+    $formAction = '../actions/action_admin_save_user.php';
     $selectedRole = $editingUser['papel'] ?? 'membro';
     $selectedStatus = $editingUser['estado'] ?? 'ativo';
 ?>
@@ -140,11 +140,16 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
 
                         <div class="acoes-linha">
                             <button type="submit" class="botao amarelo"><?= $isEditing ? 'Guardar alterações' : 'Criar conta' ?></button>
-                            <?php if ($isEditing) { ?>
-                                <button type="submit" formaction="../actions/action_admin_elevate_user.php" class="botao cliente" data-confirm="Tens a certeza que queres elevar esta conta para administrador? Esta ação não pode ser revertida.">Elevar para Admin</button>
-                            <?php } ?>
                         </div>
                     </form>
+                    <?php if ($isEditing) { ?>
+                    <form action="../actions/action_admin_save_user.php" method="post" data-confirm="Tens a certeza que queres elevar esta conta para administrador? Esta ação não pode ser revertida." style="margin-top:12px">
+                        <?= csrfField() ?>
+                        <input type="hidden" name="_action" value="elevate">
+                        <input type="hidden" name="user_id" value="<?= (int)$editingUser['id'] ?>">
+                        <button type="submit" class="botao cliente">Elevar para Admin</button>
+                    </form>
+                    <?php } ?>
 
                 </section>
                 <?php } ?>
@@ -222,8 +227,9 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                                             <td>
                                                 <div class="acoes-linha">
                                                     <a href="profile.php?edit=<?= (int)$user['id'] ?>" class="botao claro-voltar">Editar</a>
-                                                    <form action="../actions/action_admin_toggle_user.php" method="post" data-confirm="<?= $user['estado'] === 'ativo' ? 'Tens a certeza que queres desativar esta conta?' : 'Tens a certeza que queres ativar esta conta?' ?>">
+                                                    <form action="../actions/action_admin_save_user.php" method="post" data-confirm="<?= $user['estado'] === 'ativo' ? 'Tens a certeza que queres desativar esta conta?' : 'Tens a certeza que queres ativar esta conta?' ?>">
                                                         <?= csrfField() ?>
+                                                        <input type="hidden" name="_action" value="toggle">
                                                         <input type="hidden" name="user_id" value="<?= (int)$user['id'] ?>">
                                                         <input type="hidden" name="status" value="<?= $user['estado'] === 'ativo' ? 'inativo' : 'ativo' ?>">
                                                         <button type="submit" class="botao cliente">
@@ -416,7 +422,7 @@ function drawAdminOverview(array $overview): void
 function drawAdminEquipmentSection(array $equipment, ?array $editingEquipment, array $eqFilters = [], array $eqFilterOptions = [], string $expand = ''): void
 {
     $isEditing = $editingEquipment !== null;
-    $formAction = $isEditing ? '../actions/action_admin_update_equipment.php' : '../actions/action_admin_create_equipment.php';
+    $formAction = '../actions/action_admin_equipment.php';
     $states = ['disponivel' => 'Disponível', 'ocupado' => 'Em uso', 'manutencao' => 'Manutenção'];
     $selectedState = $editingEquipment['estado'] ?? 'disponivel';
     $existingZones = array_unique(array_column($equipment, 'zona'));
@@ -544,8 +550,9 @@ function drawAdminEquipmentSection(array $equipment, ?array $editingEquipment, a
                                 <td>
                                     <div class="acoes-linha">
                                         <a href="profile.php?edit_equipment=<?= (int)$item['id'] ?>" class="botao claro-voltar">Editar</a>
-                                        <form action="../actions/action_admin_delete_equipment.php" method="post" data-confirm="Tens a certeza que queres remover este equipamento?">
+                                        <form action="../actions/action_admin_equipment.php" method="post" data-confirm="Tens a certeza que queres remover este equipamento?">
                         <?= csrfField() ?>
+                        <input type="hidden" name="_action" value="delete">
                                             <input type="hidden" name="equipment_id" value="<?= (int)$item['id'] ?>">
                                             <button type="submit" class="botao cliente">Remover</button>
                                         </form>
@@ -566,7 +573,7 @@ function drawAdminEquipmentSection(array $equipment, ?array $editingEquipment, a
 function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?array $editingClass, array $classFilters = [], string $expand = ''): void
 {
     $isEditing = $editingClass !== null;
-    $formAction = $isEditing ? '../actions/action_admin_update_class.php' : '../actions/action_admin_create_class.php';
+    $formAction = '../actions/action_class.php';
     $days = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
     $statuses = ['agendada' => 'Agendada', 'concluida' => 'Concluída', 'cancelada' => 'Cancelada'];
 ?>
@@ -767,8 +774,9 @@ function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?ar
                                     <div class="acoes-linha">
                                         <a href="profile.php?edit_class=<?= (int)$class['id'] ?>" class="botao claro-voltar">Editar</a>
                                         <?php if ($class['estado'] !== 'cancelada') { ?>
-                                            <form action="../actions/action_admin_delete_class.php" method="post" data-confirm="Tens a certeza que queres remover esta aula do catálogo?">
+                                            <form action="../actions/action_class.php" method="post" data-confirm="Tens a certeza que queres remover esta aula do catálogo?">
                         <?= csrfField() ?>
+                        <input type="hidden" name="_action" value="delete">
                                                 <input type="hidden" name="class_id" value="<?= (int)$class['id'] ?>">
                                                 <button type="submit" class="botao cliente">Remover</button>
                                             </form>

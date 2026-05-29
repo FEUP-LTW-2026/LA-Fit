@@ -226,16 +226,31 @@ function attachEquipmentToggle() {
     );
     const nav = document.querySelector('.menu');
 
+    function open() {
+        detalhe.hidden = false;
+        btn.textContent = 'Fechar';
+        for (const s of sectionsToHide) s.hidden = true;
+        if (nav) nav.hidden = true;
+    }
+
+    function close() {
+        detalhe.hidden = true;
+        btn.textContent = 'Ver mais';
+        for (const s of sectionsToHide) s.hidden = false;
+        if (nav) nav.hidden = false;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('zona') || params.get('estado')) {
+        open();
+    }
+
     btn.addEventListener('click', function () {
-        const expanded = !detalhe.hidden;
-        detalhe.hidden = expanded;
-        btn.textContent = expanded ? 'Ver mais' : 'Fechar';
-        for (const s of sectionsToHide) {
-            s.hidden = !expanded;
-        }
-        if (nav) nav.hidden = !expanded;
-        if (!expanded) {
-            document.getElementById('perfil-equipamentos').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (detalhe.hidden) {
+            open();
+        } else {
+            close();
+            document.getElementById('perfil-equipamentos').scrollIntoView({ block: 'start' });
         }
     });
 }
@@ -380,12 +395,13 @@ function attachCharacterCounters() {
 }
 
 
-function ajaxPost(url, formData) {
-    return fetch(url, {
+async function ajaxPost(url, formData) {
+    const r = await fetch(url, {
         method: 'POST',
         body: formData,
         headers: { 'X-Requested-With': 'XMLHttpRequest' },
-    }).then(function (r) { return r.json(); });
+    });
+    return r.json();
 }
 
 function attachAjaxDeletes() {
@@ -403,9 +419,9 @@ function attachAjaxDeletes() {
         });
     }
 
-    bindDelete('form[action*="action_delete_workout"]', function (f) { return f.closest('.treino-item'); });
-    bindDelete('form[action*="action_delete_goal"]',    function (f) { return f.closest('.objetivo'); });
-    bindDelete('form[action*="action_unassign_nutrition_plan"]', function (f) { return f.closest('.atribuicao-item'); });
+    bindDelete('form[action*="action_workout"] input[name="_action"][value="delete"]~*', function (f) { return f.closest('.treino-item'); });
+    bindDelete('form[action*="action_goal"] input[name="_action"][value="delete"]', function (f) { return f.closest('.objetivo'); });
+    bindDelete('form[action*="action_nutrition_assignment"] input[name="_action"][value="unassign"]', function (f) { return f.closest('.atribuicao-item'); });
 }
 
 function attachAjaxGoalUpdate() {

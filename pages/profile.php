@@ -10,6 +10,7 @@ $role = $_SESSION['role'] ?? 'membro';
 
 require_once __DIR__ . '/../database/connection.php';
 require_once __DIR__ . '/../database/users.php';
+require_once __DIR__ . '/../database/csrf.php';
 require_once __DIR__ . '/../templates/common.php';
 
 $db = getDatabaseConnection();

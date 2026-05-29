@@ -110,11 +110,11 @@ function drawHeader(string $title = 'LAFit', string $activePage = 'home', array 
                     <?php } elseif ($activePage === 'admin') { ?>
                         <a href="report.php" class="botao cliente">Ver reportes</a>
                     <?php } elseif ($activePage === 'report') { ?>
-                        <a href="profile.php" class="botao cliente">Área do cliente</a>
+                        <a href="profile.php" class="botao cliente"><?= ($_SESSION['role'] ?? '') === 'administrador' ? 'Admin' : 'Área do cliente' ?></a>
                     <?php } elseif ($activePage === 'class_roster') { ?>
                         <a href="profile.php" class="botao cliente">Olá, <?= h($_SESSION['username']) ?></a>
                     <?php } ?>
-                    <a href="../actions/action_logout.php" class="botao amarelo">Sair</a>
+                    <a href="../actions/action_login.php?sair=1" class="botao amarelo">Sair</a>
                 <?php } else { ?>
                     <a href="login.php" class="botao cliente">Iniciar Sessão</a>
                     <a href="register.php" class="botao amarelo">Aderir agora</a>

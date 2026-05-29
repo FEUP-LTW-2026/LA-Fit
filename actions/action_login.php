@@ -1,10 +1,15 @@
 <?php
 session_start();
 
+if (isset($_GET['sair'])) {
+    session_destroy();
+    header('Location: ../pages/index.php');
+    exit;
+}
+
 require_once __DIR__ . '/../database/connection.php';
 require_once __DIR__ . '/../database/users.php';
 require_once __DIR__ . '/../database/csrf.php';
-
 
 if (!verifyCsrfToken()) {
     http_response_code(403);
@@ -12,7 +17,60 @@ if (!verifyCsrfToken()) {
     exit;
 }
 
-$login = trim($_POST['login'] ?? '');
+$action = $_POST['_action'] ?? 'login';
+
+if ($action === 'register') {
+    $requiredFields = ['first_name', 'last_name', 'username', 'password', 'email', 'plan_id', 'gym_id'];
+    foreach ($requiredFields as $field) {
+        if (trim($_POST[$field] ?? '') === '') {
+            header('Location: ../pages/register.php?erro=campos');
+            exit;
+        }
+    }
+
+    if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+        header('Location: ../pages/register.php?erro=email');
+        exit;
+    }
+
+    if (!isset($_POST['terms'])) {
+        header('Location: ../pages/register.php?erro=termos');
+        exit;
+    }
+
+    $db = getDatabaseConnection();
+
+    try {
+        createMemberUser($db, [
+            'first_name'  => trim($_POST['first_name']),
+            'last_name'   => trim($_POST['last_name']),
+            'username'    => trim($_POST['username']),
+            'password'    => $_POST['password'],
+            'email'       => trim($_POST['email']),
+            'birth_date'  => trim($_POST['birth_date'] ?? ''),
+            'phone'       => trim($_POST['phone'] ?? ''),
+            'address'     => trim($_POST['address'] ?? ''),
+            'city'        => trim($_POST['city'] ?? ''),
+            'postal_code' => trim($_POST['postal_code'] ?? ''),
+            'plan_id'     => (int)$_POST['plan_id'],
+            'gym_id'      => (int)$_POST['gym_id'],
+        ]);
+    } catch (Exception) {
+        header('Location: ../pages/register.php?erro=existe');
+        exit;
+    }
+
+    $user = getUserByUsername($db, trim($_POST['username']));
+    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['username'] = $user['nome_utilizador'];
+    $_SESSION['role']     = $user['papel'];
+    $_SESSION['name']     = $user['nome'];
+
+    header('Location: ../pages/profile.php');
+    exit;
+}
+
+$login    = trim($_POST['login'] ?? '');
 $password = $_POST['password'] ?? '';
 
 if ($login === '' || $password === '') {
@@ -20,7 +78,7 @@ if ($login === '' || $password === '') {
     exit;
 }
 
-$db = getDatabaseConnection();
+$db   = getDatabaseConnection();
 $user = getUserByLoginAndPassword($db, $login, $password);
 
 if (!$user) {
@@ -30,14 +88,8 @@ if (!$user) {
 
 $_SESSION['user_id'] = $user['id'];
 $_SESSION['username'] = $user['nome_utilizador'];
-$_SESSION['role'] = $user['papel'];
-$_SESSION['name'] = $user['nome'];
+$_SESSION['role']     = $user['papel'];
+$_SESSION['name']     = $user['nome'];
 
-if ($user['papel'] === 'treinador') {
-    header('Location: ../pages/profile.php');
-} elseif ($user['papel'] === 'administrador') {
-    header('Location: ../pages/profile.php');
-} else {
-    header('Location: ../pages/profile.php');
-}
+header('Location: ../pages/profile.php');
 exit;

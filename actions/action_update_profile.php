@@ -10,14 +10,13 @@ require_once __DIR__ . '/../database/connection.php';
 require_once __DIR__ . '/../database/users.php';
 require_once __DIR__ . '/../database/csrf.php';
 
-
 if (!verifyCsrfToken()) {
     http_response_code(403);
     header('Location: ../pages/login.php');
     exit;
 }
 
-function redirectProfile(string $status, string $code): void
+function redirectUpdateProfile(string $status, string $code): void
 {
     header('Location: ../pages/profile.php?' . $status . '=' . $code);
     exit;
@@ -30,18 +29,16 @@ function saveProfilePhoto(array $file, ?string $currentPhoto): ?string
     }
 
     if (($file['error'] ?? UPLOAD_ERR_OK) !== UPLOAD_ERR_OK) {
-        redirectProfile('erro', 'foto');
+        redirectUpdateProfile('erro', 'foto');
     }
 
     if (($file['size'] ?? 0) > 2 * 1024 * 1024) {
-        redirectProfile('erro', 'foto_tamanho');
+        redirectUpdateProfile('erro', 'foto_tamanho');
     }
 
-    $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
     $extension = strtolower(pathinfo($file['name'] ?? '', PATHINFO_EXTENSION));
-
-    if (!in_array($extension, $allowedExtensions, true)) {
-        redirectProfile('erro', 'foto_tipo');
+    if (!in_array($extension, ['jpg', 'jpeg', 'png', 'webp'], true)) {
+        redirectUpdateProfile('erro', 'foto_tipo');
     }
 
     $uploadDir = __DIR__ . '/../images/profiles';
@@ -49,18 +46,18 @@ function saveProfilePhoto(array $file, ?string $currentPhoto): ?string
         mkdir($uploadDir, 0775, true);
     }
 
-    $filename = 'user-' . (int)$_SESSION['user_id'] . '-' . bin2hex(random_bytes(8)) . '.' . $extension;
+    $filename    = 'user-' . (int)$_SESSION['user_id'] . '-' . bin2hex(random_bytes(8)) . '.' . $extension;
     $destination = $uploadDir . '/' . $filename;
 
     if (!move_uploaded_file($file['tmp_name'], $destination)) {
-        redirectProfile('erro', 'foto');
+        redirectUpdateProfile('erro', 'foto');
     }
 
     return 'images/profiles/' . $filename;
 }
 
-$db = getDatabaseConnection();
-$userId = (int)$_SESSION['user_id'];
+$db          = getDatabaseConnection();
+$userId      = (int)$_SESSION['user_id'];
 $currentUser = getUserById($db, $userId);
 
 if (!$currentUser) {
@@ -70,47 +67,67 @@ if (!$currentUser) {
 }
 
 $firstName = trim($_POST['first_name'] ?? '');
-$lastName = trim($_POST['last_name'] ?? '');
-$username = trim($_POST['username'] ?? '');
-$email = trim($_POST['email'] ?? '');
-$password = $_POST['password'] ?? '';
-$passwordConfirmation = $_POST['password_confirmation'] ?? '';
+$lastName  = trim($_POST['last_name'] ?? '');
+$email     = trim($_POST['email'] ?? '');
 
-if ($firstName === '' || $lastName === '' || $username === '' || $email === '') {
-    redirectProfile('erro', 'campos');
+if ($firstName === '' || $lastName === '' || $email === '') {
+    redirectUpdateProfile('erro', 'campos');
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    redirectProfile('erro', 'email');
-}
-
-if (usernameExistsForOtherUser($db, $username, $userId)) {
-    redirectProfile('erro', 'username');
+    redirectUpdateProfile('erro', 'email');
 }
 
 if (emailExistsForOtherUser($db, $email, $userId)) {
-    redirectProfile('erro', 'email_existe');
-}
-
-if ($password !== '' && $password !== $passwordConfirmation) {
-    redirectProfile('erro', 'password');
+    redirectUpdateProfile('erro', 'email_existe');
 }
 
 $photo = saveProfilePhoto($_FILES['photo'] ?? [], $currentUser['fotografia'] ?? null);
 
-updateUserProfile($db, $userId, [
-    'first_name' => $firstName,
-    'last_name' => $lastName,
-    'username' => $username,
-    'email' => $email,
-    'photo' => $photo,
-]);
+if (($_SESSION['role'] ?? '') === 'treinador') {
+    $trainer = getTrainerByUsername($db, $_SESSION['username']);
 
-if ($password !== '') {
-    updateUserPassword($db, $userId, $password);
+    updateTrainerProfile($db, $userId, (int)$trainer['id'], [
+        'first_name'      => $firstName,
+        'last_name'       => $lastName,
+        'email'           => $email,
+        'photo'           => $photo,
+        'bio'             => trim($_POST['bio'] ?? ''),
+        'specializations' => trim($_POST['specializations'] ?? ''),
+        'certifications'  => trim($_POST['certifications'] ?? ''),
+    ]);
+} else {
+    $username = trim($_POST['username'] ?? '');
+
+    if ($username === '') {
+        redirectUpdateProfile('erro', 'campos');
+    }
+
+    if (usernameExistsForOtherUser($db, $username, $userId)) {
+        redirectUpdateProfile('erro', 'username');
+    }
+
+    $password             = $_POST['password'] ?? '';
+    $passwordConfirmation = $_POST['password_confirmation'] ?? '';
+
+    if ($password !== '' && $password !== $passwordConfirmation) {
+        redirectUpdateProfile('erro', 'password');
+    }
+
+    updateUserProfile($db, $userId, [
+        'first_name' => $firstName,
+        'last_name'  => $lastName,
+        'username'   => $username,
+        'email'      => $email,
+        'photo'      => $photo,
+    ]);
+
+    if ($password !== '') {
+        updateUserPassword($db, $userId, $password);
+    }
+
+    $_SESSION['username'] = $username;
 }
 
-$_SESSION['username'] = $username;
 $_SESSION['name'] = $firstName;
-
-redirectProfile('sucesso', 'perfil');
+redirectUpdateProfile('sucesso', 'perfil');

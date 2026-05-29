@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+require_once __DIR__ . '/../database/csrf.php';
 require_once __DIR__ . '/../templates/common.php';
 require_once __DIR__ . '/../templates/forms.php';
 

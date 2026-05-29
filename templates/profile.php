@@ -172,8 +172,9 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                                                     </div>
 
                                                     <?php if (($enrollment['inscricao_estado'] ?? '') === 'inscrito') { ?>
-                                                        <form action="../actions/action_cancel_register.php" method="post" data-confirm="Tens a certeza que queres cancelar a inscrição nesta aula?">
+                                                        <form action="../actions/action_enrollment.php" method="post" data-confirm="Tens a certeza que queres cancelar a inscrição nesta aula?">
                         <?= csrfField() ?>
+                        <input type="hidden" name="_action" value="cancel">
                                                             <input type="hidden" name="class_id" value="<?= (int)$enrollment['id'] ?>">
                                                             <input type="hidden" name="return_to" value="profile.php">
                                                             <button type="submit" class="botao claro-voltar">Cancelar</button>
@@ -204,7 +205,7 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                     </div>
 
                     <div class="equipamentos-detalhe" hidden>
-                        <?php drawEquipmentFilters($equipmentFilters, $equipmentFilterOptions, 'profile.php'); ?>
+                        <?php drawEquipmentFilters($equipmentFilters, $equipmentFilterOptions, 'profile.php#perfil-equipamentos'); ?>
 
                         <?php if (count($equipmentByZone) === 0) { ?>
                             <p>Nenhum equipamento encontrado com esses filtros.</p>

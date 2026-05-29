@@ -133,8 +133,9 @@ function drawClassCard(array $class, array $enrolledClassIds, bool $isLoggedIn, 
             <p class="estado-aula">Só membros podem inscrever-se em aulas.</p>
         <?php } elseif ($alreadyEnrolled) { ?>
             <p class="estado-aula inscrito">Já estás inscrito nesta aula.</p>
-            <form action="../actions/action_cancel_register.php" method="post" data-confirm="Tens a certeza que queres cancelar a inscrição nesta aula?">
+            <form action="../actions/action_enrollment.php" method="post" data-confirm="Tens a certeza que queres cancelar a inscrição nesta aula?">
                         <?= csrfField() ?>
+                        <input type="hidden" name="_action" value="cancel">
                 <input type="hidden" name="class_id" value="<?= $classId ?>">
                 <input type="hidden" name="return_to" value="<?= h($returnTo) ?>">
                 <button type="submit" class="botao cliente largo">Cancelar inscrição</button>
@@ -142,7 +143,7 @@ function drawClassCard(array $class, array $enrolledClassIds, bool $isLoggedIn, 
         <?php } elseif ($available <= 0) { ?>
             <p class="estado-aula">Aula cheia.</p>
         <?php } else { ?>
-            <form action="../actions/action_enroll_class.php" method="post">
+            <form action="../actions/action_enrollment.php" method="post">
                         <?= csrfField() ?>
                 <input type="hidden" name="class_id" value="<?= $classId ?>">
                 <input type="hidden" name="return_to" value="<?= h($returnTo) ?>">

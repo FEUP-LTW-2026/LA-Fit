@@ -65,8 +65,9 @@ function drawRegistrationPage(array $plans, array $gyms, ?string $error = null, 
                         <p class="mensagem erro"><?= h($error) ?></p>
                     <?php } ?>
 
-                    <form action="../actions/action_register.php" method="post">
+                    <form action="../actions/action_login.php" method="post">
                         <?= csrfField() ?>
+                        <input type="hidden" name="_action" value="register">
                         <fieldset class="grupo">
                             <legend>Dados pessoais</legend>
                             <div class="campos">

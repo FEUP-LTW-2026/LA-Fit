@@ -5,6 +5,7 @@ require_once __DIR__ . '/../database/connection.php';
 require_once __DIR__ . '/../database/classes.php';
 require_once __DIR__ . '/../database/enrollments.php';
 
+require_once __DIR__ . '/../database/csrf.php';
 require_once __DIR__ . '/../templates/common.php';
 require_once __DIR__ . '/../templates/classes.php';
 

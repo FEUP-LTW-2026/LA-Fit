@@ -36,7 +36,7 @@ function drawReviewPage(array $classes, ?int $selectedClassId = null): void
                         <p>As opiniões ficam disponíveis depois de marcar presença numa aula.</p>
                         <a href="classes.php" class="botao amarelo">Ver horários</a>
                     <?php } else { ?>
-                        <form action="../actions/action_review_class.php" method="post" class="form-avaliacao-pagina">
+                        <form action="../actions/action_class.php" method="post" class="form-avaliacao-pagina">
                         <?= csrfField() ?>
                             <div class="campo">
                                 <label for="class_id">1. Em que sessão quer deixar a sua opinião?</label>
