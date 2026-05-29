@@ -111,6 +111,45 @@ function updateUserPassword(PDO $db, int $userId, string $password): bool
     return $stmt->execute([password_hash($password, PASSWORD_DEFAULT), $userId]);
 }
 
+function getFilteredManageableUsers(PDO $db, array $filters): array
+{
+    $where  = ['utilizadores.papel IN ("membro", "treinador")'];
+    $params = [];
+
+    if (!empty($filters['papel'])) {
+        $where[]  = 'utilizadores.papel = ?';
+        $params[] = $filters['papel'];
+    }
+
+    if (!empty($filters['estado'])) {
+        $where[]  = 'utilizadores.estado = ?';
+        $params[] = $filters['estado'];
+    }
+
+    $stmt = $db->prepare(
+        'SELECT utilizadores.*,
+                membros.id AS membro_id,
+                membros.plano_id,
+                membros.ginasio_id,
+                planos.nome AS plano_nome,
+                ginasios.nome AS ginasio_nome,
+                treinadores.id AS treinador_id,
+                treinadores.biografia,
+                treinadores.especializacoes,
+                treinadores.certificacoes
+         FROM utilizadores
+         LEFT JOIN membros ON membros.utilizador_id = utilizadores.id
+         LEFT JOIN planos ON planos.id = membros.plano_id
+         LEFT JOIN ginasios ON ginasios.id = membros.ginasio_id
+         LEFT JOIN treinadores ON treinadores.utilizador_id = utilizadores.id
+         WHERE ' . implode(' AND ', $where) . '
+         ORDER BY utilizadores.papel, utilizadores.nome, utilizadores.apelido'
+    );
+    $stmt->execute($params);
+
+    return $stmt->fetchAll();
+}
+
 function getManageableUsers(PDO $db): array
 {
     $stmt = $db->prepare(

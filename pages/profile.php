@@ -30,13 +30,47 @@ if ($role === 'administrador') {
     require_once __DIR__ . '/../database/overview.php';
     require_once __DIR__ . '/../templates/admin.php';
 
-    $users          = getManageableUsers($db);
-    $plans          = getAllPlans($db);
-    $gyms           = getAllGyms($db);
-    $classes        = getAdminClasses($db);
-    $trainers       = getActiveTrainers($db);
-    $equipment      = getAllEquipment($db);
-    $overview       = getSystemOverview($db);
+    $plans    = getAllPlans($db);
+    $gyms     = getAllGyms($db);
+    $trainers = getActiveTrainers($db);
+    $overview = getSystemOverview($db);
+
+    $validPapeis       = ['membro', 'treinador'];
+    $validUserEstados  = ['ativo', 'inativo'];
+    $userFilters = [
+        'papel'  => in_array($_GET['admin_users_papel']  ?? '', $validPapeis,      true) ? $_GET['admin_users_papel']  : '',
+        'estado' => in_array($_GET['admin_users_estado'] ?? '', $validUserEstados, true) ? $_GET['admin_users_estado'] : '',
+    ];
+
+    $validDays         = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
+    $validClassEstados = ['agendada', 'concluida', 'cancelada'];
+    $classFilters = [
+        'trainer' => filter_input(INPUT_GET, 'admin_classes_trainer', FILTER_VALIDATE_INT) ?: '',
+        'gym'     => filter_input(INPUT_GET, 'admin_classes_gym',     FILTER_VALIDATE_INT) ?: '',
+        'day'     => in_array($_GET['admin_classes_day']    ?? '', $validDays,         true) ? $_GET['admin_classes_day']    : '',
+        'estado'  => in_array($_GET['admin_classes_estado'] ?? '', $validClassEstados, true) ? $_GET['admin_classes_estado'] : '',
+    ];
+
+    $validEqEstados = ['disponivel', 'ocupado', 'manutencao'];
+    $eqFilters = [
+        'zona'   => trim($_GET['admin_eq_zona']   ?? ''),
+        'estado' => in_array($_GET['admin_eq_estado'] ?? '', $validEqEstados, true) ? $_GET['admin_eq_estado'] : '',
+    ];
+
+    $users     = getFilteredManageableUsers($db, $userFilters);
+    $classes   = getFilteredAdminClasses($db, $classFilters);
+    $equipment = getFilteredAdminEquipment($db, $eqFilters);
+
+    $eqFilterOptions = getEquipmentFilterOptions($db);
+    $expand          = trim($_GET['expand'] ?? '');
+
+    $adminFilters = [
+        'user'       => $userFilters,
+        'class'      => $classFilters,
+        'eq'         => $eqFilters,
+        'eq_options' => $eqFilterOptions,
+        'expand'     => $expand,
+    ];
     $editingUser      = null;
     $editingClass     = null;
     $editingEquipment = null;
@@ -93,7 +127,7 @@ if ($role === 'administrador') {
     ];
 
     drawHeader('Admin - LAFit', 'admin');
-    drawAdminPage($users, $plans, $gyms, $classes, $trainers, $equipment, $editingUser, $editingClass, $editingEquipment, $messages, $overview);
+    drawAdminPage($users, $plans, $gyms, $classes, $trainers, $equipment, $editingUser, $editingClass, $editingEquipment, $messages, $overview, $adminFilters);
     drawFooter();
 
 } elseif ($role === 'treinador') {

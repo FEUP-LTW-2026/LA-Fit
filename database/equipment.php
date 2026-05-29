@@ -94,6 +94,33 @@ function getEquipmentAvailabilitySummary(PDO $db): array
     return $summary;
 }
 
+function getFilteredAdminEquipment(PDO $db, array $filters): array
+{
+    $where  = [];
+    $params = [];
+
+    if (!empty($filters['zona'])) {
+        $where[]  = 'zona = ?';
+        $params[] = $filters['zona'];
+    }
+
+    if (!empty($filters['estado'])) {
+        $where[]  = 'estado = ?';
+        $params[] = $filters['estado'];
+    }
+
+    $sql = 'SELECT id, nome, zona, estado, quantidade, atualizado_em FROM equipamentos';
+    if ($where) {
+        $sql .= ' WHERE ' . implode(' AND ', $where);
+    }
+    $sql .= ' ORDER BY zona, nome';
+
+    $stmt = $db->prepare($sql);
+    $stmt->execute($params);
+
+    return $stmt->fetchAll();
+}
+
 function getAllEquipment(PDO $db): array
 {
     $stmt = $db->prepare(
