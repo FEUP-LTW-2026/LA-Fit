@@ -107,7 +107,7 @@ function drawHeader(string $title = 'LAFit', string $activePage = 'home', array 
                     <a href="../actions/action_logout.php" class="botao amarelo">Sair</a>
                 <?php } else { ?>
                     <a href="login.php" class="botao cliente">Iniciar Sessão</a>
-                    <a href="enrollment.php" class="botao amarelo">Aderir agora</a>
+                    <a href="register.php" class="botao amarelo">Aderir agora</a>
                 <?php } ?>
             </div>
         </div>

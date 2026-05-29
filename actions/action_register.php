@@ -8,18 +8,18 @@ $requiredFields = ['first_name', 'last_name', 'username', 'password', 'email', '
 
 foreach ($requiredFields as $field) {
     if (trim($_POST[$field] ?? '') === '') {
-        header('Location: ../pages/enrollment.php?erro=campos');
+        header('Location: ../pages/register.php?erro=campos');
         exit;
     }
 }
 
 if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-    header('Location: ../pages/enrollment.php?erro=email');
+    header('Location: ../pages/register.php?erro=email');
     exit;
 }
 
 if (!isset($_POST['terms'])) {
-    header('Location: ../pages/enrollment.php?erro=termos');
+    header('Location: ../pages/register.php?erro=termos');
     exit;
 }
 
@@ -41,7 +41,7 @@ try {
         'gym_id' => (int)$_POST['gym_id'],
     ]);
 } catch (Exception $exception) {
-    header('Location: ../pages/enrollment.php?erro=existe');
+    header('Location: ../pages/register.php?erro=existe');
     exit;
 }
 

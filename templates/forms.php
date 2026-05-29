@@ -40,7 +40,7 @@ function drawLoginPage(?string $error = null): void
                         <button type="submit" class="botao amarelo largo">Entrar</button>
                         <p class="texto-planos-login">
                             Ainda não és membro?
-                            <a href="enrollment.php" class="link-login">Faz a tua inscrição</a>
+                            <a href="register.php" class="link-login">Faz a tua inscrição</a>
                         </p>
                     </form>
                 </div>

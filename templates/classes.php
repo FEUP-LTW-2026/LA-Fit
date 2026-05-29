@@ -133,7 +133,7 @@ function drawClassCard(array $class, array $enrolledClassIds, bool $isLoggedIn, 
             <p class="estado-aula">Só membros podem inscrever-se em aulas.</p>
         <?php } elseif ($alreadyEnrolled) { ?>
             <p class="estado-aula inscrito">Já estás inscrito nesta aula.</p>
-            <form action="../actions/action_cancel_enrollment.php" method="post" data-confirm="Tens a certeza que queres cancelar a inscrição nesta aula?">
+            <form action="../actions/action_cancel_register.php" method="post" data-confirm="Tens a certeza que queres cancelar a inscrição nesta aula?">
                 <input type="hidden" name="class_id" value="<?= $classId ?>">
                 <input type="hidden" name="return_to" value="<?= h($returnTo) ?>">
                 <button type="submit" class="botao cliente largo">Cancelar inscrição</button>

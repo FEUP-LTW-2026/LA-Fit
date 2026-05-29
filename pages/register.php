@@ -25,6 +25,6 @@ if (isset($_GET['erro'])) {
     $error = $messages[$_GET['erro']] ?? 'Não foi possível concluir a inscrição.';
 }
 
-drawHeader('Inscrição - LAFit', 'enrollment', ['../css/enrollment.css']);
+drawHeader('Inscrição - LAFit', 'register', ['../css/register.css']);
 drawRegistrationPage($plans, $gyms, $error, $selectedPlan);
 drawFooter();
