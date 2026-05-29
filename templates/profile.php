@@ -1,5 +1,5 @@
 <?php
-function drawProfilePage(array $user, ?array $member, array $enrollments, array $equipmentByZone, array $summary, array $equipmentFilters = [], array $equipmentFilterOptions = [], array $messages = [], array $workouts = [], array $goals = [], array $workoutStats = [], array $nutritionPlans = []): void
+function drawProfilePage(array $user, ?array $member, array $enrollments, array $equipmentByZone, array $summary, array $equipmentFilters = [], array $equipmentFilterOptions = [], array $messages = [], array $workouts = [], array $goals = [], array $workoutStats = [], array $nutritionPlans = [], array $features = []): void
 {
     $weekDays = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
     $enrollmentsByDay = [];
@@ -135,6 +135,11 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                     </form>
                 </section>
 
+                <?php $canClasses = empty($features) || !empty($features['classes']); ?>
+                <?php $canProgress = empty($features) || !empty($features['progress']); ?>
+                <?php $canNutrition = empty($features) || !empty($features['nutrition']); ?>
+
+                <?php if ($canClasses) { ?>
                 <section class="painel painel-aulas" id="perfil-aulas">
                     <div class="cabecalho-painel">
                         <h2>As tuas aulas</h2>
@@ -181,6 +186,7 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                         </div>
                     <?php } ?>
                 </section>
+                <?php } ?>
 
                 <?php if ($member) { ?>
                 <section class="painel painel-equipamentos" id="perfil-equipamentos">
@@ -219,9 +225,9 @@ function drawProfilePage(array $user, ?array $member, array $enrollments, array 
                 </section>
                 <?php } ?>
 
-                <?php if ($member) { drawProgressSection($workouts, $goals, $workoutStats); } ?>
+                <?php if ($member && $canProgress) { drawProgressSection($workouts, $goals, $workoutStats); } ?>
 
-                <?php if ($member) { drawMemberNutritionSection($nutritionPlans); } ?>
+                <?php if ($member && $canNutrition) { drawMemberNutritionSection($nutritionPlans); } ?>
             </div>
         </section>
     </main>

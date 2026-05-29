@@ -19,6 +19,12 @@ if (!$user || !$member) {
     exit;
 }
 
+$features = getMemberPlanFeatures($member['plano_nome'] ?? '');
+if (!$features['progress']) {
+    header('Location: ../pages/profile.php');
+    exit;
+}
+
 $membroId = (int)$member['id'];
 
 $tiposValidos = ['musculacao', 'cardio', 'funcional', 'yoga', 'outro'];

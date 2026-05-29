@@ -210,8 +210,8 @@ INSERT INTO ginasios (nome, morada, cidade, codigo_postal, telefone) VALUES
 
 INSERT INTO planos (nome, preco_mensal, descricao, beneficios) VALUES
     ('Básico', 19.99, 'Acesso a um ginásio, zona de cardio e zona de musculação.', 'Acesso a 1 ginásio|Acesso 24/7|Zona cardio e musculação|Wifi grátis'),
-    ('Ilimitado', 29.99, 'Acesso a todos os ginásios e aulas de grupo.', 'Acesso a todos os ginásios|Aulas de grupo incluídas|Equipamento premium|App exclusiva'),
-    ('Premium', 39.99, 'Plano completo com treino personalizado e avaliação física.', 'Tudo do plano ilimitado|Treino personalizado|Avaliação física|Zona VIP');
+    ('Ilimitado', 29.99, 'Acesso a todos os ginásios e aulas de grupo.', 'Acesso a todos os ginásios|Aulas de grupo incluídas|Equipamento premium|Acompanha o teu progresso'),
+    ('Premium', 39.99, 'Plano completo com plano nutricional e zona VIP.', 'Tudo do plano ilimitado|Plano nutricional personalizado|Cocktails grátis|Zona VIP');
 
 INSERT INTO utilizadores (nome_utilizador, email, palavra_passe, nome, apelido, papel, estado) VALUES
     ('admin', 'admin@lafit.test', 'p4s5w0rd', 'Admin', 'LAFit', 'administrador', 'ativo'),

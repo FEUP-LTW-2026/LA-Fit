@@ -18,6 +18,12 @@ if (!$member) {
     exit;
 }
 
+$features = getMemberPlanFeatures($member['plano_nome'] ?? '');
+if (!$features['progress']) {
+    header('Location: ../pages/profile.php');
+    exit;
+}
+
 $descricao  = trim($_POST['descricao'] ?? '');
 $valorAlvo  = (float)($_POST['valor_alvo'] ?? 0);
 $unidade    = trim($_POST['unidade'] ?? '');

@@ -1,4 +1,13 @@
 <?php
+function getMemberPlanFeatures(string $planNome): array
+{
+    return match ($planNome) {
+        'Premium'   => ['classes' => true,  'progress' => true,  'nutrition' => true],
+        'Ilimitado' => ['classes' => true,  'progress' => true,  'nutrition' => false],
+        default     => ['classes' => false, 'progress' => false, 'nutrition' => false],
+    };
+}
+
 function getUserByLoginAndPassword(PDO $db, string $login, string $password): ?array
 {
     $stmt = $db->prepare(

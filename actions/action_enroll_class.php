@@ -18,6 +18,15 @@ if ($classId <= 0) {
 }
 
 $db = getDatabaseConnection();
+
+require_once __DIR__ . '/../database/users.php';
+$memberRow = getMemberByUsername($db, $_SESSION['username']);
+$features  = getMemberPlanFeatures($memberRow['plano_nome'] ?? '');
+if (!$features['classes']) {
+    header('Location: ' . addEnrollmentResult($returnTo, 'erro'));
+    exit;
+}
+
 $memberId = getMemberIdForUsername($db, $_SESSION['username']);
 
 if (!$memberId || !enrollMemberInClass($db, $memberId, $classId)) {

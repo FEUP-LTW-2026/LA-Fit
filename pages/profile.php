@@ -148,6 +148,7 @@ if ($role === 'administrador') {
     require_once __DIR__ . '/../templates/nutrition.php';
 
     $member               = getMemberByUsername($db, $_SESSION['username']);
+    $features             = getMemberPlanFeatures($member['plano_nome'] ?? '');
     $enrollments          = [];
     $equipmentByZone      = [];
     $equipmentSummary     = [];
@@ -164,14 +165,20 @@ if ($role === 'administrador') {
             'zona'   => trim($_GET['zona'] ?? ''),
             'estado' => in_array($_GET['estado'] ?? '', $allowedStates, true) ? $_GET['estado'] : '',
         ];
-        $enrollments          = getEnrollmentsForUsername($db, $_SESSION['username']);
-        $equipmentByZone      = getFilteredEquipmentByZone($db, $equipmentFilters);
-        $equipmentSummary     = getEquipmentAvailabilitySummary($db);
+        if ($features['classes']) {
+            $enrollments = getEnrollmentsForUsername($db, $_SESSION['username']);
+        }
+        $equipmentByZone        = getFilteredEquipmentByZone($db, $equipmentFilters);
+        $equipmentSummary       = getEquipmentAvailabilitySummary($db);
         $equipmentFilterOptions = getEquipmentFilterOptions($db);
-        $workouts             = getWorkoutsForMember($db, (int)$member['id']);
-        $goals                = getGoalsForMember($db, (int)$member['id']);
-        $workoutStats         = getWorkoutStats($db, (int)$member['id']);
-        $nutritionPlans       = getMemberNutritionPlans($db, (int)$member['id']);
+        if ($features['progress']) {
+            $workouts     = getWorkoutsForMember($db, (int)$member['id']);
+            $goals        = getGoalsForMember($db, (int)$member['id']);
+            $workoutStats = getWorkoutStats($db, (int)$member['id']);
+        }
+        if ($features['nutrition']) {
+            $nutritionPlans = getMemberNutritionPlans($db, (int)$member['id']);
+        }
     }
 
     $messages = [
@@ -196,12 +203,13 @@ if ($role === 'administrador') {
             'treino_campos'   => 'Preenche todos os campos do treino.',
             'treino_tipo'     => 'Escolhe um tipo de treino válido.',
             'objetivo_campos' => 'Preenche a descrição e a meta do objetivo.',
+            'plano_sem_aulas' => 'O teu plano não inclui acesso às aulas de grupo.',
             default           => null,
         },
     ];
 
-    drawHeader('Perfil - LAFit', 'profile');
-    drawProfilePage($user, $member, $enrollments, $equipmentByZone, $equipmentSummary, $equipmentFilters, $equipmentFilterOptions, $messages, $workouts, $goals, $workoutStats, $nutritionPlans);
+    drawHeader('Perfil - LAFit', 'profile', [], $features);
+    drawProfilePage($user, $member, $enrollments, $equipmentByZone, $equipmentSummary, $equipmentFilters, $equipmentFilterOptions, $messages, $workouts, $goals, $workoutStats, $nutritionPlans, $features);
     drawFooter();
 
 }

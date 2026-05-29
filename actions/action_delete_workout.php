@@ -18,6 +18,12 @@ if (!$member) {
     exit;
 }
 
+$features = getMemberPlanFeatures($member['plano_nome'] ?? '');
+if (!$features['progress']) {
+    header('Location: ../pages/profile.php');
+    exit;
+}
+
 $workoutId = filter_input(INPUT_POST, 'workout_id', FILTER_VALIDATE_INT);
 
 if (!$workoutId) {

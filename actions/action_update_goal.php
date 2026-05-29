@@ -18,6 +18,12 @@ if (!$member) {
     exit;
 }
 
+$features = getMemberPlanFeatures($member['plano_nome'] ?? '');
+if (!$features['progress']) {
+    header('Location: ../pages/profile.php');
+    exit;
+}
+
 $goalId     = filter_input(INPUT_POST, 'goal_id', FILTER_VALIDATE_INT);
 $valorAtual = (float)($_POST['valor_atual'] ?? -1);
 

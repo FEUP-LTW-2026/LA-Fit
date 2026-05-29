@@ -19,7 +19,7 @@ function formatClassDay(string $day): string
     return $days[$day] ?? $day;
 }
 
-function drawHeader(string $title = 'LAFit', string $activePage = 'home', array $extraCss = []): void
+function drawHeader(string $title = 'LAFit', string $activePage = 'home', array $extraCss = [], array $features = []): void
 {
     $loggedIn = isset($_SESSION['username']);
 ?>
@@ -70,10 +70,16 @@ function drawHeader(string $title = 'LAFit', string $activePage = 'home', array 
             <?php } elseif ($activePage === 'profile') { ?>
             <nav class="menu">
                 <a href="#perfil">Perfil</a>
-                <a href="#perfil-aulas">Aulas</a>
+                <?php if (empty($features) || !empty($features['classes'])) { ?>
+                    <a href="#perfil-aulas">Aulas</a>
+                <?php } ?>
                 <a href="#perfil-equipamentos">Equipamentos</a>
-                <a href="#perfil-progresso">Progresso</a>
-                <a href="#perfil-nutricao">Nutrição</a>
+                <?php if (empty($features) || !empty($features['progress'])) { ?>
+                    <a href="#perfil-progresso">Progresso</a>
+                <?php } ?>
+                <?php if (empty($features) || !empty($features['nutrition'])) { ?>
+                    <a href="#perfil-nutricao">Nutrição</a>
+                <?php } ?>
             </nav>
             <?php } elseif ($activePage === 'trainer') { ?>
             <nav class="menu">

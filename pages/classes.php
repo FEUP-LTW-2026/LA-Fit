@@ -22,6 +22,13 @@ $filterOptions = getClassFilterOptions($db);
 $enrolledClassIds = [];
 
 if (isset($_SESSION['username']) && ($_SESSION['role'] ?? '') === 'membro') {
+    require_once __DIR__ . '/../database/users.php';
+    $member = getMemberByUsername($db, $_SESSION['username']);
+    $features = getMemberPlanFeatures($member['plano_nome'] ?? '');
+    if (!$features['classes']) {
+        header('Location: profile.php?erro=plano_sem_aulas');
+        exit;
+    }
     $enrolledClassIds = getEnrolledClassIdsForUsername($db, $_SESSION['username']);
 }
 
