@@ -277,6 +277,7 @@ function attachAdminSectionExpand() {
             if (isExpanded) {
                 for (const el of allSections) el.hidden = false;
                 for (const e of document.querySelectorAll('.admin-extra-rows')) e.hidden = true;
+                for (const f of document.querySelectorAll('.admin-filtros')) f.hidden = true;
                 if (nav) nav.hidden = false;
                 btn.textContent = 'Ver mais';
             } else {
@@ -284,11 +285,35 @@ function attachAdminSectionExpand() {
                     el.hidden = el.id !== targetId;
                 }
                 for (const e of target.querySelectorAll('.admin-extra-rows')) e.hidden = false;
+                const filtros = target.querySelector('.admin-filtros');
+                if (filtros) filtros.hidden = false;
                 if (nav) nav.hidden = true;
                 btn.textContent = 'Fechar';
                 target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
+    }
+}
+
+function attachAdminAutoExpand() {
+    const params = new URLSearchParams(window.location.search);
+    const expand = params.get('expand');
+    if (!expand) return;
+
+    const map = {
+        contas: 'admin-contas-lista',
+        aulas: 'admin-aulas-lista',
+        equipamentos: 'admin-equipamentos-lista',
+    };
+    const targetId = map[expand];
+    if (!targetId) return;
+
+    const btn = document.querySelector('.admin-ver-mais[data-target="' + targetId + '"]');
+    if (btn) {
+        btn.click();
+    } else {
+        const filtros = document.querySelector('#' + targetId + ' .admin-filtros');
+        if (filtros) filtros.hidden = false;
     }
 }
 
@@ -437,6 +462,7 @@ attachWorkoutToggle();
 attachHoverAnimations();
 attachAdminEditNavHide();
 attachAdminSectionExpand();
+attachAdminAutoExpand();
 attachPasswordConfirmation();
 attachPhotoPreview();
 attachCharacterCounters();
