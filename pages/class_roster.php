@@ -32,6 +32,6 @@ if ($members === null) {
 
 $class = getClassById($db, $classId);
 
-drawHeader('Inscritos - LAFit', 'trainer');
+drawHeader('Inscritos - LAFit', 'class_roster');
 drawClassRosterPage($class, $members);
 drawFooter();

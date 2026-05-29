@@ -51,7 +51,7 @@ To view the current project locally, run:
 
 Then open this link in the browser:
 
-    http://localhost:9000/
+    http://localhost:9000
 
 Main PHP pages:
 

@@ -53,7 +53,7 @@ function drawHeader(string $title = 'LAFit', string $activePage = 'home', array 
             </a>
 
             <?php
-            $onProfilePage = in_array($activePage, ['profile', 'trainer', 'admin', 'report'], true);
+            $onProfilePage = in_array($activePage, ['profile', 'trainer', 'admin', 'report', 'class_roster'], true);
             $hideNav = $onProfilePage || ($loggedIn && $activePage === 'classes');
             ?>
             <?php if (!$hideNav) { ?>
@@ -103,6 +103,8 @@ function drawHeader(string $title = 'LAFit', string $activePage = 'home', array 
                         <a href="report.php" class="botao cliente">Ver reportes</a>
                     <?php } elseif ($activePage === 'report') { ?>
                         <a href="profile.php" class="botao cliente">Área do cliente</a>
+                    <?php } elseif ($activePage === 'class_roster') { ?>
+                        <a href="profile.php" class="botao cliente">Olá, <?= h($_SESSION['username']) ?></a>
                     <?php } ?>
                     <a href="../actions/action_logout.php" class="botao amarelo">Sair</a>
                 <?php } else { ?>

@@ -14,7 +14,10 @@ function drawClassRosterPage(?array $class, array $members): void
                 </div>
 
                 <section class="painel painel-lista">
-                    <h2><?= count($members) ?> <?= count($members) === 1 ? 'inscrito' : 'inscritos' ?></h2>
+                    <div class="cabecalho-painel">
+                        <h2><?= count($members) ?> <?= count($members) === 1 ? 'inscrito' : 'inscritos' ?></h2>
+                        <a href="profile.php" class="botao claro-voltar">Fechar</a>
+                    </div>
 
                     <?php if (count($members) === 0) { ?>
                         <p>Nenhum membro inscrito nesta aula.</p>
