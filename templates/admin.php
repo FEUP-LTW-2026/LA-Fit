@@ -1,5 +1,5 @@
 <?php
-function drawAdminPage(array $users, array $plans, array $gyms, array $classes, array $trainers, array $equipment, ?array $editingUser, ?array $editingClass, ?array $editingEquipment, array $messages = [], array $overview = []): void
+function drawAdminPage(array $users, array $plans, array $gyms, array $classes, array $trainers, array $equipment, ?array $editingUser, ?array $editingClass, ?array $editingEquipment, array $messages = [], array $overview = [], array $filters = []): void
 {
     $isEditing = $editingUser !== null;
     $isEditingClass = $editingClass !== null;
@@ -150,12 +150,41 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                 <?php } ?>
 
                 <?php if (!$isEditing && !$isEditingClass && !$isEditingEquipment) { ?>
+                <?php
+                    $userFilters   = $filters['user']   ?? [];
+                    $hasUserFilter = !empty($userFilters['papel']) || !empty($userFilters['estado']);
+                    $expandUsers   = ($filters['expand'] ?? '') === 'contas' || $hasUserFilter;
+                ?>
                 <section class="painel painel-lista" id="admin-contas-lista">
                     <div class="cabecalho-painel">
                         <h2>Membros e treinadores</h2>
-                        <?php if (count($users) > 3) { ?>
-                            <button type="button" class="botao cliente admin-ver-mais" data-target="admin-contas-lista">Ver mais</button>
-                        <?php } ?>
+                        <button type="button" class="botao cliente admin-ver-mais" data-target="admin-contas-lista">Ver mais</button>
+                    </div>
+
+                    <div class="admin-filtros" <?= $expandUsers ? '' : 'hidden' ?>>
+                        <form class="class-filters" action="profile.php" method="get">
+                            <input type="hidden" name="expand" value="contas">
+                            <div class="filter-field">
+                                <label for="af-users-papel">Tipo</label>
+                                <select id="af-users-papel" name="admin_users_papel">
+                                    <option value="">Todos</option>
+                                    <option value="membro"    <?= ($userFilters['papel'] ?? '') === 'membro'    ? 'selected' : '' ?>>Membro</option>
+                                    <option value="treinador" <?= ($userFilters['papel'] ?? '') === 'treinador' ? 'selected' : '' ?>>Treinador</option>
+                                </select>
+                            </div>
+                            <div class="filter-field">
+                                <label for="af-users-estado">Estado</label>
+                                <select id="af-users-estado" name="admin_users_estado">
+                                    <option value="">Todos</option>
+                                    <option value="ativo"   <?= ($userFilters['estado'] ?? '') === 'ativo'   ? 'selected' : '' ?>>Ativo</option>
+                                    <option value="inativo" <?= ($userFilters['estado'] ?? '') === 'inativo' ? 'selected' : '' ?>>Inativo</option>
+                                </select>
+                            </div>
+                            <div class="filter-actions">
+                                <button type="submit" class="botao amarelo">Filtrar</button>
+                                <a href="profile.php?expand=contas" class="botao cliente">Limpar</a>
+                            </div>
+                        </form>
                     </div>
 
                     <?php if (count($users) === 0) { ?>
@@ -212,9 +241,9 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                 </section>
                 <?php } ?>
 
-                <?php if (!$isEditing && !$isEditingEquipment) { drawAdminClassCatalog($classes, $trainers, $gyms, $editingClass); } ?>
+                <?php if (!$isEditing && !$isEditingEquipment) { drawAdminClassCatalog($classes, $trainers, $gyms, $editingClass, $filters['class'] ?? [], $filters['expand'] ?? ''); } ?>
 
-                <?php if (!$isEditing && !$isEditingClass) { drawAdminEquipmentSection($equipment, $editingEquipment); } ?>
+                <?php if (!$isEditing && !$isEditingClass) { drawAdminEquipmentSection($equipment, $editingEquipment, $filters['eq'] ?? [], $filters['eq_options'] ?? [], $filters['expand'] ?? ''); } ?>
 
             </div>
         </section>
@@ -384,7 +413,7 @@ function drawAdminOverview(array $overview): void
 <?php
 }
 
-function drawAdminEquipmentSection(array $equipment, ?array $editingEquipment): void
+function drawAdminEquipmentSection(array $equipment, ?array $editingEquipment, array $eqFilters = [], array $eqFilterOptions = [], string $expand = ''): void
 {
     $isEditing = $editingEquipment !== null;
     $formAction = $isEditing ? '../actions/action_admin_update_equipment.php' : '../actions/action_admin_create_equipment.php';
@@ -445,12 +474,47 @@ function drawAdminEquipmentSection(array $equipment, ?array $editingEquipment): 
     </section>
 
     <?php if (!$isEditing) { ?>
+    <?php
+        $hasEqFilter  = !empty($eqFilters['zona']) || !empty($eqFilters['estado']);
+        $expandEq     = $expand === 'equipamentos' || $hasEqFilter;
+        $allZones     = $eqFilterOptions['zones'] ?? $existingZones;
+    ?>
     <section class="painel painel-lista" id="admin-equipamentos-lista">
         <div class="cabecalho-painel">
             <h2>Equipamentos</h2>
-            <?php if (count($equipment) > 3) { ?>
-                <button type="button" class="botao cliente admin-ver-mais" data-target="admin-equipamentos-lista">Ver mais</button>
-            <?php } ?>
+            <button type="button" class="botao cliente admin-ver-mais" data-target="admin-equipamentos-lista">Ver mais</button>
+        </div>
+
+        <div class="admin-filtros" <?= $expandEq ? '' : 'hidden' ?>>
+            <form class="class-filters" action="profile.php" method="get">
+                <input type="hidden" name="expand" value="equipamentos">
+                <div class="filter-field">
+                    <label for="af-eq-zona">Zona</label>
+                    <select id="af-eq-zona" name="admin_eq_zona">
+                        <option value="">Todas</option>
+                        <?php foreach ($allZones as $zone) { ?>
+                            <option value="<?= h($zone) ?>" <?= ($eqFilters['zona'] ?? '') === $zone ? 'selected' : '' ?>>
+                                <?= h($zone) ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="filter-field">
+                    <label for="af-eq-estado">Estado</label>
+                    <select id="af-eq-estado" name="admin_eq_estado">
+                        <option value="">Todos</option>
+                        <?php foreach ($states as $key => $label) { ?>
+                            <option value="<?= h($key) ?>" <?= ($eqFilters['estado'] ?? '') === $key ? 'selected' : '' ?>>
+                                <?= h($label) ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="filter-actions">
+                    <button type="submit" class="botao amarelo">Filtrar</button>
+                    <a href="profile.php?expand=equipamentos" class="botao cliente">Limpar</a>
+                </div>
+            </form>
         </div>
 
         <?php if (count($equipment) === 0) { ?>
@@ -499,7 +563,7 @@ function drawAdminEquipmentSection(array $equipment, ?array $editingEquipment): 
 }
 
 
-function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?array $editingClass): void
+function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?array $editingClass, array $classFilters = [], string $expand = ''): void
 {
     $isEditing = $editingClass !== null;
     $formAction = $isEditing ? '../actions/action_admin_update_class.php' : '../actions/action_admin_create_class.php';
@@ -601,12 +665,73 @@ function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?ar
     </section>
 
     <?php if (!$isEditing) { ?>
+    <?php
+        $hasClassFilter = !empty($classFilters['trainer']) || !empty($classFilters['gym'])
+                       || !empty($classFilters['day'])     || !empty($classFilters['estado']);
+        $expandClasses  = $expand === 'aulas' || $hasClassFilter;
+        $dayLabels = [
+            'segunda' => 'Segunda', 'terca' => 'Terça', 'quarta' => 'Quarta',
+            'quinta'  => 'Quinta',  'sexta' => 'Sexta', 'sabado' => 'Sábado', 'domingo' => 'Domingo',
+        ];
+    ?>
     <section class="painel painel-lista" id="admin-aulas-lista">
         <div class="cabecalho-painel">
             <h2>Aulas</h2>
-            <?php if (count($classes) > 3) { ?>
-                <button type="button" class="botao cliente admin-ver-mais" data-target="admin-aulas-lista">Ver mais</button>
-            <?php } ?>
+            <button type="button" class="botao cliente admin-ver-mais" data-target="admin-aulas-lista">Ver mais</button>
+        </div>
+
+        <div class="admin-filtros" <?= $expandClasses ? '' : 'hidden' ?>>
+            <form class="class-filters" action="profile.php" method="get">
+                <input type="hidden" name="expand" value="aulas">
+                <div class="filter-field">
+                    <label for="af-class-trainer">Treinador</label>
+                    <select id="af-class-trainer" name="admin_classes_trainer">
+                        <option value="">Todos</option>
+                        <?php foreach ($trainers as $trainer) { ?>
+                            <option value="<?= (int)$trainer['id'] ?>" <?= (int)($classFilters['trainer'] ?? 0) === (int)$trainer['id'] ? 'selected' : '' ?>>
+                                <?= h($trainer['nome']) ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="filter-field">
+                    <label for="af-class-gym">Ginásio</label>
+                    <select id="af-class-gym" name="admin_classes_gym">
+                        <option value="">Todos</option>
+                        <?php foreach ($gyms as $gym) { ?>
+                            <option value="<?= (int)$gym['id'] ?>" <?= (int)($classFilters['gym'] ?? 0) === (int)$gym['id'] ? 'selected' : '' ?>>
+                                <?= h($gym['nome']) ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="filter-field">
+                    <label for="af-class-day">Dia</label>
+                    <select id="af-class-day" name="admin_classes_day">
+                        <option value="">Todos</option>
+                        <?php foreach ($dayLabels as $val => $label) { ?>
+                            <option value="<?= h($val) ?>" <?= ($classFilters['day'] ?? '') === $val ? 'selected' : '' ?>>
+                                <?= h($label) ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="filter-field">
+                    <label for="af-class-estado">Estado</label>
+                    <select id="af-class-estado" name="admin_classes_estado">
+                        <option value="">Todos</option>
+                        <?php foreach ($statuses as $key => $label) { ?>
+                            <option value="<?= h($key) ?>" <?= ($classFilters['estado'] ?? '') === $key ? 'selected' : '' ?>>
+                                <?= h($label) ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                </div>
+                <div class="filter-actions">
+                    <button type="submit" class="botao amarelo">Filtrar</button>
+                    <a href="profile.php?expand=aulas" class="botao cliente">Limpar</a>
+                </div>
+            </form>
         </div>
 
         <?php if (count($classes) === 0) { ?>
