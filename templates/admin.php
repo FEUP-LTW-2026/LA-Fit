@@ -168,7 +168,7 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                 <?php if (!$isEditing && !$isEditingClass && !$isEditingEquipment) { ?>
                 <?php
                     $userFilters   = $filters['user']   ?? [];
-                    $hasUserFilter = !empty($userFilters['papel']) || !empty($userFilters['estado']);
+                    $hasUserFilter = !empty($userFilters['papel']) || !empty($userFilters['estado']) || !empty($userFilters['ordenar']);
                     $expandUsers   = ($filters['expand'] ?? '') === 'contas' || $hasUserFilter;
                 ?>
                 <section class="painel painel-lista" id="admin-contas-lista">
@@ -194,6 +194,16 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                                     <option value="">Todos</option>
                                     <option value="ativo"   <?= ($userFilters['estado'] ?? '') === 'ativo'   ? 'selected' : '' ?>>Ativo</option>
                                     <option value="inativo" <?= ($userFilters['estado'] ?? '') === 'inativo' ? 'selected' : '' ?>>Inativo</option>
+                                </select>
+                            </div>
+                            <div class="filter-field">
+                                <label for="af-users-ordenar">Ordenar por</label>
+                                <select id="af-users-ordenar" name="admin_users_ordenar">
+                                    <option value="">Predefinido</option>
+                                    <option value="nome_az"  <?= ($userFilters['ordenar'] ?? '') === 'nome_az'  ? 'selected' : '' ?>>Nome A → Z</option>
+                                    <option value="nome_za"  <?= ($userFilters['ordenar'] ?? '') === 'nome_za'  ? 'selected' : '' ?>>Nome Z → A</option>
+                                    <option value="recente"  <?= ($userFilters['ordenar'] ?? '') === 'recente'  ? 'selected' : '' ?>>Mais recente</option>
+                                    <option value="antigo"   <?= ($userFilters['ordenar'] ?? '') === 'antigo'   ? 'selected' : '' ?>>Mais antigo</option>
                                 </select>
                             </div>
                             <div class="filter-actions">

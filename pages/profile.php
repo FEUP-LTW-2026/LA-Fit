@@ -38,9 +38,11 @@ if ($role === 'administrador') {
 
     $validPapeis       = ['membro', 'treinador'];
     $validUserEstados  = ['ativo', 'inativo'];
+    $validOrdenar      = ['nome_az', 'nome_za', 'recente', 'antigo'];
     $userFilters = [
-        'papel'  => in_array($_GET['admin_users_papel']  ?? '', $validPapeis,      true) ? $_GET['admin_users_papel']  : '',
-        'estado' => in_array($_GET['admin_users_estado'] ?? '', $validUserEstados, true) ? $_GET['admin_users_estado'] : '',
+        'papel'   => in_array($_GET['admin_users_papel']    ?? '', $validPapeis,      true) ? $_GET['admin_users_papel']    : '',
+        'estado'  => in_array($_GET['admin_users_estado']   ?? '', $validUserEstados, true) ? $_GET['admin_users_estado']   : '',
+        'ordenar' => in_array($_GET['admin_users_ordenar']  ?? '', $validOrdenar,     true) ? $_GET['admin_users_ordenar']  : '',
     ];
 
     $validDays         = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];

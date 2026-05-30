@@ -126,6 +126,14 @@ function getFilteredManageableUsers(PDO $db, array $filters): array
         $params[] = $filters['estado'];
     }
 
+    $orderBy = match ($filters['ordenar'] ?? '') {
+        'nome_az' => 'utilizadores.nome ASC, utilizadores.apelido ASC',
+        'nome_za' => 'utilizadores.nome DESC, utilizadores.apelido DESC',
+        'recente'  => 'utilizadores.id DESC',
+        'antigo'   => 'utilizadores.id ASC',
+        default    => 'utilizadores.papel, utilizadores.nome, utilizadores.apelido',
+    };
+
     $stmt = $db->prepare(
         'SELECT utilizadores.*,
                 membros.id AS membro_id,
@@ -143,7 +151,7 @@ function getFilteredManageableUsers(PDO $db, array $filters): array
          LEFT JOIN ginasios ON ginasios.id = membros.ginasio_id
          LEFT JOIN treinadores ON treinadores.utilizador_id = utilizadores.id
          WHERE ' . implode(' AND ', $where) . '
-         ORDER BY utilizadores.papel, utilizadores.nome, utilizadores.apelido'
+         ORDER BY ' . $orderBy
     );
     $stmt->execute($params);
 
