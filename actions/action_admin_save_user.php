@@ -106,7 +106,7 @@ if ($isEditing) {
             'plan_id'         => ($_POST['plan_id'] ?? '') === '' ? null : (int)$_POST['plan_id'],
             'gym_id'          => ($_POST['gym_id'] ?? '') === '' ? null : (int)$_POST['gym_id'],
             'bio'             => trim($_POST['bio'] ?? ''),
-            'specializations' => trim($_POST['specializations'] ?? ''),
+            'specializations' => implode(', ', $_POST['specializations'] ?? []),
             'certifications'  => trim($_POST['certifications'] ?? ''),
         ]);
     } catch (Exception) {
@@ -141,7 +141,7 @@ if ($isEditing) {
             'plan_id'         => ($_POST['plan_id'] ?? '') === '' ? null : (int)$_POST['plan_id'],
             'gym_id'          => ($_POST['gym_id'] ?? '') === '' ? null : (int)$_POST['gym_id'],
             'bio'             => trim($_POST['bio'] ?? ''),
-            'specializations' => trim($_POST['specializations'] ?? ''),
+            'specializations' => implode(', ', $_POST['specializations'] ?? []),
             'certifications'  => trim($_POST['certifications'] ?? ''),
         ]);
     } catch (Exception) {

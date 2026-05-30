@@ -57,7 +57,7 @@ function drawProgressSection(array $workouts, array $goals, array $stats): void
                     <div class="barra-semana">
                         <span class="barra-valor"><?= (int)$semana['treinos'] ?></span>
                         <div class="barra-coluna">
-                            <div class="barra-fill" style="height: <?= $pct ?>%"></div>
+                            <div class="barra-fill" style="--fill:<?= $pct ?>%"></div>
                         </div>
                         <span class="barra-label"><?= h($label) ?></span>
                     </div>
@@ -88,7 +88,7 @@ function drawProgressSection(array $workouts, array $goals, array $stats): void
                                 <?php } ?>
                             </div>
                             <div class="objetivo-progresso-barra">
-                                <div class="objetivo-fill" style="width: <?= $pct ?>%"></div>
+                                <div class="objetivo-fill" style="--fill:<?= $pct ?>%"></div>
                             </div>
                             <div class="objetivo-meta">
                                 <span><?= h(number_format($goal['valor_atual'], 1, ',', '')) ?> / <?= h(number_format($goal['valor_alvo'], 1, ',', '')) ?> <?= h($goal['unidade']) ?></span>

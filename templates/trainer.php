@@ -94,8 +94,19 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
                                     <input type="text" id="bio" name="bio" value="<?= h($trainer['biografia'] ?? '') ?>">
                                 </div>
                                 <div class="campo campo-largo">
-                                    <label for="specializations">Especializações</label>
-                                    <input type="text" id="specializations" name="specializations" value="<?= h($trainer['especializacoes'] ?? '') ?>">
+                                    <label>Especializações</label>
+                                    <?php
+                                    $especOpts = ['Cycling', 'Pilates', 'Hyrox', 'Kickbox', 'Karaté', 'Funcional'];
+                                    $especAtivas = array_map('trim', explode(',', $trainer['especializacoes'] ?? ''));
+                                    ?>
+                                    <div class="checklist">
+                                        <?php foreach ($especOpts as $opt) { ?>
+                                            <label class="checklist-item">
+                                                <input type="checkbox" name="specializations[]" value="<?= h($opt) ?>" <?= in_array($opt, $especAtivas, true) ? 'checked' : '' ?>>
+                                                <?= h($opt) ?>
+                                            </label>
+                                        <?php } ?>
+                                    </div>
                                 </div>
                                 <div class="campo campo-largo">
                                     <label for="certifications">Certificados</label>
@@ -140,7 +151,13 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
                                 </div>
                                 <div class="campo">
                                     <label for="tc_type">Tipo</label>
-                                    <input type="text" id="tc_type" name="type" value="<?= h($editingClass['tipo']) ?>" required>
+                                    <select id="tc_type" name="type" required>
+                                        <?php
+                                        $tiposAula = ['cycling', 'funcional', 'hyrox', 'karate', 'kickbox', 'pilates', 'outro'];
+                                        foreach ($tiposAula as $t) { ?>
+                                            <option value="<?= h($t) ?>" <?= ($editingClass['tipo'] ?? '') === $t ? 'selected' : '' ?>><?= h(ucfirst($t)) ?></option>
+                                        <?php } ?>
+                                    </select>
                                 </div>
                                 <div class="campo campo-largo">
                                     <label for="tc_desc">Descrição</label>
@@ -214,7 +231,10 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
                                                             </a>
                                                         </p>
                                                     </div>
-                                                    <a href="profile.php?edit_class=<?= (int)$class['id'] ?>#trainer-aulas" class="botao claro-voltar">Editar</a>
+                                                    <div class="acoes-linha">
+                                                        <a href="profile.php?edit_class=<?= (int)$class['id'] ?>#trainer-aulas" class="botao claro-voltar">Editar</a>
+                                                        <a href="class_reviews.php?aula=<?= (int)$class['id'] ?>" class="botao cliente">Avaliações</a>
+                                                    </div>
                                                 </article>
                                             <?php } ?>
                                         </div>

@@ -38,7 +38,7 @@ if ($role === 'membro') {
         exit;
     }
 
-    header('Location: ../pages/review.php?sucesso=1&class_id=' . $classId);
+    header('Location: ../pages/classes.php?sucesso=1');
     exit;
 }
 

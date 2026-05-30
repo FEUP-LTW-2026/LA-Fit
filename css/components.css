@@ -201,3 +201,40 @@
     color: var(--amarelo-escuro);
     font-weight: bold;
 }
+
+.checklist {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.checklist-item {
+    cursor: pointer;
+}
+
+.checklist-item input[type="checkbox"] {
+    display: none;
+}
+
+.checklist-item span,
+.checklist-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 2px solid var(--borda-suave);
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--cinzento);
+    background: var(--cinzento-claro);
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+    user-select: none;
+}
+
+.checklist-item:has(input:checked) {
+    border-color: var(--amarelo-escuro);
+    background: var(--amarelo);
+    color: var(--preto);
+}

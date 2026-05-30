@@ -127,9 +127,20 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                                     <label for="bio">Biografia</label>
                                     <input type="text" id="bio" name="bio" value="<?= h($editingUser['biografia'] ?? '') ?>">
                                 </div>
-                                <div class="campo">
-                                    <label for="specializations">Especializações</label>
-                                    <input type="text" id="specializations" name="specializations" value="<?= h($editingUser['especializacoes'] ?? '') ?>">
+                                <div class="campo campo-largo">
+                                    <label>Especializações</label>
+                                    <?php
+                                    $especOpts = ['Cycling', 'Pilates', 'Hyrox', 'Kickbox', 'Karaté', 'Funcional'];
+                                    $especAtivas = array_map('trim', explode(',', $editingUser['especializacoes'] ?? ''));
+                                    ?>
+                                    <div class="checklist">
+                                        <?php foreach ($especOpts as $opt) { ?>
+                                            <label class="checklist-item">
+                                                <input type="checkbox" name="specializations[]" value="<?= h($opt) ?>" <?= in_array($opt, $especAtivas, true) ? 'checked' : '' ?>>
+                                                <?= h($opt) ?>
+                                            </label>
+                                        <?php } ?>
+                                    </div>
                                 </div>
                                 <div class="campo">
                                     <label for="certifications">Certificações</label>
@@ -143,7 +154,7 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                         </div>
                     </form>
                     <?php if ($isEditing) { ?>
-                    <form action="../actions/action_admin_save_user.php" method="post" data-confirm="Tens a certeza que queres elevar esta conta para administrador? Esta ação não pode ser revertida." style="margin-top:12px">
+                    <form action="../actions/action_admin_save_user.php" method="post" data-confirm="Tens a certeza que queres elevar esta conta para administrador? Esta ação não pode ser revertida." class="margem-topo">
                         <?= csrfField() ?>
                         <input type="hidden" name="_action" value="elevate">
                         <input type="hidden" name="user_id" value="<?= (int)$editingUser['id'] ?>">
@@ -451,12 +462,13 @@ function drawAdminEquipmentSection(array $equipment, ?array $editingEquipment, a
                     </div>
                     <div class="campo">
                         <label for="eq_zona">Zona</label>
-                        <input type="text" id="eq_zona" name="zona" value="<?= h($editingEquipment['zona'] ?? '') ?>" required list="zonas-lista">
-                        <datalist id="zonas-lista">
-                            <?php foreach ($existingZones as $zone) { ?>
-                                <option value="<?= h($zone) ?>">
+                        <select id="eq_zona" name="zona" required>
+                            <?php
+                            $zonasEquip = ['Cardio', 'Funcional', 'Musculação'];
+                            foreach ($zonasEquip as $z) { ?>
+                                <option value="<?= h($z) ?>" <?= ($editingEquipment['zona'] ?? '') === $z ? 'selected' : '' ?>><?= h($z) ?></option>
                             <?php } ?>
-                        </datalist>
+                        </select>
                     </div>
                     <div class="campo">
                         <label for="eq_estado">Estado</label>
@@ -600,7 +612,13 @@ function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?ar
                     </div>
                     <div class="campo">
                         <label for="class_type">Tipo</label>
-                        <input type="text" id="class_type" name="type" value="<?= h($editingClass['tipo'] ?? '') ?>" required>
+                        <select id="class_type" name="type" required>
+                            <?php
+                            $tiposAula = ['cycling', 'funcional', 'hyrox', 'karate', 'kickbox', 'pilates', 'outro'];
+                            foreach ($tiposAula as $t) { ?>
+                                <option value="<?= h($t) ?>" <?= ($editingClass['tipo'] ?? '') === $t ? 'selected' : '' ?>><?= h(ucfirst($t)) ?></option>
+                            <?php } ?>
+                        </select>
                     </div>
                     <div class="campo campo-largo">
                         <label for="class_description">Descrição</label>
@@ -773,6 +791,7 @@ function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?ar
                                 <td>
                                     <div class="acoes-linha">
                                         <a href="profile.php?edit_class=<?= (int)$class['id'] ?>" class="botao claro-voltar">Editar</a>
+                                        <a href="class_reviews.php?aula=<?= (int)$class['id'] ?>" class="botao cliente">Ver avaliações</a>
                                         <?php if ($class['estado'] !== 'cancelada') { ?>
                                             <form action="../actions/action_class.php" method="post" data-confirm="Tens a certeza que queres remover esta aula do catálogo?">
                         <?= csrfField() ?>

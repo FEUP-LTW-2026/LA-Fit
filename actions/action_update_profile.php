@@ -93,7 +93,7 @@ if (($_SESSION['role'] ?? '') === 'treinador') {
         'email'           => $email,
         'photo'           => $photo,
         'bio'             => trim($_POST['bio'] ?? ''),
-        'specializations' => trim($_POST['specializations'] ?? ''),
+        'specializations' => implode(', ', $_POST['specializations'] ?? []),
         'certifications'  => trim($_POST['certifications'] ?? ''),
     ]);
 } else {

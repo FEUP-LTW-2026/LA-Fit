@@ -16,7 +16,7 @@ function getReviewableClassesForMember(PDO $db, int $memberId): array
             ON avaliacoes.aula_id = aulas.id
            AND avaliacoes.membro_id = inscricoes_aulas.membro_id
          WHERE inscricoes_aulas.membro_id = ?
-           AND inscricoes_aulas.estado = "presente"
+           AND inscricoes_aulas.estado IN ("inscrito", "presente")
          ORDER BY
             CASE aulas.dia_semana
                 WHEN "segunda" THEN 1
@@ -41,12 +41,31 @@ function memberCanReviewClass(PDO $db, int $memberId, int $classId): bool
          FROM inscricoes_aulas
          WHERE membro_id = ?
            AND aula_id = ?
-           AND estado = "presente"
+           AND estado IN ("inscrito", "presente")
          LIMIT 1'
     );
     $stmt->execute([$memberId, $classId]);
 
     return (bool)$stmt->fetch();
+}
+
+function getClassReviews(PDO $db, int $classId): array
+{
+    $stmt = $db->prepare(
+        'SELECT avaliacoes.classificacao,
+                avaliacoes.comentario,
+                avaliacoes.criada_em,
+                utilizadores.nome,
+                utilizadores.apelido
+         FROM avaliacoes
+         JOIN membros ON membros.id = avaliacoes.membro_id
+         JOIN utilizadores ON utilizadores.id = membros.utilizador_id
+         WHERE avaliacoes.aula_id = ?
+         ORDER BY avaliacoes.criada_em DESC'
+    );
+    $stmt->execute([$classId]);
+
+    return $stmt->fetchAll();
 }
 
 function saveClassReview(PDO $db, int $memberId, int $classId, int $rating, string $comment): bool

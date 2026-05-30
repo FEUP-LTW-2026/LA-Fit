@@ -124,7 +124,10 @@ function drawClassCard(array $class, array $enrolledClassIds, bool $isLoggedIn, 
 
         <div class="convite-avaliacao">
             <h3>Já foi a uma destas? Deixe a sua opinião</h3>
-            <a href="review.php?class_id=<?= $classId ?>" class="botao amarelo largo">Dar opinião</a>
+            <div class="acoes-linha">
+                <a href="review.php?class_id=<?= $classId ?>" class="botao amarelo largo">Dar opinião</a>
+                <a href="class_reviews.php?aula=<?= $classId ?>" class="botao cliente largo">Ver opiniões</a>
+            </div>
         </div>
 
         <?php if (!$isLoggedIn) { ?>
