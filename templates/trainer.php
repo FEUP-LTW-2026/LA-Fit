@@ -1,5 +1,5 @@
 <?php
-function drawTrainerPage(array $user, array $trainer, array $classes, array $messages = [], array $nutritionPlans = [], array $nutritionMembers = [], ?array $editingClass = null): void
+function drawTrainerPage(array $user, array $trainer, array $classes, array $messages = [], array $nutritionPlans = [], array $nutritionMembers = [], ?array $editingClass = null, array $classFilters = []): void
 {
     $initials = strtoupper(substr($user['nome'], 0, 1) . substr($user['apelido'], 0, 1));
 
@@ -204,6 +204,25 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
                 <section class="painel painel-aulas" id="trainer-aulas">
                     <div class="cabecalho-painel">
                         <h2>As tuas aulas</h2>
+                    </div>
+
+                    <div class="admin-filtros">
+                        <form class="class-filters" action="profile.php" method="get">
+                            <?php $tiposAula = ['cycling', 'funcional', 'hyrox', 'karate', 'kickbox', 'pilates', 'outro']; ?>
+                            <div class="filter-field">
+                                <label for="tf-tipo">Tipo</label>
+                                <select id="tf-tipo" name="trainer_type">
+                                    <option value="">Todos</option>
+                                    <?php foreach ($tiposAula as $t) { ?>
+                                        <option value="<?= h($t) ?>" <?= ($classFilters['type'] ?? '') === $t ? 'selected' : '' ?>><?= h(ucfirst($t)) ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="filter-actions">
+                                <button type="submit" class="botao amarelo">Filtrar</button>
+                                <a href="profile.php#trainer-aulas" class="botao cliente">Limpar</a>
+                            </div>
+                        </form>
                     </div>
 
                     <?php if (count($classes) === 0) { ?>

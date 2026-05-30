@@ -47,7 +47,9 @@ if ($role === 'administrador') {
 
     $validDays         = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
     $validClassEstados = ['agendada', 'concluida', 'cancelada'];
+    $validClassTipos   = ['cycling', 'funcional', 'hyrox', 'karate', 'kickbox', 'pilates', 'outro'];
     $classFilters = [
+        'type'    => in_array($_GET['admin_classes_tipo']   ?? '', $validClassTipos,   true) ? $_GET['admin_classes_tipo']   : '',
         'trainer' => filter_input(INPUT_GET, 'admin_classes_trainer', FILTER_VALIDATE_INT) ?: '',
         'gym'     => filter_input(INPUT_GET, 'admin_classes_gym',     FILTER_VALIDATE_INT) ?: '',
         'day'     => in_array($_GET['admin_classes_day']    ?? '', $validDays,         true) ? $_GET['admin_classes_day']    : '',
@@ -141,7 +143,11 @@ if ($role === 'administrador') {
     require_once __DIR__ . '/../templates/nutrition.php';
 
     $trainer          = getTrainerByUsername($db, $_SESSION['username']);
-    $classes          = getFilteredClasses($db, ['trainer' => $trainer['id']]);
+    $validTiposAula   = ['cycling', 'funcional', 'hyrox', 'karate', 'kickbox', 'pilates', 'outro'];
+    $trainerClassFilters = [
+        'type' => in_array($_GET['trainer_type'] ?? '', $validTiposAula, true) ? $_GET['trainer_type'] : '',
+    ];
+    $classes          = getFilteredClasses($db, ['trainer' => $trainer['id'], 'type' => $trainerClassFilters['type']]);
     $nutritionPlans   = getTrainerNutritionPlans($db, (int)$trainer['id']);
     $nutritionMembers = getMembersForAssignment($db);
     $editingClass     = null;
@@ -180,7 +186,7 @@ if ($role === 'administrador') {
     ];
 
     drawHeader('Área Treinador - LAFit', 'trainer');
-    drawTrainerPage($user, $trainer, $classes, $messages, $nutritionPlans, $nutritionMembers, $editingClass);
+    drawTrainerPage($user, $trainer, $classes, $messages, $nutritionPlans, $nutritionMembers, $editingClass, $trainerClassFilters);
     drawFooter();
 
 } else {

@@ -701,8 +701,8 @@ function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?ar
 
     <?php if (!$isEditing) { ?>
     <?php
-        $hasClassFilter = !empty($classFilters['trainer']) || !empty($classFilters['gym'])
-                       || !empty($classFilters['day'])     || !empty($classFilters['estado']);
+        $hasClassFilter = !empty($classFilters['type'])    || !empty($classFilters['trainer']) || !empty($classFilters['gym'])
+                       || !empty($classFilters['day'])  || !empty($classFilters['estado']);
         $expandClasses  = $expand === 'aulas' || $hasClassFilter;
         $dayLabels = [
             'segunda' => 'Segunda', 'terca' => 'Terça', 'quarta' => 'Quarta',
@@ -718,6 +718,16 @@ function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?ar
         <div class="admin-filtros" <?= $expandClasses ? '' : 'hidden' ?>>
             <form class="class-filters" action="profile.php" method="get">
                 <input type="hidden" name="expand" value="aulas">
+                <?php $tiposAula = ['cycling', 'funcional', 'hyrox', 'karate', 'kickbox', 'pilates', 'outro']; ?>
+                <div class="filter-field">
+                    <label for="af-class-tipo">Tipo</label>
+                    <select id="af-class-tipo" name="admin_classes_tipo">
+                        <option value="">Todos</option>
+                        <?php foreach ($tiposAula as $t) { ?>
+                            <option value="<?= h($t) ?>" <?= ($classFilters['type'] ?? '') === $t ? 'selected' : '' ?>><?= h(ucfirst($t)) ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
                 <div class="filter-field">
                     <label for="af-class-trainer">Treinador</label>
                     <select id="af-class-trainer" name="admin_classes_trainer">

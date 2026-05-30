@@ -131,6 +131,11 @@ function getFilteredAdminClasses(PDO $db, array $filters): array
     $where  = ['1=1'];
     $params = [];
 
+    if (!empty($filters['type'])) {
+        $where[]  = 'aulas.tipo = ?';
+        $params[] = $filters['type'];
+    }
+
     if (!empty($filters['trainer'])) {
         $where[]  = 'treinadores.id = ?';
         $params[] = (int)$filters['trainer'];
