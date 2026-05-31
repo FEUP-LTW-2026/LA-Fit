@@ -37,7 +37,7 @@
 - [X] Admins can view gym-wide metrics such as most popular classes, equipment usage, and member retention.
 - [X] Members can report issues (e.g., equipment malfunction, class cancellations) and admins can manage and respond to these reports.
 - [X] Members can log workouts, set fitness goals, and track progress over time with charts or statistics.
-- [X] Nutrition Plans: Trainers can create and assign nutrition plans to their members, with meal and calorie tracking.
+- [X] Trainers can create and assign nutrition plans to their members, with meal and calorie tracking.
 
 ## Running
 
@@ -56,22 +56,23 @@ Then open this link in the browser:
 Main PHP pages:
 
 - `index.php` - homepage with plans and featured classes from the database.
-- `login.php` - client login.
-- `inscricao.php` - member registration.
-- `perfil.php` - logged-in member area (profile, classes, equipment, reports).
-- `aulas.php` - group class schedule and enrollments.
-- `equipamentos.php` - equipment availability by zone.
+- `login.php` - login for all users.
+- `register.php` - member registration.
+- `profile.php` - area for members, trainers, and admins (adapts by role).
+- `classes.php` - group class schedule, filters, and enrollments.
+- `equipment.php` - equipment availability by zone.
 - `report.php` - submit and track issue reports.
-- `avaliacao.php` - rate and review attended classes.
-- `trainer.php` - trainer area (profile, class schedule, rosters).
-- `admin.php` - admin area (accounts, classes, reports).
-- `profile_view.php` - public trainer profile.
-- `class_roster.php` - enrolled members for a class (trainer/admin).
+- `review.php` - rate and review enrolled classes.
+- `profile_view.php` - public trainer profile with bio, specializations, and classes.
+- `class_roster.php` - enrolled members for a class (trainer only).
+- `class_reviews.php` - all member reviews for a class (public).
 
 ## Credentials
 
 - admin/p4s5w0rd
-- member/1234
+- memberbas/1234 (plano Básico)
+- member/1234 (plano Ilimitado)
+- memberprem/1234 (plano Premium)
 - trainer/1234
 
 ## Project Structure

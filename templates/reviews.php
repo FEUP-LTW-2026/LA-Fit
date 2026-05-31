@@ -39,11 +39,11 @@ function drawReviewPage(array $classes, ?int $selectedClassId = null): void
                         <form action="../actions/action_class.php" method="post" class="form-avaliacao-pagina">
                         <?= csrfField() ?>
                             <div class="campo">
-                                <label for="class_id">1. Em que sessão quer deixar a sua opinião?</label>
+                                <label for="class_id">1. Que tipo de aula quer avaliar?</label>
                                 <select id="class_id" name="class_id" required>
                                     <?php foreach ($classes as $class) { ?>
                                         <option value="<?= (int)$class['id'] ?>" <?= $selectedClass && (int)$selectedClass['id'] === (int)$class['id'] ? 'selected' : '' ?>>
-                                            <?= h($class['nome']) ?> - <?= h(formatClassDay($class['dia_semana'])) ?>, <?= h($class['inicio']) ?> às <?= h($class['fim']) ?>
+                                            <?= h(ucfirst($class['tipo'])) ?>
                                         </option>
                                     <?php } ?>
                                 </select>

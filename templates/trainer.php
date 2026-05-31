@@ -183,7 +183,11 @@ function drawTrainerPage(array $user, array $trainer, array $classes, array $mes
                                 </div>
                                 <div class="campo">
                                     <label for="tc_room">Sala</label>
-                                    <input type="text" id="tc_room" name="room" value="<?= h($editingClass['sala'] ?? '') ?>">
+                                    <select id="tc_room" name="room">
+                                        <?php foreach (['Estúdio', 'Sala Funcional', 'Sala 2'] as $sala) { ?>
+                                            <option value="<?= h($sala) ?>" <?= ($editingClass['sala'] ?? '') === $sala ? 'selected' : '' ?>><?= h($sala) ?></option>
+                                        <?php } ?>
+                                    </select>
                                 </div>
                                 <div class="campo">
                                     <label for="tc_status">Estado</label>

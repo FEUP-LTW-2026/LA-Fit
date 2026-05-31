@@ -9,8 +9,8 @@ function drawClassReviewsPage(array $class, array $reviews): void
             <div class="conteudo">
                 <div class="titulo">
                     <p class="subtitulo">Opiniões</p>
-                    <h1><?= h($class['nome']) ?></h1>
-                    <p><?= h(formatClassDay($class['dia_semana'])) ?> · <?= h($class['inicio']) ?> - <?= h($class['fim']) ?></p>
+                    <h1><?= h(ucfirst($class['tipo'])) ?></h1>
+                    <p>Avaliações de todas as sessões de <?= h(ucfirst($class['tipo'])) ?></p>
                 </div>
 
                 <section class="painel painel-aulas">

@@ -73,11 +73,24 @@ function getMembersForAssignment(PDO $db): array
         "SELECT m.id, u.nome, u.apelido, u.nome_utilizador
          FROM membros m
          JOIN utilizadores u ON u.id = m.utilizador_id
+         JOIN planos p ON p.id = m.plano_id
          WHERE u.estado = 'ativo'
+           AND p.nome = 'Premium'
          ORDER BY u.nome, u.apelido"
     );
     $stmt->execute();
     return $stmt->fetchAll();
+}
+
+function memberHasPremiumPlan(PDO $db, int $membroId): bool
+{
+    $stmt = $db->prepare(
+        "SELECT 1 FROM membros m
+         JOIN planos p ON p.id = m.plano_id
+         WHERE m.id = ? AND p.nome = 'Premium'"
+    );
+    $stmt->execute([$membroId]);
+    return (bool)$stmt->fetch();
 }
 
 function assignPlanToMember(PDO $db, int $planId, int $membroId, int $trainerId): bool
@@ -85,6 +98,8 @@ function assignPlanToMember(PDO $db, int $planId, int $membroId, int $trainerId)
     $check = $db->prepare('SELECT id FROM planos_nutricao WHERE id = ? AND treinador_id = ?');
     $check->execute([$planId, $trainerId]);
     if (!$check->fetch()) return false;
+
+    if (!memberHasPremiumPlan($db, $membroId)) return false;
 
     $stmt = $db->prepare(
         'INSERT OR IGNORE INTO planos_nutricao_membros (plano_id, membro_id) VALUES (?, ?)'

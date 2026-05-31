@@ -216,13 +216,17 @@ INSERT INTO planos (nome, preco_mensal, descricao, beneficios) VALUES
 INSERT INTO utilizadores (nome_utilizador, email, palavra_passe, nome, apelido, papel, estado) VALUES
     ('admin', 'admin@lafit.test', '$2y$12$y1Whr1i5a/HBAoZ1fclnfOF2Fg6CrtJO7.g/qRmgrfYHWzR/mA7S.', 'Admin', 'LAFit', 'administrador', 'ativo'),
     ('member', 'member@lafit.test', '$2y$12$cbODfU0SP03NSndCehlP1uBpBU57tVzPwtQX.vgfzYhZplcfX8xd2', 'Member', 'LAFit', 'membro', 'ativo'),
-    ('trainer', 'trainer@lafit.test', '$2y$12$cbODfU0SP03NSndCehlP1uBpBU57tVzPwtQX.vgfzYhZplcfX8xd2', 'Trainer', 'LAFit', 'treinador', 'ativo');
+    ('trainer', 'trainer@lafit.test', '$2y$12$cbODfU0SP03NSndCehlP1uBpBU57tVzPwtQX.vgfzYhZplcfX8xd2', 'Trainer', 'LAFit', 'treinador', 'ativo'),
+    ('memberbas', 'memberbas@lafit.test', '$2y$12$cbODfU0SP03NSndCehlP1uBpBU57tVzPwtQX.vgfzYhZplcfX8xd2', 'Member', 'Basic', 'membro', 'ativo'),
+    ('memberprem', 'memberprem@lafit.test', '$2y$12$cbODfU0SP03NSndCehlP1uBpBU57tVzPwtQX.vgfzYhZplcfX8xd2', 'Member', 'Premium', 'membro', 'ativo');
 
 INSERT INTO administradores (utilizador_id) VALUES
     (1);
 
 INSERT INTO membros (utilizador_id, data_nascimento, telefone, morada, cidade, codigo_postal, plano_id, ginasio_id) VALUES
-    (2, '2004-05-12', '912000111', 'Rua da Escola 10', 'Vila do Conde', '4480-000', 2, 1);
+    (2, '2004-05-12', '912000111', 'Rua da Escola 10', 'Vila do Conde', '4480-000', 2, 1),
+    ((SELECT id FROM utilizadores WHERE nome_utilizador = 'memberbas'),  NULL, NULL, NULL, NULL, NULL, 1, 1),
+    ((SELECT id FROM utilizadores WHERE nome_utilizador = 'memberprem'), NULL, NULL, NULL, NULL, NULL, 3, 1);
 
 INSERT INTO treinadores (utilizador_id, biografia, especializacoes, certificacoes) VALUES
     (3, 'Treinador da LAFit.', 'Cycling, Pilates, Hyrox, Kickbox, Karaté', 'Certificação interna LAFit');

@@ -521,6 +521,10 @@ function drawAdminEquipmentSection(array $equipment, ?array $editingEquipment, a
             <form class="class-filters" action="profile.php" method="get">
                 <input type="hidden" name="expand" value="equipamentos">
                 <div class="filter-field">
+                    <label for="af-eq-nome">Nome</label>
+                    <input type="search" id="af-eq-nome-admin" placeholder="Pesquisar por nome..." autocomplete="off">
+                </div>
+                <div class="filter-field">
                     <label for="af-eq-zona">Zona</label>
                     <select id="af-eq-zona" name="admin_eq_zona">
                         <option value="">Todas</option>
@@ -684,7 +688,11 @@ function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?ar
                     </div>
                     <div class="campo">
                         <label for="class_room">Sala</label>
-                        <input type="text" id="class_room" name="room" value="<?= h($editingClass['sala'] ?? '') ?>">
+                        <select id="class_room" name="room">
+                            <?php foreach (['Estúdio', 'Sala Funcional', 'Sala 2'] as $sala) { ?>
+                                <option value="<?= h($sala) ?>" <?= ($editingClass['sala'] ?? '') === $sala ? 'selected' : '' ?>><?= h($sala) ?></option>
+                            <?php } ?>
+                        </select>
                     </div>
                     <div class="campo">
                         <label for="class_status">Estado</label>
@@ -722,6 +730,10 @@ function drawAdminClassCatalog(array $classes, array $trainers, array $gyms, ?ar
         <div class="admin-filtros" <?= $expandClasses ? '' : 'hidden' ?>>
             <form class="class-filters" action="profile.php" method="get">
                 <input type="hidden" name="expand" value="aulas">
+                <div class="filter-field">
+                    <label for="af-class-nome">Nome</label>
+                    <input type="search" id="af-class-nome" placeholder="Pesquisar por nome..." autocomplete="off">
+                </div>
                 <?php $tiposAula = ['cycling', 'funcional', 'hyrox', 'karate', 'kickbox', 'pilates', 'outro']; ?>
                 <div class="filter-field">
                     <label for="af-class-tipo">Tipo</label>

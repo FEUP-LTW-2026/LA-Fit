@@ -241,7 +241,7 @@ function attachEquipmentToggle() {
     }
 
     const params = new URLSearchParams(window.location.search);
-    if (params.get('zona') || params.get('estado')) {
+    if (params.has('zona') || params.has('estado')) {
         open();
     }
 
@@ -283,31 +283,41 @@ function attachAdminSectionExpand() {
         '#admin-aulas', '#admin-aulas-lista', '#admin-equipamentos', '#admin-equipamentos-lista'
     ].map(sel => document.querySelector(sel)).filter(Boolean);
 
+    function expandSection(targetId, scroll) {
+        const target = document.getElementById(targetId);
+        const btn = document.querySelector('.admin-ver-mais[data-target="' + targetId + '"]');
+        if (!target) return;
+
+        for (const el of allSections) {
+            el.hidden = el.id !== targetId;
+        }
+        for (const e of target.querySelectorAll('.admin-extra-rows')) e.hidden = false;
+        const filtros = target.querySelector('.admin-filtros');
+        if (filtros) filtros.hidden = false;
+        if (nav) nav.hidden = true;
+        if (btn) btn.textContent = 'Fechar';
+        if (scroll) target.scrollIntoView({ block: 'start' });
+    }
+
+    function collapseAll() {
+        for (const el of allSections) el.hidden = false;
+        for (const e of document.querySelectorAll('.admin-extra-rows')) e.hidden = true;
+        for (const f of document.querySelectorAll('.admin-filtros')) f.hidden = true;
+        if (nav) nav.hidden = false;
+        for (const b of btns) b.textContent = 'Ver mais';
+    }
+
     for (const btn of btns) {
         btn.addEventListener('click', function () {
-            const targetId = btn.dataset.target;
-            const target = document.getElementById(targetId);
-            const isExpanded = btn.textContent.trim() === 'Fechar';
-
-            if (isExpanded) {
-                for (const el of allSections) el.hidden = false;
-                for (const e of document.querySelectorAll('.admin-extra-rows')) e.hidden = true;
-                for (const f of document.querySelectorAll('.admin-filtros')) f.hidden = true;
-                if (nav) nav.hidden = false;
-                btn.textContent = 'Ver mais';
+            if (btn.textContent.trim() === 'Fechar') {
+                collapseAll();
             } else {
-                for (const el of allSections) {
-                    el.hidden = el.id !== targetId;
-                }
-                for (const e of target.querySelectorAll('.admin-extra-rows')) e.hidden = false;
-                const filtros = target.querySelector('.admin-filtros');
-                if (filtros) filtros.hidden = false;
-                if (nav) nav.hidden = true;
-                btn.textContent = 'Fechar';
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                expandSection(btn.dataset.target, true);
             }
         });
     }
+
+    window._adminExpandSection = expandSection;
 }
 
 function attachAdminAutoExpand() {
@@ -323,12 +333,8 @@ function attachAdminAutoExpand() {
     const targetId = map[expand];
     if (!targetId) return;
 
-    const btn = document.querySelector('.admin-ver-mais[data-target="' + targetId + '"]');
-    if (btn) {
-        btn.click();
-    } else {
-        const filtros = document.querySelector('#' + targetId + ' .admin-filtros');
-        if (filtros) filtros.hidden = false;
+    if (window._adminExpandSection) {
+        window._adminExpandSection(targetId, false);
     }
 }
 
@@ -464,6 +470,21 @@ function attachAjaxGoalUpdate() {
                     }
                 })
                 .catch(function () { form.submit(); });
+        });
+    });
+}
+
+function attachAdminTableSearch(inputId, tableSelector) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    const table = document.querySelector(tableSelector);
+    if (!table) return;
+
+    input.addEventListener('input', function () {
+        const query = this.value.trim().toLowerCase();
+        table.querySelectorAll('tbody tr').forEach(function (tr) {
+            const text = tr.textContent.toLowerCase();
+            tr.hidden = query !== '' && !text.includes(query);
         });
     });
 }
@@ -661,3 +682,5 @@ attachAjaxDeletes();
 attachAjaxGoalUpdate();
 attachAdminUserSearch();
 attachEquipmentNameSearch();
+attachAdminTableSearch('af-class-nome', '#admin-aulas-lista .tabela');
+attachAdminTableSearch('af-eq-nome-admin', '#admin-equipamentos-lista .tabela');

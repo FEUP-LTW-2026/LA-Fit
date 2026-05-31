@@ -33,7 +33,7 @@ function getFilteredClasses(PDO $db, array $filters): array
         'SELECT aulas.*,
                 ginasios.nome AS ginasio_nome,
                 utilizadores.nome || " " || utilizadores.apelido AS treinador_nome,
-                COALESCE(SUM(CASE WHEN inscricoes_aulas.estado = "inscrito" THEN 1 ELSE 0 END), 0) AS inscritos
+                COALESCE(SUM(CASE WHEN inscricoes_aulas.estado IN ("inscrito", "presente") THEN 1 ELSE 0 END), 0) AS inscritos
          FROM aulas
          JOIN treinadores ON treinadores.id = aulas.treinador_id
          JOIN utilizadores ON utilizadores.id = treinadores.utilizador_id
@@ -160,7 +160,7 @@ function getFilteredAdminClasses(PDO $db, array $filters): array
         'SELECT aulas.*,
                 ginasios.nome AS ginasio_nome,
                 utilizadores.nome || " " || utilizadores.apelido AS treinador_nome,
-                COALESCE(SUM(CASE WHEN inscricoes_aulas.estado = "inscrito" THEN 1 ELSE 0 END), 0) AS inscritos
+                COALESCE(SUM(CASE WHEN inscricoes_aulas.estado IN ("inscrito", "presente") THEN 1 ELSE 0 END), 0) AS inscritos
          FROM aulas
          JOIN treinadores ON treinadores.id = aulas.treinador_id
          JOIN utilizadores ON utilizadores.id = treinadores.utilizador_id
@@ -196,7 +196,7 @@ function getAdminClasses(PDO $db): array
         'SELECT aulas.*,
                 ginasios.nome AS ginasio_nome,
                 utilizadores.nome || " " || utilizadores.apelido AS treinador_nome,
-                COALESCE(SUM(CASE WHEN inscricoes_aulas.estado = "inscrito" THEN 1 ELSE 0 END), 0) AS inscritos
+                COALESCE(SUM(CASE WHEN inscricoes_aulas.estado IN ("inscrito", "presente") THEN 1 ELSE 0 END), 0) AS inscritos
          FROM aulas
          JOIN treinadores ON treinadores.id = aulas.treinador_id
          JOIN utilizadores ON utilizadores.id = treinadores.utilizador_id
