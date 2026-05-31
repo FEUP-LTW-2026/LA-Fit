@@ -54,6 +54,10 @@ function drawEquipmentFilters(array $filters, array $filterOptions, string $acti
 ?>
     <form class="class-filters" action="<?= h($action) ?>" method="get">
         <div class="filter-field">
+            <label for="eq-nome">Nome</label>
+            <input type="search" id="eq-nome" name="nome" value="<?= h($filters['nome'] ?? '') ?>" placeholder="Pesquisar equipamento..." autocomplete="off">
+        </div>
+        <div class="filter-field">
             <label for="eq-zona">Zona</label>
             <select id="eq-zona" name="zona">
                 <option value="">Todas</option>

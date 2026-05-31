@@ -181,6 +181,10 @@ function drawAdminPage(array $users, array $plans, array $gyms, array $classes, 
                         <form class="class-filters" action="profile.php" method="get">
                             <input type="hidden" name="expand" value="contas">
                             <div class="filter-field">
+                                <label for="af-users-nome">Nome</label>
+                                <input type="search" id="af-users-nome" name="admin_users_nome" placeholder="Pesquisar por nome..." autocomplete="off">
+                            </div>
+                            <div class="filter-field">
                                 <label for="af-users-papel">Tipo</label>
                                 <select id="af-users-papel" name="admin_users_papel">
                                     <option value="">Todos</option>

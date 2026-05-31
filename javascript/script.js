@@ -468,6 +468,181 @@ function attachAjaxGoalUpdate() {
     });
 }
 
+function escHtml(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
+function attachAdminUserSearch() {
+    const input = document.getElementById('af-users-nome');
+    const tableWrap = document.querySelector('#admin-contas-lista .tabela-wrap');
+    if (!input || !tableWrap) return;
+
+    let timer;
+
+    function buildRows(users) {
+        const csrf = (document.querySelector('input[name="csrf_token"]') || {}).value || '';
+        let tbody = tableWrap.querySelector('tbody:not(.admin-extra-rows)');
+        if (!tbody) return;
+
+        tableWrap.querySelectorAll('tbody').forEach(function(tb) { tb.innerHTML = ''; });
+
+        users.forEach(function(user) {
+            const nome = escHtml((user.nome || '') + ' ' + (user.apelido || ''));
+            const detalhe = user.papel === 'membro'
+                ? escHtml((user.plano_nome || 'Sem plano') + ' · ' + (user.ginasio_nome || 'Sem ginásio'))
+                : escHtml(user.especializacoes || 'Sem especializações');
+            const isAtivo = user.estado === 'ativo';
+            const toggleLabel = isAtivo ? 'Desativar' : 'Ativar';
+            const toggleStatus = isAtivo ? 'inativo' : 'ativo';
+            const confirmMsg = isAtivo
+                ? 'Tens a certeza que queres desativar esta conta?'
+                : 'Tens a certeza que queres ativar esta conta?';
+
+            const tr = document.createElement('tr');
+            tr.innerHTML =
+                '<td>' + nome + '</td>' +
+                '<td>' + escHtml(user.nome_utilizador || '') + '</td>' +
+                '<td>' + escHtml(user.email || '') + '</td>' +
+                '<td>' + escHtml(user.papel || '') + '</td>' +
+                '<td><span class="estado-conta estado-conta-' + escHtml(user.estado) + '">' + escHtml(user.estado) + '</span></td>' +
+                '<td>' + detalhe + '</td>' +
+                '<td><div class="acoes-linha">' +
+                    '<a href="profile.php?edit=' + parseInt(user.id, 10) + '" class="botao claro-voltar">Editar</a>' +
+                    '<form action="../actions/action_admin_save_user.php" method="post" data-confirm="' + escHtml(confirmMsg) + '">' +
+                        '<input type="hidden" name="csrf_token" value="' + escHtml(csrf) + '">' +
+                        '<input type="hidden" name="_action" value="toggle">' +
+                        '<input type="hidden" name="user_id" value="' + parseInt(user.id, 10) + '">' +
+                        '<input type="hidden" name="status" value="' + escHtml(toggleStatus) + '">' +
+                        '<button type="submit" class="botao cliente">' + escHtml(toggleLabel) + '</button>' +
+                    '</form>' +
+                '</div></td>';
+            tbody.appendChild(tr);
+        });
+
+        attachConfirmForms();
+    }
+
+    function search() {
+        const params = new URLSearchParams();
+        const nome = input.value.trim();
+        if (nome) params.set('nome', nome);
+        const papel = (document.getElementById('af-users-papel') || {}).value || '';
+        if (papel) params.set('papel', papel);
+        const estado = (document.getElementById('af-users-estado') || {}).value || '';
+        if (estado) params.set('estado', estado);
+        const ordenar = (document.getElementById('af-users-ordenar') || {}).value || '';
+        if (ordenar) params.set('ordenar', ordenar);
+
+        fetch('api_users.php?' + params.toString())
+            .then(function(r) { return r.json(); })
+            .then(function(data) { buildRows(data.users || []); })
+            .catch(function() {});
+    }
+
+    input.addEventListener('input', function() {
+        clearTimeout(timer);
+        timer = setTimeout(search, 300);
+    });
+}
+
+function attachEquipmentNameSearch() {
+    const input = document.getElementById('eq-nome');
+    const zonas = document.querySelector('.zonas-equipamentos');
+    if (!input || !zonas) return;
+
+    let emptyMsg = zonas.previousElementSibling;
+    if (!emptyMsg || !emptyMsg.matches('p')) emptyMsg = null;
+
+    let timer;
+
+    function search() {
+        const params = new URLSearchParams();
+        const nome = input.value.trim();
+        if (nome) params.set('nome', nome);
+        const zona = (document.getElementById('eq-zona') || {}).value || '';
+        if (zona) params.set('zona', zona);
+        const estado = (document.getElementById('eq-estado') || {}).value || '';
+        if (estado) params.set('estado', estado);
+
+        fetch('api_equipment.php?' + params.toString())
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                const eq = data.equipmentByZone || {};
+                if (Object.keys(eq).length === 0) {
+                    zonas.innerHTML = '';
+                    if (emptyMsg) emptyMsg.hidden = false;
+                } else {
+                    if (emptyMsg) emptyMsg.hidden = true;
+                    buildZonas(eq);
+                }
+            })
+            .catch(function() {});
+    }
+
+    function buildZonas(equipmentByZone) {
+        zonas.innerHTML = '';
+        for (const [zone, items] of Object.entries(equipmentByZone)) {
+            const section = document.createElement('section');
+            section.className = 'zona-equipamentos';
+
+            const cabecalho = document.createElement('div');
+            cabecalho.className = 'cabecalho-zona';
+            const h2 = document.createElement('h2');
+            h2.textContent = zone;
+            const span = document.createElement('span');
+            span.textContent = items.length + ' ' + (items.length === 1 ? 'equipamento' : 'equipamentos');
+            cabecalho.appendChild(h2);
+            cabecalho.appendChild(span);
+
+            const lista = document.createElement('div');
+            lista.className = 'lista-equipamentos';
+
+            for (const eq of items) {
+                const article = document.createElement('article');
+                article.className = 'equipamento';
+
+                const info = document.createElement('div');
+                const h3 = document.createElement('h3');
+                h3.textContent = eq.nome;
+                const p = document.createElement('p');
+                p.textContent = eq.quantidade + ' ' + (parseInt(eq.quantidade, 10) === 1 ? 'unidade' : 'unidades');
+                info.appendChild(h3);
+                info.appendChild(p);
+
+                const estadoDiv = document.createElement('div');
+                estadoDiv.className = 'estado-equipamento estado-' + eq.estado;
+                const badge = document.createElement('span');
+                const estadoLabels = { disponivel: 'Disponível', ocupado: 'Em uso', manutencao: 'Manutenção' };
+                badge.textContent = estadoLabels[eq.estado] || eq.estado;
+                estadoDiv.appendChild(badge);
+
+                if (eq.atualizado_em) {
+                    const small = document.createElement('small');
+                    small.textContent = 'Atualizado em ' + eq.atualizado_em.substring(0, 16);
+                    estadoDiv.appendChild(small);
+                }
+
+                article.appendChild(info);
+                article.appendChild(estadoDiv);
+                lista.appendChild(article);
+            }
+
+            section.appendChild(cabecalho);
+            section.appendChild(lista);
+            zonas.appendChild(section);
+        }
+    }
+
+    input.addEventListener('input', function() {
+        clearTimeout(timer);
+        timer = setTimeout(search, 300);
+    });
+}
+
 attachConfirmForms();
 attachFlashMessages();
 attachAdminRoleSwitch();
@@ -484,3 +659,5 @@ attachPhotoPreview();
 attachCharacterCounters();
 attachAjaxDeletes();
 attachAjaxGoalUpdate();
+attachAdminUserSearch();
+attachEquipmentNameSearch();

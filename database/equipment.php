@@ -28,6 +28,11 @@ function getFilteredEquipmentByZone(PDO $db, array $filters): array
     $conditions = [];
     $params = [];
 
+    if (!empty($filters['nome'])) {
+        $conditions[] = 'nome LIKE :nome';
+        $params[':nome'] = '%' . $filters['nome'] . '%';
+    }
+
     if (!empty($filters['zona'])) {
         $conditions[] = 'zona = :zona';
         $params[':zona'] = $filters['zona'];

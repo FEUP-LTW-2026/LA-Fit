@@ -116,6 +116,14 @@ function getFilteredManageableUsers(PDO $db, array $filters): array
     $where  = ['utilizadores.papel IN ("membro", "treinador")'];
     $params = [];
 
+    if (!empty($filters['nome'])) {
+        $term     = '%' . $filters['nome'] . '%';
+        $where[]  = '(utilizadores.nome LIKE ? OR utilizadores.apelido LIKE ? OR utilizadores.nome_utilizador LIKE ?)';
+        $params[] = $term;
+        $params[] = $term;
+        $params[] = $term;
+    }
+
     if (!empty($filters['papel'])) {
         $where[]  = 'utilizadores.papel = ?';
         $params[] = $filters['papel'];

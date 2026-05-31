@@ -14,6 +14,7 @@ $db = getDatabaseConnection();
 
 $allowedStates = ['disponivel', 'ocupado', 'manutencao'];
 $filters = [
+    'nome'   => trim($_GET['nome'] ?? ''),
     'zona'   => trim($_GET['zona'] ?? ''),
     'estado' => in_array($_GET['estado'] ?? '', $allowedStates, true) ? $_GET['estado'] : '',
 ];
