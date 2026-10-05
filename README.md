@@ -89,3 +89,34 @@ ltw-project-ltw05g05/
 ├── README.md                 # Project overview and running instructions
 └── .gitignore                # Git ignore rules
 ```
+
+## Images
+
+<img width="1582" height="966" alt="Captura de ecrã 2026-10-05, às 23 38 22" src="https://github.com/user-attachments/assets/af75a97b-7908-4ba8-8275-cee657d9c0fb" />
+
+<img width="1582" height="966" alt="Captura de ecrã 2026-10-05, às 23 37 27" src="https://github.com/user-attachments/assets/fc7edbaf-626a-4cd3-a045-fb0796d7f810" />
+
+<img width="1582" height="966" alt="Captura de ecrã 2026-10-05, às 23 35 32" src="https://github.com/user-attachments/assets/2590b405-8700-4a0c-abe7-be8d2c90df00" />
+
+<img width="1582" height="966" alt="Captura de ecrã 2026-10-05, às 23 35 26" src="https://github.com/user-attachments/assets/d3c80a2f-0d83-43b9-9931-22df8c7e8f82" />
+
+<img width="1582" height="966" alt="Captura de ecrã 2026-10-05, às 23 35 02" src="https://github.com/user-attachments/assets/51bedd06-6a40-4dcc-9928-55f2301b866e" />
+
+<img width="1582" height="966" alt="Captura de ecrã 2026-10-05, às 23 34 51" src="https://github.com/user-attachments/assets/391d47c2-650a-4ab5-bcb4-985adca5ac1a" />
+
+<img width="1582" height="966" alt="Captura de ecrã 2026-10-05, às 23 34 41" src="https://github.com/user-attachments/assets/b30b4f08-9a5f-488f-939b-fa199f976b93" />
+
+
+<img width="1582" height="966" alt="Captura de ecrã 2026-10-05, às 23 34 35" src="https://github.com/user-attachments/assets/c647fc05-97e6-497d-83a7-f6ee3763998b" />
+
+
+<img width="1582" height="966" alt="Captura de ecrã 2026-10-05, às 23 34 24" src="https://github.com/user-attachments/assets/563e3234-1276-445c-b972-3ef000bb8e58" />
+
+<img width="1582" height="966" alt="Captura de ecrã 2026-10-05, às 23 34 11" src="https://github.com/user-attachments/assets/ba968652-8176-48fe-ba4f-64b274dcf042" />
+
+
+
+
+
+
+
